@@ -1,31 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { getAllData } from './util/index';
-
+//import { getAllData } from './util/index';
+import { ToastContainer } from "react-toastify";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom"
+import { Home, Register, Login} from "./pages";
 const URL = 'http://localhost:8000/api/v1/';
 
 function App() {
   
-  const [message, setMessage] = useState(''); 
+  
+   const [isAuthenticated , setIsAuthenticated ]= useState(false)
+  // useEffect(() => {
 
-  useEffect(() => {
-
-    (async () => {
-      const myData = await getAllData(URL)
-      setMessage(myData.data);
-    })();
+  //   (async () => {
+  //     const myData = await getAllData(URL)
+  //     setMessage(myData.data);
+  //   })();
       
-    return () => {
-      console.log('unmounting');
-    }
+  //   return () => {
+  //     console.log('unmounting');
+  //   }
 
-  }, []);
+  // }, []);
 
   return (
-    <>
-      <h1>{message}</h1>
-    </>
-  );
-
+    
+    
+    <Router>
+      <ToastContainer/>
+      {!isAuthenticated ?  (
+         <Routes>
+         {/* Redirect all routes to login if not authenticated */}
+         <Route path="*" element={<Navigate to="/login" />} />
+         <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+         <Route path="/register" element={<Register />} />
+        </Routes>
+      ) :
+      (
+        <>
+        <Routes>
+            <Route path="/" element={<Home />} />
+        </Routes >
+        </>
+      )} 
+      
+    </Router>
+    );
 }
 
 export default App
