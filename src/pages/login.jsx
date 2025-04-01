@@ -4,7 +4,6 @@ import { useEffect,useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { getAllData } from '../util/index';
 import PropTypes from "prop-types";
-import  { toast } from "react-toastify";
 
 export default function Login({ setIsAuthenticated }){
     const navigate = useNavigate();
@@ -13,7 +12,7 @@ export default function Login({ setIsAuthenticated }){
   
     const handleLogin = async (event) => {
         event.preventDefault();
-        url=process.env.url ;
+        const url = "http://localhost:8000"
        
         if (!email || !password) {
             alert("Please enter email and password.");
@@ -32,17 +31,14 @@ export default function Login({ setIsAuthenticated }){
                 })
             });
     
-           
-    
-            
-    
     
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
     
-            //const data = await response.json();
-            const data={"token" :"1234567891234" , "userId":"test"}
+            const data = await response.json();
+            console.log(data)
+            //const data={"token" :"1234567891234" , "userId":"test"}
             localStorage.setItem("token", data.token);
             localStorage.setItem("userId", data.userId);
            

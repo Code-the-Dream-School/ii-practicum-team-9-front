@@ -1,20 +1,26 @@
-import React from "react";
 
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import  { toast } from "react-toastify";
+
+
 export default function register(){
 
     const nav = useNavigate();
-    const url=process.env.url ;
-
+    
+    
     const [userData , setUserData] = useState({
         name:'' ,
         email:'' ,
-        password:'' ,
-        role:''
+        password:'' 
+       
     })
     const handleRegister = ()=>{
-   
+        
+        const url = "http://localhost:8000"//process.env.REACT_APP_URL 
+
+        console.log(url)
         fetch(url+"/auth/register", {
                     method: "POST",
                     headers: {
@@ -35,8 +41,8 @@ export default function register(){
                         toast.success("User Registered successfully!");
             
                         setTimeout(() => {
-                            navigate("/login");
-                        }, 3500);
+                            nav("/login");
+                        }, 1000);
                     })
                     .catch((error) => {
                         toast.error("Failed to add class. Please try again.");
@@ -49,6 +55,7 @@ export default function register(){
 
     const handelCancel=()=>{
         nav("/login") ;
+        
     }
 
     const handlechange = (e) => {
@@ -62,30 +69,30 @@ export default function register(){
     return(
         <Wrapper>
             Register New User
-        <form   encType="multipart/form-data"
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    
-                }}>
+            <form   encType="multipart/form-data"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        
+                    }}>
 
-        
+            
+            <div className="input-group">
+            <label htmlFor="name" > Name:</label>
+            <input name="name" type="text" onChange={handlechange}></input>
+             </div>
         <div className="input-group">
-        <label htmlFor="name" > Name:</label>
-        <input name="name" type="text" onChange={handlechange}></input>
-       </div>
-       <div className="input-group">
-        <label htmlFor="email"> Email:</label>
-        <input name="email" type="email" onChange={handlechange}></input>
-       </div>
-       <div className="input-group">
-        <label htmlFor="password">Password:</label>
-        <input name="password" type="password" onChange={handlechange} />
-       </div>
-        <div className="btn-group">
-            <button> Register </button>
-            <button onClick={handelCancel}> Cancel </button>
+            <label htmlFor="email"> Email:</label>
+            <input name="email" type="email" onChange={handlechange}></input>
         </div>
-        </form>
+        <div className="input-group">
+            <label htmlFor="password">Password:</label>
+            <input name="password" type="password" onChange={handlechange} />
+        </div>
+            <div className="btn-group">
+                <button onClick={handleRegister}> Register </button>
+                <button onClick={handelCancel}> Cancel </button>
+            </div>
+            </form>
         </Wrapper>
     )
 }
