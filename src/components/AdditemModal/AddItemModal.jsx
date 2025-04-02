@@ -1,0 +1,53 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import './AddItemModal.css';
+
+const AddItemModal = ({ closeModal }) => {
+  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newItem = { name, title, description };
+
+    try {
+      await axios.post('http://localhost:5000/add-item', newItem);
+      closeModal();
+    } catch (error) {
+      console.error('Error adding item:', error);
+    }
+  };
+
+  return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h2>Add an Item</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Item Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Item Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <textarea
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <button type="submit">Add Item</button>
+        </form>
+        <button onClick={closeModal}>Close</button>
+      </div>
+    </div>
+  );
+};
+
+export default AddItemModal;
