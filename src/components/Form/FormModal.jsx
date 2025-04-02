@@ -21,8 +21,8 @@ const FormModal = ({ onClose, onSubmit }) => {
         e.preventDefault();
         axios.post('http://localhost:5000/api/items', formData)
             .then((response) => {
-                onSubmit(response.data); // Add the item to the frontend state
-                onClose(); // Close modal after submit
+                onSubmit(response.data);  
+                onClose();  
             })
             .catch((err) => console.error(err));
     };

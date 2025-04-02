@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Import Routes instead of Switch
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";  
 import Header from "./components/Header/Header";
 import NavBar from "./components/NavBar/NavBar";
 import PostSection from "./components/PostSection/PostSection";
 import Footer from "./components/Footer/Footer";
 import AddItemModal from "./components/AdditemModal/AddItemModal";
-import GuidelinesSection from "./components/GuidelinesSection/GuidelinesSection"; // Import GuidelinesSection
+import GuidelinesSection from "./components/GuidelinesSection/GuidelinesSection";  
 import bookpic from "./assets/bookpic.jpg"
 import cookpic from "./assets/cook.jpg"
 import pianopic from "./assets/piano.jpg"

@@ -1,5 +1,5 @@
 import React from 'react';
-import './GuidelinesSection.css';  // Ensure this is the correct path
+import './GuidelinesSection.css';   
 
 const GuidelinesSection = () => {
   return (
