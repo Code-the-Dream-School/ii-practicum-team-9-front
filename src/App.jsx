@@ -18,6 +18,8 @@ const App = () => {
     setIsModalOpen(true);
   };
 
+  console.log("Hello world")
+  
   const closeModal = () => {
     setIsModalOpen(false);
   };
