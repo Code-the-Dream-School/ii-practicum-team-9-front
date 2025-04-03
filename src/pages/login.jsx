@@ -13,7 +13,7 @@ export default function Login({ setIsAuthenticated }){
   
     const handleLogin = async (event) => {
         event.preventDefault();
-        url=process.env.url ;
+       const url = import.meta.env.VITE_REACT_APP_URL 
        
         if (!email || !password) {
             alert("Please enter email and password.");

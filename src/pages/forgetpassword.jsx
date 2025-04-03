@@ -15,7 +15,8 @@ export default  function forgetpassword(){
             return ;
         }
 
-        fetch('').then()
+        //fetch('').then()
+        setEmailVerified(true) 
     }
 
     return (

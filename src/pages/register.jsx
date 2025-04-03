@@ -5,7 +5,7 @@ import styled from "styled-components";
 export default function register(){
 
     const nav = useNavigate();
-    const url=process.env.url ;
+    const url = import.meta.env.VITE_REACT_APP_URL 
 
     const [userData , setUserData] = useState({
         name:'' ,
@@ -13,6 +13,7 @@ export default function register(){
         password:'' ,
         role:''
     })
+    
     const handleRegister = ()=>{
    
         fetch(url+"/auth/register", {
