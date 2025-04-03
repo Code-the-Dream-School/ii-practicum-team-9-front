@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import  { toast } from "react-toastify";
+import { API_URL } from "../endpoints"
 
 
 export default function register(){
 
-    const nav = useNavigate();
+    const navigate = useNavigate();
     
     
     const [userData , setUserData] = useState({
@@ -18,8 +19,8 @@ export default function register(){
     })
     const handleRegister = ()=>{
         
-        const url = import.meta.env.VITE_REACT_APP_URL 
-       fetch(url+"/auth/register", {
+        const url = backend_URL ;
+       fetch(`${API_URL}/auth/register`, {
                     method: "POST",
                     headers: {
                         
@@ -39,7 +40,7 @@ export default function register(){
                         toast.success("User Registered successfully!");
             
                         setTimeout(() => {
-                            nav("/login");
+                            navigate("/login");
                         }, 1000);
                     })
                     .catch((error) => {
@@ -52,7 +53,7 @@ export default function register(){
 
 
     const handelCancel=()=>{
-        nav("/login") ;
+        navigate("/login") ;
         
     }
 

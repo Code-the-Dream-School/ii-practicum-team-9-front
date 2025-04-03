@@ -1,5 +1,6 @@
 import axios from "axios";
- 
+
+
 // note: not used, but could be used with GET with params
  const getData = async (url, params) => {
     try {
@@ -22,4 +23,4 @@ import axios from "axios";
   };
 
 
-  export {getData, getAllData};
+  export {getData, getAllData };
