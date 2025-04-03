@@ -12,7 +12,7 @@ export default function Login({ setIsAuthenticated }){
   
     const handleLogin = async (event) => {
         event.preventDefault();
-        const url = "http://localhost:8000"
+        const url = import.meta.env.VITE_REACT_APP_URL 
        
         if (!email || !password) {
             alert("Please enter email and password.");
@@ -38,7 +38,6 @@ export default function Login({ setIsAuthenticated }){
     
             const data = await response.json();
             console.log(data)
-            //const data={"token" :"1234567891234" , "userId":"test"}
             localStorage.setItem("token", data.token);
             localStorage.setItem("userId", data.userId);
            

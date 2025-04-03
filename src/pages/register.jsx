@@ -18,10 +18,8 @@ export default function register(){
     })
     const handleRegister = ()=>{
         
-        const url = "http://localhost:8000"//process.env.REACT_APP_URL 
-
-        console.log(url)
-        fetch(url+"/auth/register", {
+        const url = import.meta.env.VITE_REACT_APP_URL 
+       fetch(url+"/auth/register", {
                     method: "POST",
                     headers: {
                         
