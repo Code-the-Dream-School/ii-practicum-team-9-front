@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 //import { getAllData } from './util/index';
 import { ToastContainer } from "react-toastify";
 import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom"
-import { Home, Register, Login} from "./pages";
+import { Home, Register, Login , ForgetPassword ,ResetPassword} from "./pages";
 const URL = 'http://localhost:8000/api/v1/';
 
 function App() {
@@ -33,6 +33,8 @@ function App() {
          <Route path="*" element={<Navigate to="/login" />} />
          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
          <Route path="/register" element={<Register />} />
+         <Route path="/forgetpassword" element={<ForgetPassword />} />
+         <Route path="/resetpassword" element={<ResetPassword />} />
         </Routes>
       ) :
       (

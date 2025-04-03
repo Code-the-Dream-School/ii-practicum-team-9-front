@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useEffect,useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import { getAllData } from '../util/index';
+
 import PropTypes from "prop-types";
 import  { toast } from "react-toastify";
 
@@ -45,12 +45,12 @@ export default function Login({ setIsAuthenticated }){
            
             
             setIsAuthenticated(true);
-    
+           toast.success("User Logged in Successfully!") 
             // Ensure storage is updated before navigation
             setTimeout(() => {
                 navigate("/");
             }, 100); // Small delay to ensure storage updates
-    
+            
 
         } catch (error) {
             alert(error.message);
@@ -90,7 +90,7 @@ export default function Login({ setIsAuthenticated }){
         </p>
         <p>
           Forget Password?
-          <Link to="/Register" className="member-btn" > Register! </Link>
+          <Link to="/ForgetPassword" className="member-btn" > Click here! </Link>
         </p>
         </div>
         </form>
