@@ -34,15 +34,12 @@ export default function Login({ setIsAuthenticated }){
     
            
     
-            
-    
-    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
     
-            //const data = await response.json();
-            const data={"token" :"1234567891234" , "userId":"test"}
+            const data = await response.json();
+            //const data={"token" :"1234567891234" , "userId":"test"}
             localStorage.setItem("token", data.token);
             localStorage.setItem("userId", data.userId);
            
@@ -91,7 +88,10 @@ export default function Login({ setIsAuthenticated }){
           Not Registered Yet?
           <Link to="/Register" className="member-btn" > Register! </Link>
         </p>
-      
+        <p>
+          Forget Password?
+          <Link to="/Register" className="member-btn" > Register! </Link>
+        </p>
         </div>
         </form>
     </Wrapper>
