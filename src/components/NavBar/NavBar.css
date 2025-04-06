@@ -1,17 +1,24 @@
+/* Navbar Styles */
 .nav-bar {
     width: 250px;
+    /* Width of the navbar */
     height: 100vh;
     background-color: #fff554;
     padding: 20px;
     position: fixed;
+    top: 0;
+    left: 0;
     padding-top: 80px;
+    /* Space to push content below navbar */
+    box-sizing: border-box;
+    /* Prevent overflow issues */
 }
 
 .logo {
     font-size: 44px;
     font-weight: bold;
     margin-bottom: 50px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 ul {

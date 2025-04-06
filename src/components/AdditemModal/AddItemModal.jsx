@@ -6,15 +6,16 @@ const AddItemModal = ({ closeModal }) => {
   const [name, setName] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [imageUrl, setImageUrl] = useState('');  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newItem = { name, title, description };
+    const newItem = { name, title, description, imageUrl };  
 
     try {
-      await axios.post('http://localhost:5000/add-item', newItem);
-      closeModal();
+      await axios.post('http://localhost:5000/api/add-item', newItem);  
+      closeModal();  
     } catch (error) {
       console.error('Error adding item:', error);
     }
@@ -41,6 +42,12 @@ const AddItemModal = ({ closeModal }) => {
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Image URL"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}  
           />
           <button type="submit">Add Item</button>
         </form>

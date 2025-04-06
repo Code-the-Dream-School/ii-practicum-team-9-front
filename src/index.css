@@ -2,11 +2,9 @@
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
-
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
     background-color: #242424;
-
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -27,6 +25,8 @@ body {
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
@@ -69,3 +69,39 @@ button:focus-visible {
         background-color: #f9f9f9;
     }
 }
+
+ 
+body {
+    margin: 0;
+    padding: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    background-color: #242424;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    
+}
+
+.main-content {
+    margin-left: 260px;
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+    box-sizing: border-box;
+ 
+}
+
+ 

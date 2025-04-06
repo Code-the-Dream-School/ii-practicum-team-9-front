@@ -8,34 +8,31 @@ body,
 
 .app-container {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
 }
 
 /* NavBar styling */
 .navbar {
     width: 260px;
-    height: 100vh;
     background-color: #333;
     color: white;
     padding: 20px;
-    position: fixed;
-    left: 0;
-    top: 0;
+    height: 100vh;
     overflow-y: auto;
+    box-sizing: border-box;
 }
 
-/* Main content shifts right */
+/* Main content */
 .main-content {
     flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 25px;
-    padding: 30px;
-    padding-bottom: 20px;
-    margin-left: 280px;
-
 }
 
 
@@ -101,17 +98,7 @@ body,
     flex: 2;
 }
 
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 10px;
-    background-color: #2c3e50;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-}
-
+ 
 /* Styling for the guidelines text */
 .guidelines-container h2 {
     font-size: 24px;
