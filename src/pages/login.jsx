@@ -13,12 +13,6 @@ export default function Login({ setIsAuthenticated }) {
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        
-        if (!email || !password) {
-            alert("Please enter email and password.");
-            return;
-        }
-
         setIsSubmitting(true);
         setError(""); 
         try {
@@ -32,12 +26,13 @@ export default function Login({ setIsAuthenticated }) {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Network response was not ok');
+                throw new Error(errorData?.msg || 'Login failed. Please try again.');
             }
 
             const data = await response.json();
+
             localStorage.setItem("token", data.token);
-            localStorage.setItem("userId", data.userId);
+            localStorage.setItem("userId", data.id);
             setIsAuthenticated(true);
 
             // Ensure storage is updated before navigation
@@ -60,7 +55,7 @@ export default function Login({ setIsAuthenticated }) {
                         type="email"
                         id="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => (setEmail(e.target.value), setError(""))}
                         aria-describedby="email-error"
                     />
                 </div>
@@ -70,7 +65,7 @@ export default function Login({ setIsAuthenticated }) {
                         type="password"
                         id="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => (setPassword(e.target.value) , setError(""))}
                         aria-describedby="password-error"
                     />
                 </div>
@@ -82,6 +77,10 @@ export default function Login({ setIsAuthenticated }) {
                     <p>
                         Not Registered Yet?
                         <Link to="/Register" className="member-btn"> Register!</Link>
+                    </p>
+                    <p>
+                        Forget Password?
+                        <Link to="/forgetpassword" className="member-btn"> Click here!</Link>
                     </p>
                 </div>
             </form>

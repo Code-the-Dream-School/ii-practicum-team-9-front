@@ -4,42 +4,100 @@ import styled from "styled-components";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../endpoints";
 
 export default  function forgetpassword(){
-    const nav = useNavigate();
+    const navigate = useNavigate();
     const[email , setEmail] = useState("")
     const[emailVerifield , setEmailVerified] = useState(false)
-    const[verifyCode , setVerifyCode] = useState("")
-    const handleVerifyingEmail=()=>{
-        if(!email){
-            toast("Please enter email!")
-            return ;
-        }
+    const[verifiedCode , setVerifyCode] = useState(false)
+    const[OTPentered , setOTPentered] = useState()
 
-        //fetch('').then()
-        setEmailVerified(true) 
+    const[UserId , setUserId] = useState()
+    const [error, setError] = useState("");
+
+    const handleVerifyingEmail=()=>{
+        setError(""); 
+       
+
+        fetch(`${API_URL}/reset` , {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', 
+            },
+            body: JSON.stringify({ email })
+        }).then((response) => {
+                      
+            if (!response.ok) {
+                return response.json().then((errorData) => {
+                    console.log(errorData);
+                    throw new Error(errorData?.msg || "Network response was not ok.");
+                });
+               
+            }
+            return response.json();
+        
+        }).then((data)=>{
+            
+             setEmailVerified(true)
+        }).catch((error) => {
+            setError(error.message);
+            console.error("Error:", error);
+            setEmailVerified(false)
+        })
+        
     }
 
     const handleVerifyCode=()=>{
-        //if (emailVerifield)
-            nav("/resetpassword")
+        setError(""); 
+        if (emailVerifield){
+            fetch(`${API_URL}/reset/validateCode` ,{
+                method:'POST' ,
+                header:{
+                    'Content-Type' :'application/json'
+                },
+                body: JSON.stringify({OTPentered })
+            })
+            .then((response) => {
+                      
+                if (!response.ok) {
+                    return response.json().then((errorData) => {
+                        console.log(errorData);
+                        throw new Error(errorData?.msg || "Network response was not ok.");
+                    });
+                   
+                }
+                return response.json();
+            
+            }
+            ).then(()=>{
+              //  setVerifyCode(true)
+                navigate("/resetpassword")
+
+        }).catch((error) => {
+            setError(error.message);
+            console.error("Error:", error.message);
+           // setVerifyCode(false)
+        })
+        }
+            
     }
 
     return (
         <Wrapper>
               {!emailVerifield && <div className="email-section" >
                 <label htmlFor="email">Enter your email</label>
-                <input name="email" type="email" onChange={(e) => setEmail(e.target.value)}/>
+                <input name="email" type="email" onChange={(e) => (setEmail(e.target.value) , setError(""))}/>
                 <button type="button" onClick={handleVerifyingEmail}>Submit</button>
             </div>}
             {emailVerifield &&
             <div className="verifying-section">
                 <p>A verification code sent to your email. Please enter it here to reset password </p>
                 <label htmlFor="verify">verification code </label>
-                <input type="text" name="verify" onChange={(e) => setVerifyCode(e.target.value)}/>
+                <input type="text" name="verify" onChange={(e) => (setOTPentered(e.target.value) , setError(""))}/>
                 <button type="button" onClick={handleVerifyCode}>Submit</button>
             </div>}
-
+            {error && <div id="login-error" className="error-message">{error}</div>}    
 
         </Wrapper>
     )
@@ -112,5 +170,11 @@ display: flex;
   .member-btn:hover {
     text-decoration: underline;
   }
+
+   .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 10px;
+    }
     
 `
