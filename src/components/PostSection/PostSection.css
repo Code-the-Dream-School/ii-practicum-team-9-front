@@ -1,0 +1,30 @@
+.post-section {
+    margin-bottom: 20px;
+}
+
+.post-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.post-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.post-description {
+    margin: 10px 0;
+}
+
+.barter-btn {
+    background-color: #fff554;
+    border: none;
+    padding: 10px;
+    border-radius: 10%;
+    color: black;
+    cursor: pointer;
+}
