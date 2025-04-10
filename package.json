@@ -8,9 +8,6 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
-    
- 
-
   },
   "dependencies": {
     "axios": "^1.6.7",
@@ -18,7 +15,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.4.1",
     "react-toastify": "^11.0.5",
-    "styled-components": "^6.1.16"
+    "styled-components": "^6.1.17"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
