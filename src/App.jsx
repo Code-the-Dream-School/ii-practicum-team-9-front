@@ -23,7 +23,7 @@ const App = () => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <Router>
+    <BrowserRouter>
       <ToastContainer/>
       {!isAuthenticated ?  (
          <Routes>
@@ -53,7 +53,7 @@ const App = () => {
           {isModalOpen && <AddItemModal closeModal={closeModal} />}
         </div>
       )}
-    </Router>
+    </BrowserRouter>
   );
 };
 
