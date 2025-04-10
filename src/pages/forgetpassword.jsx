@@ -2,19 +2,22 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../endpoints";
 
 export default  function forgetpassword(){
     const navigate = useNavigate();
     const[email , setEmail] = useState("")
-    const[emailVerifield , setEmailVerified] = useState(false)
-    const[verifiedCode , setVerifyCode] = useState(false)
-    const[OTPentered , setOTPentered] = useState()
-
+    const[emailVerified , setEmailVerified] = useState(false)
+    const[verifiedUserId , setVerifyUserId] = useState()
+    const[isCodeValid  , setisCodeValid ] = useState(true)
+    const [code, setCode] = useState("");
     const[UserId , setUserId] = useState()
     const [error, setError] = useState("");
+    
 
     const handleVerifyingEmail=()=>{
         setError(""); 
@@ -50,13 +53,16 @@ export default  function forgetpassword(){
 
     const handleVerifyCode=()=>{
         setError(""); 
-        if (emailVerifield){
+        console.log("code")
+        console.log(code)
+
+        if (emailVerified){
             fetch(`${API_URL}/reset/validateCode` ,{
                 method:'POST' ,
-                header:{
+                headers:{
                     'Content-Type' :'application/json'
                 },
-                body: JSON.stringify({OTPentered })
+                body: JSON.stringify({code })
             })
             .then((response) => {
                       
@@ -70,35 +76,59 @@ export default  function forgetpassword(){
                 return response.json();
             
             }
-            ).then(()=>{
-              //  setVerifyCode(true)
-                navigate("/resetpassword")
+            ).then((data)=>{
+                console.log(data)
+
+                setisCodeValid(true)
+                setVerifyUserId(data.id)
+                console.log(data.id)
+                toast.success("User Verified Successfully!", { autoClose: 3000 });
+                navigate("/resetpassword", {
+                    state: {
+                      userId: data.id,
+                    },
+                  });
 
         }).catch((error) => {
             setError(error.message);
             console.error("Error:", error.message);
-           // setVerifyCode(false)
+            setisCodeValid(false)
         })
         }
             
     }
 
+    const handleSendingNewCode=()=>{
+
+        setError("") ;
+        setCode("") ;
+        handleVerifyingEmail() ;
+        setisCodeValid(true);
+    }
+
     return (
+
         <Wrapper>
-              {!emailVerifield && <div className="email-section" >
+         <ToastContainer />   
+         <form>
+              {!emailVerified && <div className="email-section" >
                 <label htmlFor="email">Enter your email</label>
-                <input name="email" type="email" onChange={(e) => (setEmail(e.target.value) , setError(""))}/>
+                <input name="email" type="email" onChange={(e) => {setEmail(e.target.value) ; setError("")}}/>
                 <button type="button" onClick={handleVerifyingEmail}>Submit</button>
             </div>}
-            {emailVerifield &&
+            {emailVerified &&
             <div className="verifying-section">
                 <p>A verification code sent to your email. Please enter it here to reset password </p>
                 <label htmlFor="verify">verification code </label>
-                <input type="text" name="verify" onChange={(e) => (setOTPentered(e.target.value) , setError(""))}/>
+                <input type="text" name="verify" value={code} onChange={(e) => {
+                                                                                setCode(e.target.value);
+                                                                                setError("");
+                                                                                }}/>
                 <button type="button" onClick={handleVerifyCode}>Submit</button>
             </div>}
             {error && <div id="login-error" className="error-message">{error}</div>}    
-
+            { !isCodeValid && <div><button onClick={()=>handleSendingNewCode()}>Send me another code!</button> </div>}    
+            </form>
         </Wrapper>
     )
 }
