@@ -1,27 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 //import { getAllData } from './util/index';
 import { ToastContainer } from "react-toastify";
-import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom"
-import { Home, Register, Login} from "./pages";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { Home, Register, Login } from "./pages";
 import ExplorePage from "./ExplorePageDr/components/ExplorePage/ExplorePage";
-const URL = 'http://localhost:8000/api/v1/';
+const URL = "http://localhost:8000/api/v1/";
 
 function App() {
-  
-  
-   const [isAuthenticated , setIsAuthenticated ]= useState(true)
-  // useEffect(() => {
-
-  //   (async () => {
-  //     const myData = await getAllData(URL)
-  //     setMessage(myData.data);
-  //   })();
-      
-  //   return () => {
-  //     console.log('unmounting');
-  //   }
-
-  // }, []);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   return (
     <Router>
@@ -48,4 +39,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
