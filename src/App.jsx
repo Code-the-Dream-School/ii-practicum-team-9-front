@@ -11,7 +11,7 @@ import Barter from "./pages/Barter";
 import './App.css';
 import './index.css';
 
-const URL = 'http://localhost:8000/api/v1/';
+const URL = 'http://localhost:8000/api/v1/vvvv';
  
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
