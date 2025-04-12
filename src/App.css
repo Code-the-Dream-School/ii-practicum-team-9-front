@@ -4,6 +4,7 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
+    background-color: white;
 }
 
 .app-container {
@@ -33,6 +34,7 @@ body,
     display: flex;
     flex-direction: column;
     gap: 25px;
+     
 }
 
 

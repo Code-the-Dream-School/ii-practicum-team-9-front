@@ -14,7 +14,7 @@ const AddItemModal = ({ closeModal }) => {
     const newItem = { name, title, description, imageUrl };  
 
     try {
-      await axios.post('http://localhost:5000/api/add-item', newItem);  
+      await axios.post('http://localhost:5000/api/items/add-item', newItem);
       closeModal();  
     } catch (error) {
       console.error('Error adding item:', error);
