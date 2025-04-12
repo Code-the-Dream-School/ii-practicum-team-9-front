@@ -6,16 +6,23 @@ const AddItemModal = ({ closeModal }) => {
   const [name, setName] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');  
+  const [imageUrl, setImageUrl] = useState('');
+  const [assignedTo, setAssignedTo] = useState('');  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newItem = { name, title, description, imageUrl };  
+    const newItem = {
+      name,
+      title,
+      description,
+      imageUrl,
+      assignedTo, 
+    };
 
     try {
       await axios.post('http://localhost:5000/api/items/add-item', newItem);
-      closeModal();  
+      closeModal();
     } catch (error) {
       console.error('Error adding item:', error);
     }
@@ -47,7 +54,13 @@ const AddItemModal = ({ closeModal }) => {
             type="text"
             placeholder="Image URL"
             value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}  
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="User ID (assignedTo)"
+            value={assignedTo}
+            onChange={(e) => setAssignedTo(e.target.value)}
           />
           <button type="submit">Add Item</button>
         </form>
