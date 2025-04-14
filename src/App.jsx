@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Home, Register, Login, ForgetPassword, ResetPassword } from "./pages";
+import { Home, Register, Login, Forget_Password, Reset_Password } from "./pages";
 
 import React, { useState } from "react";
 
@@ -29,8 +29,8 @@ const App = () => {
           <Route path="*" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/forgetpassword" element={<ForgetPassword />} />
-          <Route path="/resetpassword" element={<ResetPassword />} />
+          <Route path="/forgetpassword" element={<Forget_Password />} />
+          <Route path="/resetpassword" element={<Reset_Password />} />
         </Routes>
       ) : (
         <div className="app-container">

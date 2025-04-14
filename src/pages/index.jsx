@@ -1,5 +1,5 @@
 export { default as Home } from './Home';
 export { default as Login } from "./login";
 export { default as Register } from "./register";
-export { default as ForgetPassword } from "./forgetpassword"
-export { default as ResetPassword} from "./resetpassword"
+export { default as Forget_Password } from "./forgetpassword"
+export { default as Reset_Password} from "./resetpassword"

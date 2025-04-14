@@ -9,7 +9,6 @@ export default function resetpassword(){
     const navigate = useNavigate();
     const[password , setPassword] = useState("")
     const[confirmPassword , setconfirmPassword] = useState("")
-    //const[UserId , setUserId]=useState(_UserId)
     const [error, setError] = useState("");
     const location = useLocation();
     const userId = location.state?.userId;

@@ -8,14 +8,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../endpoints";
 
-export default  function forgetpassword(){
+export default  function forgetPassword(){
     const navigate = useNavigate();
-    const[email , setEmail] = useState("")
-    const[emailVerified , setEmailVerified] = useState(false)
-    const[verifiedUserId , setVerifyUserId] = useState()
-    const[isCodeValid  , setisCodeValid ] = useState(true)
+    const [email , setEmail] = useState("")
+    const [emailVerified , setEmailVerified] = useState(false)
+    const [verifiedUserId , setVerifyUserId] = useState()
+    const [isCodeValid  , setisCodeValid ] = useState(true)
     const [code, setCode] = useState("");
-    const[UserId , setUserId] = useState()
+    const [userId , setUserId] = useState()
     const [error, setError] = useState("");
     
 
@@ -53,8 +53,7 @@ export default  function forgetpassword(){
 
     const handleVerifyCode=()=>{
         setError(""); 
-        console.log("code")
-        console.log(code)
+        
 
         if (emailVerified){
             fetch(`${API_URL}/reset/validateCode` ,{
@@ -77,11 +76,9 @@ export default  function forgetpassword(){
             
             }
             ).then((data)=>{
-                console.log(data)
-
                 setisCodeValid(true)
                 setVerifyUserId(data.id)
-                console.log(data.id)
+                //console.log(data.id)
                 toast.success("User Verified Successfully!", { autoClose: 3000 });
                 navigate("/resetpassword", {
                     state: {
