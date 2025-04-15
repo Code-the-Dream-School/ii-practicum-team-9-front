@@ -33,13 +33,8 @@ export default function Login() {
             sessionStorage.setItem("userId", id?._id);
             sessionStorage.setItem("userName", user?.name);
             if (token){
-                debugger
                 navigate("/");
             }
-            //setIsAuthenticated(true);
-
-            // Ensure storage is updated before navigation
-            //setTimeout(() => navigate("/"), 100);
 
         } catch (error) {
             setError(error.message);
