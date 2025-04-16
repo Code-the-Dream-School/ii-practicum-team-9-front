@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AddItemModal.css';
+import { API_URL } from "../../endpoints";
 
 const AddItemModal = ({ closeModal }) => {
   const [name, setName] = useState('');
@@ -14,7 +15,7 @@ const AddItemModal = ({ closeModal }) => {
     const newItem = { name, title, description, imageUrl };  
 
     try {
-      await axios.post('http://localhost:5000/api/add-item', newItem);  
+      await axios.post(`${API_URL}/api/add-item`, newItem);  
       closeModal();  
     } catch (error) {
       console.error('Error adding item:', error);
