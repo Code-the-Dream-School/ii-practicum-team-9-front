@@ -9,7 +9,7 @@ import { API_URL } from "../endpoints"
 export default function register(){
 
     const navigate = useNavigate();
-    
+    const [error, setError] = useState("");
     
     const [userData , setUserData] = useState({
         name:'' ,
@@ -17,9 +17,11 @@ export default function register(){
         password:'' 
        
     })
+   
     const handleRegister = ()=>{
         
-        const url = backend_URL ;
+       
+        setError(""); 
        fetch(`${API_URL}/auth/register`, {
                     method: "POST",
                     headers: {
@@ -32,7 +34,11 @@ export default function register(){
                     .then((response) => {
                       
                         if (!response.ok) {
-                            throw new Error("Network response was not ok");
+                            return response.json().then((errorData) => {
+                                console.log(errorData);
+                                throw new Error(errorData?.msg || "Network response was not ok.");
+                            });
+                           
                         }
                         return response.json();
                     })
@@ -44,7 +50,7 @@ export default function register(){
                         }, 1000);
                     })
                     .catch((error) => {
-                        toast.error("Failed to add class. Please try again.");
+                        setError(error.message);
                         console.error("Error:", error);
                     });
             };
@@ -87,6 +93,7 @@ export default function register(){
             <label htmlFor="password">Password:</label>
             <input name="password" type="password" onChange={handlechange} />
         </div>
+        {error && <div id="login-error" className="error-message">{error}</div>}
             <div className="btn-group">
                 <button onClick={handleRegister}> Register </button>
                 <button onClick={handelCancel}> Cancel </button>
@@ -161,5 +168,10 @@ const Wrapper = styled.section`
     padding: 10px 20px;
   font-size: 14px;
 }
+   .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 10px;
+    }
   `;
   
