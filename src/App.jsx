@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 import { ToastContainer } from "react-toastify";
-import { Home, Register, Login,Explore,Barter} from "./pages";
+import { Home, Register, Login, Explore, Barter, Chat} from "./pages";
 import React, { useState, useEffect } from 'react';
 
 import NavBar from "./components/NavBar/NavBar";
@@ -34,6 +34,7 @@ const App = () => {
               <Route path="/explore" element={<Explore />} />
               <Route path="/barter" element={<Barter />} />
               <Route path="/chat" element={<Chat />} />
+                
             </Routes>
           </div>
           {isModalOpen && <AddItemModal closeModal={closeModal} />}

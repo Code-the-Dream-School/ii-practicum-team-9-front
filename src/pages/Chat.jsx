@@ -14,7 +14,7 @@ const Chat = () => {
       ]);
       
     const [input, setInput] = useState("");
-    const [SelectedChatUser, setSelectedChatUser]=useState(null);
+    const [selectedChatUser, setSelectedChatUser]=useState(null);
     const conversations = [
         { id: 1, name: "Anna", topic: "Bicycle for Books" },
         { id: 2, name: "John", topic: "Old Laptop for Table" },
@@ -30,8 +30,9 @@ const Chat = () => {
     };
  
     return( 
-        
-       <Layout style={{ height: "100vh" }}>
+
+    <div width="100%" height= "100%" > 
+       <Layout style={{ height: "100%" }} >
           {/* Sidebar */}
           <Sider width={300} style={{ background: "#fff", padding: "1rem", overflowY: "auto" }}>
              <Title level={4}>Conversations</Title>
@@ -43,8 +44,8 @@ const Chat = () => {
                     onClick={() => setSelectedChatUser(ChatUser)}
                     style={{ cursor: "pointer",
                              backgroundColor:
-                             SelectedChatUser?.id === ChatUser.id ? "#e6f7ff" : "transparent",
-                             fontWeight: SelectedChatUser?.id === ChatUser.id ? "bold" : "normal",
+                             selectedChatUser?.id === ChatUser.id ? "#e6f7ff" : "transparent",
+                             fontWeight: selectedChatUser?.id === ChatUser.id ? "bold" : "normal",
                     }} >
                     👤{ChatUser.name} - {ChatUser.topic}
                     
@@ -53,7 +54,8 @@ const Chat = () => {
              />
           </Sider>
           {/* Chat area */}
-          <Content style={{   display: "flex", flexDirection: "column" }}>
+          <Layout  style={{ height: "100%", width: "100%"}}>
+             <Content  style={{   display: "flex", flexDirection: "column" }}>
              {/* Header */}
                 <div
                     style={{
@@ -119,8 +121,9 @@ const Chat = () => {
                     </Button>
                 </div>
             </Content>
+         </Layout>     
        </Layout>
-
+   </div>    
     );
 };
 
