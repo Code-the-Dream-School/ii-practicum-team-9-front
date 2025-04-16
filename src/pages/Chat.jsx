@@ -67,7 +67,7 @@ const Chat = () => {
                     background: "#fff",
                     }}
                 >
-                    <Title level={5}>Chat with {selectedChatUser ? SelectedChatUser.name : "—"}</Title>
+                    <Title level={5}>Chat with {selectedChatUser ? selectedChatUser.name : "—"}</Title>
                     <Button type="link">View Item</Button>
                 </div>
               {/* Messages */}
