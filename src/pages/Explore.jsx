@@ -1,4 +1,4 @@
-// src/pages/ExplorePage.jsx
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -35,5 +35,5 @@ const ExplorePage = () => {
   );
 };
 
-export default ExplorePage;
+export default Explore;
 

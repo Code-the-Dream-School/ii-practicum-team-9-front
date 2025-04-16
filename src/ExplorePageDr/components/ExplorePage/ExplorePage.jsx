@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Header from "../Header/HeaderMain/HeaderMain";
 import Body from "../Body/Body";
 import Footer from "../Footer/Footer";
-import Sidebar from "../Sidebar/Sidebar";
 import styles from "./Explore.module.css";
 
 const ExplorePage = () => {
@@ -14,7 +13,6 @@ const ExplorePage = () => {
       <Header onSearch={setSearchTerm} />
 
       <main className={styles.mainContent}>
-        <Sidebar onCategorySelect={setSelectedCategory} />
         <div className={styles.textWrapper}>
           <h1>Welcome to the Explore Page!</h1>
           <p>Here, you can discover amazing content and adventures.</p>

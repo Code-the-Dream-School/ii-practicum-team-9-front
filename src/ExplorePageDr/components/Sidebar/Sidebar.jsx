@@ -21,72 +21,72 @@ const Sidebar = ({ onCategorySelect, selectedCategory }) => {
     {
       id: "fashion",
       name: "Fashion",
-      icon: <GiClothes className={styles.icon} />,
+      icon: <GiClothes className={styles.dropdownIcon} />,
     },
     {
       id: "electronics",
       name: "Electronics",
-      icon: <GiSmartphone className={styles.icon} />,
+      icon: <GiSmartphone className={styles.dropdownIcon} />,
     },
     {
       id: "cars",
       name: "Cars",
-      icon: <GiCarKey className={styles.icon} />,
+      icon: <GiCarKey className={styles.dropdownIcon} />,
     },
     {
       id: "homeGarden",
       name: "Home & Garden",
-      icon: <GiGardeningShears className={styles.icon} />,
+      icon: <GiGardeningShears className={styles.dropdownIcon} />,
     },
     {
       id: "gifts",
       name: "Gifts",
-      icon: <GiPresent className={styles.icon} />,
+      icon: <GiPresent className={styles.dropdownIcon} />,
     },
     {
       id: "musicLessons",
       name: "Music Lessons",
-      icon: <GiGuitar className={styles.icon} />,
+      icon: <GiGuitar className={styles.dropdownIcon} />,
     },
     {
       id: "artsCrafts",
       name: "Arts & Crafts",
-      icon: <GiYarn className={styles.icon} />,
+      icon: <GiYarn className={styles.dropdownIcon} />,
     },
     {
       id: "healthBeauty",
       name: "Health & Beauty",
-      icon: <GiLipstick className={styles.icon} />,
+      icon: <GiLipstick className={styles.dropdownIcon} />,
     },
     {
       id: "pets",
       name: "Pets",
-      icon: <GiDogBowl className={styles.icon} />,
+      icon: <GiDogBowl className={styles.dropdownIcon} />,
     },
     {
       id: "babyToys",
       name: "Baby & Toys",
-      icon: <GiBabyBottle className={styles.icon} />,
+      icon: <GiBabyBottle className={styles.dropdownIcon} />,
     },
     {
       id: "groceries",
       name: "Groceries",
-      icon: <GiFruitBowl className={styles.icon} />,
+      icon: <GiFruitBowl className={styles.dropdownIcon} />,
     },
     {
       id: "books",
       name: "Books",
-      icon: <GiBookPile className={styles.icon} />,
+      icon: <GiBookPile className={styles.dropdownIcon} />,
     },
   ];
 
   return (
-    <div className={styles.sidebar}>
-      <h2 className={styles.sidebarTitle}>Categories</h2>
-      <ul className={styles.categoryList}>
+    <div className={styles.dropdownMenu}>
+      <h2 className={styles.dropdownTitle}>Categories</h2>
+      <ul className={styles.dropdownList}>
         {/* "All Categories" option */}
         <li
-          className={`${styles.categoryItem} ${
+          className={`${styles.dropdownItem} ${
             !selectedCategory ? styles.active : ""
           }`}
           onClick={() => onCategorySelect(null)}
@@ -96,7 +96,7 @@ const Sidebar = ({ onCategorySelect, selectedCategory }) => {
         {categories.map((category) => (
           <li
             key={category.id}
-            className={`${styles.categoryItem} ${
+            className={`${styles.dropdownItem} ${
               selectedCategory === category.id ? styles.active : ""
             }`}
             onClick={() =>
@@ -105,16 +105,18 @@ const Sidebar = ({ onCategorySelect, selectedCategory }) => {
               )
             }
           >
-            <div className={styles.categoryContent}>
+            <div className={styles.dropdownContent}>
               {category.icon}
-              <span className={styles.categoryName}>{category.name}</span>
+              <span className={styles.dropdownCategoryName}>
+                {category.name}
+              </span>
             </div>
           </li>
         ))}
       </ul>
       {selectedCategory && (
         <button
-          className={styles.clearButton}
+          className={styles.clearFilterButton}
           onClick={() => onCategorySelect(null)}
         >
           Clear Filter
