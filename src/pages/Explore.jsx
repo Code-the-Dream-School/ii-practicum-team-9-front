@@ -1,6 +1,7 @@
 // src/pages/ExplorePage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_URL } from "../endpoints";
 
 const ExplorePage = () => {
   const [items, setItems] = useState([]);
@@ -8,7 +9,7 @@ const ExplorePage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/items');
+        const response = await axios.get(`${API_URL}/api/items`);
         setItems(response.data);
       } catch (error) {
         console.error('Error fetching items:', error);
