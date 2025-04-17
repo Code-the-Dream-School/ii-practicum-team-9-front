@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate ,Link } from 'react-router-dom';
 import { API_URL } from "../endpoints";
+import callApi from "../util/api";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -15,23 +16,19 @@ export default function Login() {
         setIsSubmitting(true);
         setError(""); 
         try {
-            const response = await fetch(`${API_URL}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json', 
-                },
-                body: JSON.stringify({ email, password })
+            const response = await callApi(`${API_URL}/auth/login`, "POST", {
+                data: { email, password }
             });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData?.msg || 'Login failed. Please try again.');
+            debugger;
+            let {data:result,status} = response;
+            if (!status === 200) {
+                throw new Error(response.data.msg || 'Login failed. Please try again.');
             }            
-            const {id,token,user} = await response.json();
+            const {name,id,token} = result?.data;
 
             sessionStorage.setItem("token", token);        
-            sessionStorage.setItem("userId", id?._id);
-            sessionStorage.setItem("userName", user?.name);
+            sessionStorage.setItem("userId", id);
+            sessionStorage.setItem("userName", name);
             if (token){
                 navigate("/");
             }
