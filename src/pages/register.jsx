@@ -27,7 +27,6 @@ export default function register(){
         const {data,status} = response;
         if (status !== 201) {
             toast.error(data?.message || "Network response was not ok.");
-            //throw new Error(data?.message || "Network response was not ok.");
             return;
             
         } else {
