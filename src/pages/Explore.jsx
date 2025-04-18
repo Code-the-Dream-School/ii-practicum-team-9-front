@@ -1,6 +1,6 @@
 // src/pages/ExplorePage.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import callApi from "../util/api";
 import { API_URL } from "../endpoints";
 
 const ExplorePage = () => {
@@ -9,7 +9,8 @@ const ExplorePage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/items`);
+        //TODO: /api/items is not defined in backend
+        const response = await callApi(`${API_URL}/api/items`, "GET");
         setItems(response.data);
       } catch (error) {
         console.error('Error fetching items:', error);
