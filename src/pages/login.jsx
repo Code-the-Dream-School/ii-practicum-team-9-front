@@ -19,9 +19,8 @@ export default function Login() {
             const response = await callApi(`${API_URL}/auth/login`, "POST", {
                 data: { email, password }
             });
-            debugger;
             let {data:result,status} = response;
-            if (!status === 200) {
+            if (status !== 200) {
                 throw new Error(response.data.msg || 'Login failed. Please try again.');
             }            
             const {name,id,token} = result?.data;
