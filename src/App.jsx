@@ -1,6 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Home, Register, Login, Forget_Password, Reset_Password } from "./pages";
+import { Home, Register, Login, Forget_Password, Reset_Password , Profile } from "./pages";
 
 import React, { useState } from "react";
 
@@ -31,6 +31,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/forgetpassword" element={<Forget_Password />} />
           <Route path="/resetpassword" element={<Reset_Password />} />
+         
         </Routes>
       ) : (
         <div className="app-container">
@@ -40,9 +41,11 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/explore" element={<Explore />} />
               <Route path="/barter" element={<Barter />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
           {isModalOpen && <AddItemModal closeModal={closeModal} />}
+          
         </div>
       )}
     </Router>
