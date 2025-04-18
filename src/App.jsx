@@ -2,25 +2,23 @@ import { ToastContainer } from "react-toastify";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Home, Register, Login, Forget_Password, Reset_Password , Profile } from "./pages";
 
+import {  Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
 
 import NavBar from "./components/NavBar/NavBar";
 import AddItemModal from "./components/AdditemModal/AddItemModal";
-import Explore from "./pages/Explore"; 
-import Barter from "./pages/Barter"; 
+import {Home,Barter,Explore,Chat} from "./pages";
 import './App.css';
 import './index.css';
 
-//const URL = 'http://localhost:8000/api/v1/';
-
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   return (
+    
     <Router>
       <ToastContainer />
       {!isAuthenticated ? (
