@@ -11,8 +11,7 @@ import React, { useState, useEffect } from "react";
 
 import NavBar from "./components/NavBar/NavBar";
 import AddItemModal from "./components/AdditemModal/AddItemModal";
-//import Explore from "./pages/Explore";
-import ExplorePage from "./ExplorePageDr/components/ExplorePage/ExplorePage";
+import ExplorePage from "./pages/ExplorePage/ExplorePage";
 import Barter from "./pages/Barter";
 import "./App.css";
 import "./index.css";

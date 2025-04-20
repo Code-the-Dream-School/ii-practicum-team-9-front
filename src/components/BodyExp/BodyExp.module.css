@@ -31,14 +31,25 @@
   padding: 12px;
   margin: 0;
   text-align: center;
+  font-size: 1.2rem;
+  color: #333;
+
 }
+
+.itemDescription {
+  padding: 0 12px;
+  text-align: center;
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+ }
 
 .buttonContainer {
   display: flex;
   padding: 12px;
   gap: 12px;
   justify-content: center;
-}
+  }
 
 .buttonContainer button {
   flex: 1 1 auto;
@@ -51,16 +62,17 @@
   justify-content: center;
   gap: 8px;
   box-shadow: 0 4px 8px black;
+  font-weight: bold;
 }
 
-/* Swap button */
 .swapButton {
   background: white;
+  color: #333;
 }
 
-/* Like button */
 .likeButton {
   background: #f0f0f0;
+  color: #333;
 }
 
 .swapIcon {
@@ -88,14 +100,45 @@
   transform: scale(1.1);
 }
 
-@media (max-width: 768px) {
-  .itemsGrid {
-    grid-template-columns: 1fr; /* Single column on mobile */
-  }
+.noResults {
+  width: 100%;
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.categoryTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+  padding: 6px 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.categoryIcon {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.categoryText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
 }
 
 
-/* Mobile styles */
+.item .categoryIcon { color: #4CAF50; }
+.service .categoryIcon { color: #2196F3; }
+.lesson .categoryIcon { color: #FFC107; }
+
+/* Responsive styles */
 @media (max-width: 1024px) {
   .itemContainer {
     flex: 0 0 calc(50% - 30px);
