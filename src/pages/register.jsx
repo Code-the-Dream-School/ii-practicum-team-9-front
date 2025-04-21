@@ -19,7 +19,7 @@ export default function register(){
     })
    
     const handleRegister = ()=>{
-        
+        debugger
        
         setError(""); 
        fetch(`${API_URL}/auth/register`, {
