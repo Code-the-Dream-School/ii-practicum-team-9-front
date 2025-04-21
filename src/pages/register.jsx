@@ -19,7 +19,8 @@ export default function register(){
     })
     const handleRegister = ()=>{
         
-        const url = backend_URL ;
+        console.log("Sending userData:", userData);
+
        fetch(`${API_URL}/auth/register`, {
                     method: "POST",
                     headers: {

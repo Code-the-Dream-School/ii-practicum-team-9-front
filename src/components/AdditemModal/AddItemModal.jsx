@@ -3,23 +3,34 @@ import axios from 'axios';
 import './AddItemModal.css';
 
 const AddItemModal = ({ closeModal }) => {
-  const [name, setName] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-   
+  const [user, setUser] = useState(null);  // Assuming user info is available in the state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      console.error('User not authenticated');
+      return;
+    }
 
     const newItem = {
       title,
       description,
       imageUrl,
+      userId: user._id,
+      userName: user.name,
+      userProfilePhoto: user.profilePhoto, // Assuming user has a profilePhoto
     };
 
     try {
-      await axios.post('http://localhost:5000/api/items/add-item', newItem);
+      await axios.post('http://localhost:5000/api/items/add-item', newItem, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       closeModal();
     } catch (error) {
       console.error('Error adding item:', error);
