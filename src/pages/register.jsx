@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import  { toast } from "react-toastify";
 import { API_URL } from "../endpoints"
-
+import callApi from "../util/api";
 
 export default function register(){
 
@@ -18,49 +18,27 @@ export default function register(){
        
     })
    
-    const handleRegister = ()=>{
-        debugger
-       
-        setError(""); 
-       fetch(`${API_URL}/auth/register`, {
-                    method: "POST",
-                    headers: {
-                        
-                        "Content-Type": "application/json",
-                    },
-                   
-                   body: JSON.stringify(userData),
-                })
-                    .then((response) => {
-                      
-                        if (!response.ok) {
-                            return response.json().then((errorData) => {
-                                console.log(errorData);
-                                throw new Error(errorData?.msg || "Network response was not ok.");
-                            });
-                           
-                        }
-                        return response.json();
-                    })
-                    .then(() => {
-                        toast.success("User Registered successfully!");
+    const handleRegister = async ()=>{        
+        setError("");         
+        const response = await callApi(`${API_URL}/auth/register`, "POST", {
+            data: userData
+        });
+
+        const {data,status} = response;
+        if (status !== 201) {
+            toast.error(data?.message || "Network response was not ok.");
+            return;
             
-                        setTimeout(() => {
-                            navigate("/login");
-                        }, 1000);
-                    })
-                    .catch((error) => {
-                        setError(error.message);
-                        console.error("Error:", error);
-                    });
-            };
-
-
-
+        } else {
+            toast.success("User Registered successfully!");
+            setTimeout(() => {
+                navigate("/login");
+            }, 1000);
+        }
+    };
 
     const handelCancel=()=>{
         navigate("/login") ;
-        
     }
 
     const handlechange = (e) => {
