@@ -7,17 +7,15 @@ const AddItemModal = ({ closeModal }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [assignedTo, setAssignedTo] = useState('');  
+   
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newItem = {
-      name,
       title,
       description,
       imageUrl,
-      assignedTo, 
     };
 
     try {
@@ -35,12 +33,6 @@ const AddItemModal = ({ closeModal }) => {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="Item Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            type="text"
             placeholder="Item Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -56,12 +48,7 @@ const AddItemModal = ({ closeModal }) => {
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
           />
-          <input
-            type="text"
-            placeholder="User ID (assignedTo)"
-            value={assignedTo}
-            onChange={(e) => setAssignedTo(e.target.value)}
-          />
+
           <button type="submit">Add Item</button>
         </form>
         <button onClick={closeModal}>Close</button>
