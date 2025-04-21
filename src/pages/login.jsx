@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate ,Link } from 'react-router-dom';
 import { API_URL } from "../endpoints";
+import PropTypes from "prop-types";
 
-export default function Login() {
+export default function Login({ setIsAuthenticated }) {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -26,15 +27,16 @@ export default function Login() {
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData?.msg || 'Login failed. Please try again.');
-            }            
-            const {id,token,user} = await response.json();
-
-            sessionStorage.setItem("token", token);        
-            sessionStorage.setItem("userId", id?._id);
-            sessionStorage.setItem("userName", user?.name);
-            if (token){
-                navigate("/");
             }
+
+            const data = await response.json();
+
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("userId", data.id);
+            setIsAuthenticated(true);
+
+            // Ensure storage is updated before navigation
+            setTimeout(() => navigate("/"), 100);
 
         } catch (error) {
             setError(error.message);
@@ -85,6 +87,10 @@ export default function Login() {
         </Wrapper>
     );
 }
+
+Login.propTypes = {
+    setIsAuthenticated: PropTypes.func.isRequired,
+};
 
 const Wrapper = styled.section`
     display: flex;

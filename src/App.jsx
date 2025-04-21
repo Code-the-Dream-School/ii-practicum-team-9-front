@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import NavBar from "./components/NavBar/NavBar";
 import AddItemModal from "./components/AdditemModal/AddItemModal";
-import {Home,Barter,Explore,Chat} from "./pages";
+import {Home,Barter,Explore,Chat ,Profile ,EditProfile} from "./pages";
 import './App.css';
 import './index.css';
 
@@ -25,6 +25,8 @@ const App = () => {
             <Route path="/explore" element={<Explore />} />
             <Route path="/barter" element={<Barter />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/editprofile" element={<EditProfile />} />
           </Routes>
         </div>
         {isModalOpen && <AddItemModal closeModal={closeModal} />}

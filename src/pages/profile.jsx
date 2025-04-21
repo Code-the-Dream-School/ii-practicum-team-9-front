@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import styles, { styled } from "styled-components";
+import styled from "styled-components";
+import { API_URL } from "../endpoints" ;
+import { useNavigate } from "react-router-dom";
 
 const usStates = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
@@ -14,8 +16,7 @@ const usStates = [
 
 const allInterests = ["Technology", "Art", "Music", "Sports", "Travel", "Reading", "Gaming"];
 
-
-export default  function profile()   {
+export default function Profile() {
   const [avatar, setAvatar] = useState(null);
   const [preview, setPreview] = useState(null);
   const [formData, setFormData] = useState({
@@ -25,150 +26,204 @@ export default  function profile()   {
     location: "",
     interests: [],
   });
+  const navigate= useNavigate() ;
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setAvatar(file);
-      setPreview(URL.createObjectURL(file));
-    }
-  };
+    // fetch(`${API_URL}/api/profile`, {
+    //                     method: "GET",
+    //                     headers: {
+                            
+    //                         "Content-Type": "application/json",
+    //                     },
+                       
+    //                    body: JSON.stringify(userData),
+    //                 })
+    //                     .then((response) => {
+                          
+    //                         if (!response.ok) {
+    //                             return response.json().then((errorData) => {
+    //                                 console.log(errorData);
+    //                                 throw new Error(errorData?.msg || "Network response was not ok.");
+    //                             });
+                               
+    //                         }
+    //                         return response.json();
+    //                     })
+    //                     .then(() => {
+    //                         toast.success("User Registered successfully!");
+                
+    //                         setTimeout(() => {
+    //                             navigate("/login");
+    //                         }, 1000);
+    //                     })
+    //                     .catch((error) => {
+    //                         setError(error.message);
+    //                         console.error("Error:", error);
+    //                     });
+               
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
 
-  const handleInterestChange = (e) => {
-    const { value, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      interests: checked
-        ? [...prev.interests, value]
-        : prev.interests.filter((i) => i !== value)
-    }));
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    //console.log("Profile Data:", formData);
-    if (avatar) {
-      console.log("Avatar file:", avatar.name);
-    }
+  const handleEdit = (e) => {
+    navigate("/EditProfile")
   };
 
   return (
     <Wrapper>
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <h2>My Profile</h2>
+        
+        <div className="container">
+        <h4>My Profile</h4>
+          <div className="profilePic">
+          {preview ? (
+              <img src={preview} alt="Avatar" className="avatarPreview" />
+            ) : (
+              <div className="avatarPlaceholder">No Image</div>
+            )}
+          </div>
+          <div className="info">
+            <label name="username" >{formData?.username || "userId" }</label>
+            <label name="username"  >{formData?.name || "name"} </label>
+            <label name="bio"  defaultValue={"Bio"} > {formData?.bio || "bio"}</label>
+        </div>
 
-      <label>
-        Avatar:
-        <input type="file" accept="image/*" onChange={handleAvatarChange} />
-      </label>
-      {preview && <img src={preview} alt="Avatar Preview" className={styles.avatarPreview} />}
-
-      <label>
-        Name:
-        <input type="text" name="name" value={formData.name} onChange={handleChange} />
-      </label>
-
-      <label>
-        Username:
-        <input type="text" name="username" value={formData.username} disabled="true" />
-      </label>
-
-      <label>
-        Bio:
-        <textarea name="bio" value={formData.bio} onChange={handleChange} />
-      </label>
-
-      <label>
-        Location:
-        <select name="location" value={formData.location} onChange={handleChange}>
-          <option value="">Select a state</option>
-          {usStates.map((state) => (
-            <option key={state} value={state}>{state}</option>
+        <fieldset className="bioSection">
+          <legend>Interests:</legend>
+          {allInterests.map((interest) => (
+            <label key={interest} className="checkboxLabel" >
+              
+              {interest}
+            </label>
           ))}
-        </select>
-      </label>
+        </fieldset>
 
-      <fieldset>
-        <legend>Interests:</legend>
-        {allInterests.map((interest) => (
-          <label key={interest} className={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              value={interest}
-              checked={formData.interests.includes(interest)}
-              onChange={handleInterestChange}
-            />
-            {interest}
+        <div className="bottomSection">
+          <label>
+            Location:
+            
           </label>
-        ))}
-      </fieldset>
-
-      <button type="submit">Save Profile</button>
-    </form>
+        </div>
+        
+        <button type="submit" onClick={handleEdit}>Edit Profile</button>
+        </div>
     </Wrapper>
   );
-};
-
-
-const Wrapper = styled.section`
-.form {
-  max-width: 500px;
-  margin: auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  background: #f9f9f9;
 }
 
-// label {
-//   display: flex;
-//   flex-direction: column;
-//   font-weight: bold;
-// }
+const Wrapper = styled.section`
+  display: flex;
+  justify-content: center;  
+  align-items: center;      
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 40px 20px;
+  box-sizing: border-box;
 
-// input[type="text"],
-// textarea,
-// select {
-//   padding: 0.5rem;
-//   margin-top: 0.25rem;
-//   font-size: 1rem;
-// }
 
-// .checkboxLabel {
-//   display: flex;
-//   align-items: center;
-//   gap: 0.5rem;
-// }
+  h4{
+     text-align: center;
+    width: 100%;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  
+  }
 
-// .avatarPreview {
-//   width: 100px;
-//   height: 100px;
-//   object-fit: cover;
-//   margin-top: 0.5rem;
-//   border-radius: 50%;
-// }
+  label{
+  display: inline-block; 
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9; 
+  margin-bottom: 8px
+  }
 
-// button {
-//   padding: 0.7rem;
-//   background: #4CAF50;
-//   color: white;
-//   border: none;
-//   border-radius: 8px;
-//   font-size: 1rem;
-//   cursor: pointer;
-// }
+  .container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+  }
 
-// button:hover {
-//   background: #45a049;
-// }
+  .info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 250px;
+  }
 
-`
+  .profilePic img{
+  display: flex;
+  justify-content: center;  
+  align-items: center;      
+    
+    flex-direction: column;
+    border: 1px solid #ccc;
+    gap: 10px;
+    min-width: 250px;
+    border: 2px solid rgb(239, 241, 65) 
+    padding: 4px; 
+    background-color: #fff;
+  }
+
+  .avatarPreview {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid rgb(239, 241, 65) 
+    padding: 4px; 
+    background-color: #fff;  
+  }
+
+  input, textarea, select {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 8px;
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 5px 0;
+  }
+
+  .bottomSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button {
+    padding: 0.7rem;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: fit-content;
+  }
+
+  button:hover {
+    background: #45a049;
+  }
+
+  @media (max-width: 600px) {
+    .topSection {
+      flex-direction: column;
+    }
+  }
+`;
