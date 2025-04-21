@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-
+import { API_URL } from "../../endpoints";
 const FormModal = ({ onClose, onSubmit }) => {
     const [formData, setFormData] = useState({
         name: '',
@@ -19,7 +19,7 @@ const FormModal = ({ onClose, onSubmit }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5000/api/items', formData)
+        axios.post(`${API_URL}/api/items`, formData)
             .then((response) => {
                 onSubmit(response.data);  
                 onClose();  

@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import  { toast } from "react-toastify";
 import { API_URL } from "../endpoints"
-
+import callApi from "../util/api";
 
 export default function register(){
 
     const navigate = useNavigate();
-    
+    const [error, setError] = useState("");
     
     const [userData , setUserData] = useState({
         name:'' ,
@@ -17,44 +17,28 @@ export default function register(){
         password:'' 
        
     })
-    const handleRegister = ()=>{
-        
-        const url = backend_URL ;
-       fetch(`${API_URL}/auth/register`, {
-                    method: "POST",
-                    headers: {
-                        
-                        "Content-Type": "application/json",
-                    },
-                   
-                   body: JSON.stringify(userData),
-                })
-                    .then((response) => {
-                      
-                        if (!response.ok) {
-                            throw new Error("Network response was not ok");
-                        }
-                        return response.json();
-                    })
-                    .then(() => {
-                        toast.success("User Registered successfully!");
+   
+    const handleRegister = async ()=>{        
+        setError("");         
+        const response = await callApi(`${API_URL}/auth/register`, "POST", {
+            data: userData
+        });
+
+        const {data,status} = response;
+        if (status !== 201) {
+            toast.error(data?.message || "Network response was not ok.");
+            return;
             
-                        setTimeout(() => {
-                            navigate("/login");
-                        }, 1000);
-                    })
-                    .catch((error) => {
-                        toast.error("Failed to add class. Please try again.");
-                        console.error("Error:", error);
-                    });
-            };
-
-
-
+        } else {
+            toast.success("User Registered successfully!");
+            setTimeout(() => {
+                navigate("/login");
+            }, 1000);
+        }
+    };
 
     const handelCancel=()=>{
         navigate("/login") ;
-        
     }
 
     const handlechange = (e) => {
@@ -87,6 +71,7 @@ export default function register(){
             <label htmlFor="password">Password:</label>
             <input name="password" type="password" onChange={handlechange} />
         </div>
+        {error && <div id="login-error" className="error-message">{error}</div>}
             <div className="btn-group">
                 <button onClick={handleRegister}> Register </button>
                 <button onClick={handelCancel}> Cancel </button>
@@ -161,5 +146,10 @@ const Wrapper = styled.section`
     padding: 10px 20px;
   font-size: 14px;
 }
+   .error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 10px;
+    }
   `;
   
