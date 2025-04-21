@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate ,Link } from 'react-router-dom';
 import { API_URL } from "../endpoints";
-import PropTypes from "prop-types";
+import callApi from "../util/api";
 
 export default function Login({ setIsAuthenticated }) {
     const navigate = useNavigate();
@@ -16,27 +16,21 @@ export default function Login({ setIsAuthenticated }) {
         setIsSubmitting(true);
         setError(""); 
         try {
-            const response = await fetch(`${API_URL}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json', 
-                },
-                body: JSON.stringify({ email, password })
+            const response = await callApi(`${API_URL}/auth/login`, "POST", {
+                data: { email, password }
             });
+            let {data:result,status} = response;
+            if (status !== 200) {
+                throw new Error(response.data.msg || 'Login failed. Please try again.');
+            }            
+            const {name,id,token} = result?.data;
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData?.msg || 'Login failed. Please try again.');
+            sessionStorage.setItem("token", token);        
+            sessionStorage.setItem("userId", id);
+            sessionStorage.setItem("userName", name);
+            if (token){
+                navigate("/");
             }
-
-            const data = await response.json();
-
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("userId", data.id);
-            setIsAuthenticated(true);
-
-            // Ensure storage is updated before navigation
-            setTimeout(() => navigate("/"), 100);
 
         } catch (error) {
             setError(error.message);
