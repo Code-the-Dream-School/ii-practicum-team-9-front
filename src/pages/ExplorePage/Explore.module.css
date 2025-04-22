@@ -1,0 +1,56 @@
+.explorePage {
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f8ff;
+}
+
+.mainContent {
+  padding: 20px;
+  flex: 1;
+}
+
+.textWrapper {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.textWrapper h1 {
+  font-size: 2.2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.textWrapper p {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.bodyWrapper {
+  margin-top: 20px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 15px;
+  }
+
+  .textWrapper h1 {
+    font-size: 1.8rem;
+  }
+
+  .textWrapper p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .textWrapper h1 {
+    font-size: 1.5rem;
+  }
+}
