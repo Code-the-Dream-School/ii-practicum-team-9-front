@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { API_URL } from '../../endpoints';
 const RecentPosts = () => {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/items')
+        axios.get(`${API_URL}/api/items`)
             .then(response => setItems(response.data))
             .catch(error => console.error('There was an error!', error));
     }, []);

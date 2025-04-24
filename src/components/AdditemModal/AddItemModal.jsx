@@ -6,31 +6,29 @@ const AddItemModal = ({ closeModal }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [user, setUser] = useState(null);  // Assuming user info is available in the state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!user) {
-      console.error('User not authenticated');
-      return;
-    }
 
     const newItem = {
       title,
       description,
       imageUrl,
-      userId: user._id,
-      userName: user.name,
-      userProfilePhoto: user.profilePhoto, // Assuming user has a profilePhoto
+      category
     };
 
+    const token = localStorage.getItem('token');
+
     try {
-      await axios.post('http://localhost:5000/api/items/add-item', newItem, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      await axios.post(
+        'http://localhost:5000/api/items/add-item',
+        newItem,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       closeModal();
     } catch (error) {
       console.error('Error adding item:', error);
@@ -59,7 +57,6 @@ const AddItemModal = ({ closeModal }) => {
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
           />
-
           <button type="submit">Add Item</button>
         </form>
         <button onClick={closeModal}>Close</button>

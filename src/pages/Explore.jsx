@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import callApi from "../util/api";
+import { API_URL } from "../endpoints";
 import Header from '../components/Header/Header';
 
 const ExplorePage = () => {
@@ -10,7 +11,8 @@ const ExplorePage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/items/items');
+        //TODO: /api/items is not defined in backend
+        const response = await callApi(`${API_URL}/api/items/items`, "GET");
         setItems(response.data);
         setFilteredItems(response.data);  
       } catch (error) {
