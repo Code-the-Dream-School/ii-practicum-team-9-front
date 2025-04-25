@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import styled from "styled-components";
 import { API_URL } from "../endpoints" ;
 import { useNavigate } from "react-router-dom";
@@ -20,45 +20,44 @@ export default function Profile() {
   const [avatar, setAvatar] = useState(null);
   const [preview, setPreview] = useState(null);
   const [formData, setFormData] = useState({
-    name: "",
-    username: "",
-    bio: "",
+    id: "",
+    user: "",
+    role: "user",
     location: "",
+    profilePhoto: "",
     interests: [],
+    tags: [],
+    bio: "",
   });
   const navigate= useNavigate() ;
-
-    // fetch(`${API_URL}/api/profile`, {
-    //                     method: "GET",
-    //                     headers: {
-                            
-    //                         "Content-Type": "application/json",
-    //                     },
-                       
-    //                    body: JSON.stringify(userData),
-    //                 })
-    //                     .then((response) => {
-                          
-    //                         if (!response.ok) {
-    //                             return response.json().then((errorData) => {
-    //                                 console.log(errorData);
-    //                                 throw new Error(errorData?.msg || "Network response was not ok.");
-    //                             });
-                               
-    //                         }
-    //                         return response.json();
-    //                     })
-    //                     .then(() => {
-    //                         toast.success("User Registered successfully!");
-                
-    //                         setTimeout(() => {
-    //                             navigate("/login");
-    //                         }, 1000);
-    //                     })
-    //                     .catch((error) => {
-    //                         setError(error.message);
-    //                         console.error("Error:", error);
-    //                     });
+  const token = sessionStorage.getItem("token");        
+  const userId= sessionStorage.getItem("userId");
+           
+    console.log("userId" , userId)
+    
+    useEffect(() => {
+        fetch(`${API_URL}/api/profile/profile`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch  data");
+            }
+            return response.json();
+        })
+        .then((data) =>{
+            console.log("Fetched Data:", data); // Debugging
+            //setFormData(data)
+            console.log(data)
+        })
+        .catch((err) => console.error(err));
+    }, []);
+    
+    
                
 
 

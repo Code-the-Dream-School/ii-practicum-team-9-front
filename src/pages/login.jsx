@@ -82,9 +82,9 @@ export default function Login({ setIsAuthenticated }) {
     );
 }
 
-Login.propTypes = {
-    setIsAuthenticated: PropTypes.func.isRequired,
-};
+// Login.propTypes = {
+//     setIsAuthenticated: PropTypes.func.isRequired,
+// };
 
 const Wrapper = styled.section`
     display: flex;

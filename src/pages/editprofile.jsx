@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+import { API_URL } from "../endpoints" ;
 const usStates = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
   "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
@@ -17,15 +17,47 @@ const allInterests = ["Technology", "Art", "Music", "Sports", "Travel", "Reading
 
 export default function EditProfile() {
   const navigate= useNavigate() ;
+
+  const token = sessionStorage.getItem("token");        
+  const userId= sessionStorage.getItem("userId");
+
   const [avatar, setAvatar] = useState(null);
   const [preview, setPreview] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    username: "",
-    bio: "",
+  const [profileData, setProfileData] = useState({
+    
+    user: "",
+    role: "user",
     location: "",
+    profilePhoto: "",
     interests: [],
+    tags: [],
+    bio: "",
   });
+ 
+  const [tags, setTags] = useState([""]);
+  const [interest, setInterest] = useState([""]);
+ 
+
+  useEffect(() => {
+          fetch(`${API_URL}/api/profile/profile`, {
+              method: "GET",
+              headers: {
+                  "Authorization": `Bearer ${token}`,
+                  "Content-Type": "application/json",
+              }
+          })
+          .then((response) => {
+              if (!response.ok) {
+                  throw new Error("Failed to fetch  profile data");
+              }
+              return response.json();
+          })
+          .then((data) =>{
+            setProfileData(data)
+             
+          })
+          .catch((err) => console.error(err));
+      }, []);
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
@@ -37,12 +69,12 @@ export default function EditProfile() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setProfileData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleInterestChange = (e) => {
     const { value, checked } = e.target;
-    setFormData(prev => ({
+    setProfileData(prev => ({
       ...prev,
       interests: checked
         ? [...prev.interests, value]
@@ -52,15 +84,40 @@ export default function EditProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
+console.log("profileData befor insert" , profileData)
+   
+fetch(`${API_URL}/api/profile/profile`, {
+      method: "PUT",
+      headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify( profileData )
+  })
+  .then((response) => {
+      if (!response.ok) {
+          throw new Error("Failed to fetch  data");
+      }
+      return response.json();
+  })
+  .then(() =>{
+      
+      console.log("suuceessfull:"); // Debugging
+      //setProfileData(data)
+      //console.log(data)
+  })
+  .catch((err) => console.error(err));
+
+    console.log("Form Data:", profileData);
     if (avatar) console.log("Avatar file:", avatar.name);
     navigate("/Home")
   };
 
   return (
     <Wrapper>
-      <h4>Edit Profile</h4>
+      
       <form onSubmit={handleSubmit}>
+        <h4>Edit Profile</h4>
         <div className="mainSection">
             <div className="profilePic">
             {preview ? (
@@ -70,7 +127,7 @@ export default function EditProfile() {
             )}
             
               <label htmlFor="avatarInput" className="changeIcon">
-                Edit Profile
+                Change Avatar
               </label>
               <input
                 type="file"
@@ -83,17 +140,17 @@ export default function EditProfile() {
             </div>
           <div className="inputGroup">
             <label>Username:</label>
-            <input type="text" name="username" value={formData.username} disabled /></div>
+            <input type="text" name="username" value={profileData.user.email} disabled /></div>
             <div className="inputGroup">  
             <label>Name:</label>
-            <input type="text" name="name" value={formData.name} onChange={handleChange} />
+            <input type="text" name="name" value={profileData.user.name} disabled />
           </div>
           
         </div>
 
         <div className="inputGroup">
           <label>Bio:</label>
-          <textarea name="bio" value={formData.bio} onChange={handleChange} />
+          <textarea name="bio" value={profileData.bio} onChange={handleChange} />
         </div>
 
         <fieldset className="bioSection">
@@ -103,7 +160,7 @@ export default function EditProfile() {
               <input
                 type="checkbox"
                 value={interest}
-                checked={formData.interests.includes(interest)}
+                checked={profileData.interests.includes(interest)}
                 onChange={handleInterestChange}
               />
               {interest}
@@ -114,7 +171,7 @@ export default function EditProfile() {
         <div className="inputGroup">
           <label>
             Location:
-            <select name="location" value={formData.location} onChange={handleChange}>
+            <select name="location" value={profileData.location} onChange={(e)=>handleChange(e)}>
               <option value="">Select a state</option>
               {usStates.map((state) => (
                 <option key={state} value={state}>{state}</option>
