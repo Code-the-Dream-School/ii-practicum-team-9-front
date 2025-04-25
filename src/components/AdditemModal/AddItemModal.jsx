@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AddItemModal.css';
+ 
+
 
 const AddItemModal = ({ closeModal }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const [category, setCategory] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,10 +17,13 @@ const AddItemModal = ({ closeModal }) => {
       title,
       description,
       imageUrl,
-      category
+      category,
     };
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
+
+    
+
 
     try {
       await axios.post(
@@ -29,11 +35,16 @@ const AddItemModal = ({ closeModal }) => {
           },
         }
       );
+
+       
       closeModal();
     } catch (error) {
       console.error('Error adding item:', error);
     }
+    
   };
+
+   
 
   return (
     <div className="modal-overlay">
@@ -57,6 +68,16 @@ const AddItemModal = ({ closeModal }) => {
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
           />
+          <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="">Select Category</option>
+          <option value="item">Item</option>
+          <option value="service">Service</option>
+          <option value="lesson">Lesson</option>
+        </select>
+
           <button type="submit">Add Item</button>
         </form>
         <button onClick={closeModal}>Close</button>
