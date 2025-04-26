@@ -1,4 +1,4 @@
-// src/pages/Home.jsx
+ 
 import React, { useEffect, useState } from "react";
 import axios from "axios"; 
 import Header from "../components/Header/Header";
@@ -7,16 +7,25 @@ import { API_URL } from "../endpoints";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);   
   const [loading, setLoading] = useState(true);
   const currentUserId = sessionStorage.getItem("userId");
 
- const handleUpdatePost = (updatedPost) => {
-  setPosts((prevPosts) =>
-    prevPosts.map((post) =>
-      post._id === updatedPost._id ? { ...post, ...updatedPost } : post
-    )
-  );
-};
+  const handleUpdatePost = (updatedPost) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post._id === updatedPost._id ? { ...post, ...updatedPost } : post
+      )
+    );
+  };
+
+  const handleSearch = (searchQuery) => {
+    const filtered = posts.filter((post) =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      post.description.toLowerCase().includes(searchQuery.toLowerCase())   
+    );
+    setFilteredPosts(filtered);   
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -30,6 +39,7 @@ const Home = () => {
 
         if (response && response.data && response.data.data.items) {
           setPosts(response.data.data.items);
+          setFilteredPosts(response.data.data.items);  // Set initial posts
         } else {
           console.error("Unexpected response structure", response);
         }
@@ -49,11 +59,11 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
+      <Header onSearch={handleSearch} />   
       <h1>My Posts</h1>
       <div className="post-grid">
-        {posts.length > 0 ? (
-          posts.map((post) => (
+        {filteredPosts.length > 0 ? (
+          filteredPosts.map((post) => (
             <PostSection
               key={post._id}
               title={post.title}
@@ -72,6 +82,5 @@ const Home = () => {
     </div>
   );
 };
-
 
 export default Home;

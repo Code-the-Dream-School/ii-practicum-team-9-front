@@ -7,53 +7,60 @@ const ExplorePage = () => {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);  
   const [searchTerm, setSearchTerm] = useState('');
-  
 
+  
   useEffect(() => {
-  const fetchItems = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/items/explore`, {
+    const fetchItems = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/items/explore`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${sessionStorage.getItem('token') || ''}`,
           },
         });
-      console.log('API Response:', response);
+        console.log('API Response:', response);
 
-      if (response && response.data && response.data.data && response.data.data.items) {
-        setItems(response.data.data.items);
-        setFilteredItems(response.data.data.items);
-      } else {
-        console.error('Unexpected response structure', response);
+        if (response && response.data && response.data.data && response.data.data.items) {
+          setItems(response.data.data.items);
+          setFilteredItems(response.data.data.items);
+        } else {
+          console.error('Unexpected response structure', response);
+        }
+      } catch (error) {
+        console.error('Error fetching items:', error);
       }
-    } catch (error) {
-      console.error('Error fetching items:', error);
-    }
-  };
+    };
 
-  fetchItems();
+    fetchItems();
   }, []);
-
  
   const handleSearch = (searchQuery) => {
-    setSearchTerm(searchQuery);
-    const filtered = items.filter((item) =>
-      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredItems(filtered);
+    console.log('Search Term:', searchQuery);  
+    setSearchTerm(searchQuery);   
+
+     
+    const filtered = items.filter((item) => {
+      const title = item.title ? item.title.toLowerCase() : '';  
+      const userName = item.userName ? item.userName.toLowerCase() : '';  
+
+      return (
+        title.includes(searchQuery.toLowerCase()) ||
+        userName.includes(searchQuery.toLowerCase())  
+      );
+    });
+
+    setFilteredItems(filtered);   
   };
 
   return (
     <div>
-      <Header onSearch={handleSearch} />
+      <Header onSearch={handleSearch} />   
       <h1>Explore Items</h1>
       {filteredItems.length > 0 ? (
         <ul>
           {filteredItems.map((item) => (
             <li key={item._id}>
               <div>
-                 
                 <img 
                   src={item.userPhoto || '/default-avatar.png'}  
                   alt={item.userName || 'User'} 
