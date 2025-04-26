@@ -6,10 +6,19 @@ import PostSection from "../components/PostSection/PostSection";
 import { API_URL } from "../endpoints"; 
 
 const Home = () => {
-  const [posts, setPosts] = useState([]); 
-  const [loading, setLoading] = useState(true);  
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const currentUserId = sessionStorage.getItem("userId");
+
+ const handleUpdatePost = (updatedPost) => {
+  setPosts((prevPosts) =>
+    prevPosts.map((post) =>
+      post._id === updatedPost._id ? { ...post, ...updatedPost } : post
+    )
+  );
+};
+
   useEffect(() => {
-     
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/items/user/items`, {
@@ -19,46 +28,50 @@ const Home = () => {
           },
         });
 
-        
         if (response && response.data && response.data.data.items) {
-          setPosts(response.data.data.items);  
+          setPosts(response.data.data.items);
         } else {
           console.error("Unexpected response structure", response);
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
       } finally {
-        setLoading(false);  
+        setLoading(false);
       }
     };
 
-    fetchPosts();  
+    fetchPosts();
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;  
+    return <div>Loading...</div>;
   }
 
   return (
     <div>
       <Header />
-      <div className="post-sections">
-        
+      <h1>My Posts</h1>
+      <div className="post-grid">
         {posts.length > 0 ? (
           posts.map((post) => (
             <PostSection
               key={post._id}
               title={post.title}
               description={post.description}
-              image={post.imageUrl || "/default-image.jpg"}  
+              image={post.imageUrl || "/default-image.jpg"}
+              owner={post.owner}
+              currentUserId={currentUserId}
+              _id={post._id}
+              onUpdate={handleUpdatePost}   
             />
           ))
         ) : (
-          <p>No posts found</p>  
+          <p>No posts found</p>
         )}
       </div>
     </div>
   );
 };
+
 
 export default Home;

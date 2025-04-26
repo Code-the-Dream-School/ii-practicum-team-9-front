@@ -46,6 +46,7 @@ const ExplorePage = () => {
 
   return (
     <div>
+      <Header onSearch={handleSearch} />
       <h1>Explore Items</h1>
       {filteredItems.length > 0 ? (
         <ul>

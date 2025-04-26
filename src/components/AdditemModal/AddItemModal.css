@@ -50,3 +50,19 @@
 .add-item-button:hover {
     background-color: #45a049;
 }
+
+.file-upload-label {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+}
+
+.file-upload-label:hover {
+    background-color: #45a049;
+}

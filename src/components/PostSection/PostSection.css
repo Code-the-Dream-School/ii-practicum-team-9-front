@@ -28,3 +28,26 @@
     color: black;
     cursor: pointer;
 }
+
+.owner-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: #ffc107;
+    color: black;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}

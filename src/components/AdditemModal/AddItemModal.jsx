@@ -1,50 +1,40 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AddItemModal.css';
- 
-
 
 const AddItemModal = ({ closeModal }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const [category, setCategory] = useState("");
+  const [file, setFile] = useState(null);
+  const [category, setCategory] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newItem = {
-      title,
-      description,
-      imageUrl,
-      category,
-    };
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('category', category);
+    formData.append('image', file);   
 
     const token = sessionStorage.getItem('token');
-
-    
-
 
     try {
       await axios.post(
         'http://localhost:5000/api/items/add-item',
-        newItem,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data', // This header is automatically set with FormData
           },
         }
       );
-
-       
       closeModal();
     } catch (error) {
       console.error('Error adding item:', error);
     }
-    
   };
-
-   
 
   return (
     <div className="modal-overlay">
@@ -63,20 +53,19 @@ const AddItemModal = ({ closeModal }) => {
             onChange={(e) => setDescription(e.target.value)}
           />
           <input
-            type="text"
-            placeholder="Image URL"
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files[0])}
           />
           <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="">Select Category</option>
-          <option value="item">Item</option>
-          <option value="service">Service</option>
-          <option value="lesson">Lesson</option>
-        </select>
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">Select Category</option>
+            <option value="item">Item</option>
+            <option value="service">Service</option>
+            <option value="lesson">Lesson</option>
+          </select>
 
           <button type="submit">Add Item</button>
         </form>
