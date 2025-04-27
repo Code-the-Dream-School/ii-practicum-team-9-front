@@ -1,27 +1,25 @@
 .itemsGrid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  padding: 20px;
-  justify-content: center;
-}
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  }
 
 .itemContainer {
-  flex: 0 0 calc(33.333% - 30px);
-  box-shadow: 0 4px 8px yellow;
+  flex: 0 0 calc(33.333% - 20px);
+  box-shadow: 0 4px 6px yellow;
   padding: 10px;
-  background-color: #7aaaf7;
-  border-radius: 35px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 300px;
+  min-width: 280px;
 }
 
 .itemImage {
-  width: 100%;
-  height: 200px;
+  width: 80%;
+  height: 80%;
   object-fit: cover;
   margin-bottom: 10px;
   border-radius: 30px;
@@ -31,9 +29,8 @@
   padding: 12px;
   margin: 0;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #333;
-
 }
 
 .itemDescription {
@@ -42,14 +39,14 @@
   color: #555;
   font-size: 0.9rem;
   margin-bottom: 15px;
- }
+}
 
 .buttonContainer {
   display: flex;
   padding: 12px;
   gap: 12px;
   justify-content: center;
-  }
+}
 
 .buttonContainer button {
   flex: 1 1 auto;
@@ -66,7 +63,7 @@
 }
 
 .swapButton {
-  background: white;
+  background: #f0f0f0;
   color: #333;
 }
 
@@ -133,10 +130,15 @@
   text-transform: capitalize;
 }
 
-
-.item .categoryIcon { color: #4CAF50; }
-.service .categoryIcon { color: #2196F3; }
-.lesson .categoryIcon { color: #FFC107; }
+.item .categoryIcon {
+  color: #4caf50;
+}
+.service .categoryIcon {
+  color: #2196f3;
+}
+.lesson .categoryIcon {
+  color: #ffc107;
+}
 
 /* Responsive styles */
 @media (max-width: 1024px) {

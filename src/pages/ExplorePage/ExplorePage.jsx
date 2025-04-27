@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Header from "../../components/Header/Header";
 import BodyExp from "../../components/BodyExp/BodyExp";
 import styles from "./Explore.module.css";
+import NavBar from "../../components/NavBar/NavBar"
+
 
 const ExplorePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,7 +26,7 @@ const ExplorePage = () => {
   */
 
   const handleSearch = (searchQuery) => {
-      setSearchTerm(searchQuery.trim().toLowerCase()); 
+    setSearchTerm(searchQuery.trim().toLowerCase());
   };
 
   const handleExchangeClick = (item) => {
@@ -40,7 +42,7 @@ const ExplorePage = () => {
   return (
     <div className={styles.explorePage}>
       <Header onSearch={handleSearch} />
-
+      <NavBar/>
       <main className={styles.mainContent}>
         <div className={styles.textWrapper}>
           <h1>Welcome to the Explore Page!</h1>
