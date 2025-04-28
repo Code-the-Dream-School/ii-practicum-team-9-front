@@ -19,9 +19,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route
           path="*"
           element={
-            // <ProtectedRoute>
+             <ProtectedRoute>
               <App />
-            // </ProtectedRoute>
+             </ProtectedRoute>
           }
         />
       </Routes>

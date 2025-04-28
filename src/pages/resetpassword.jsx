@@ -15,7 +15,7 @@ export default function resetpassword(){
     
     const handleVerifyingPassword=()=>{
     
-        console.log("userId" , userId)
+      
 
         if (password ===""  ){
             setError("Enter password! ") 
@@ -34,7 +34,7 @@ export default function resetpassword(){
             setError("Password does not match!") 
             return;
         }
-        console.log(`${API_URL}/reset/${userId}`)
+        
         fetch(`${API_URL}/reset/${userId}` , {
                     method: 'PATCH',
                     headers: {

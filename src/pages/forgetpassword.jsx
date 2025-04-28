@@ -15,7 +15,7 @@ export default  function forgetPassword(){
     const [verifiedUserId , setVerifyUserId] = useState()
     const [isCodeValid  , setisCodeValid ] = useState(true)
     const [code, setCode] = useState("");
-    const [userId , setUserId] = useState()
+    const [userID , setUserID] = useState(null)
     const [error, setError] = useState("");
     
 
@@ -42,11 +42,14 @@ export default  function forgetPassword(){
         
         }).then((data)=>{
             
+             setUserID( data.id)
              setEmailVerified(true)
         }).catch((error) => {
             setError(error.message);
             console.error("Error:", error);
+           
             setEmailVerified(false)
+
         })
         
     }
@@ -61,7 +64,7 @@ export default  function forgetPassword(){
                 headers:{
                     'Content-Type' :'application/json'
                 },
-                body: JSON.stringify({code })
+                body: JSON.stringify({code , userID})
             })
             .then((response) => {
                       
