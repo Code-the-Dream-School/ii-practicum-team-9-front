@@ -10,6 +10,7 @@
     left: 0;
     padding-top: 80px;
     box-sizing: border-box;
+    z-index: 1000;
     /* Prevent overflow issues */
 }
 

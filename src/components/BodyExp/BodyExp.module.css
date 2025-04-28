@@ -1,0 +1,169 @@
+.itemsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  }
+
+.itemContainer {
+  flex: 0 0 calc(33.333% - 20px);
+  box-shadow: 0 4px 6px yellow;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 280px;
+}
+
+.itemImage {
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border-radius: 30px;
+}
+
+.itemTitle {
+  padding: 12px;
+  margin: 0;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.itemDescription {
+  padding: 0 12px;
+  text-align: center;
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.buttonContainer {
+  display: flex;
+  padding: 12px;
+  gap: 12px;
+  justify-content: center;
+}
+
+.buttonContainer button {
+  flex: 1 1 auto;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 8px black;
+  font-weight: bold;
+}
+
+.swapButton {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.likeButton {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.swapIcon {
+  color: #7aaaf7;
+  transition: all 0.3s ease;
+  font-size: large;
+}
+
+.heartIcon {
+  color: #7aaaf7;
+  transition: all 0.3s ease;
+}
+
+.buttonContainer button:hover {
+  background-color: yellow;
+}
+
+.buttonContainer .swapButton:hover .swapIcon {
+  color: rgb(255, 40, 158);
+  transform: scale(1.1);
+}
+
+.buttonContainer .likeButton:hover .heartIcon {
+  color: rgb(255, 40, 158);
+  transform: scale(1.1);
+}
+
+.noResults {
+  width: 100%;
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.categoryTag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+  padding: 6px 12px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.categoryIcon {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.categoryText {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+}
+
+.item .categoryIcon {
+  color: #4caf50;
+}
+.service .categoryIcon {
+  color: #2196f3;
+}
+.lesson .categoryIcon {
+  color: #ffc107;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .itemContainer {
+    flex: 0 0 calc(50% - 30px);
+  }
+}
+
+@media (max-width: 768px) {
+  .itemsGrid {
+    gap: 20px;
+    padding: 10px;
+  }
+
+  .itemContainer {
+    flex: 0 0 100%;
+    min-width: auto;
+    border-radius: 25px;
+  }
+
+  .itemImage {
+    height: 180px;
+  }
+
+  .buttonContainer button {
+    padding: 10px;
+  }
+}
