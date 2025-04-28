@@ -64,7 +64,7 @@ export default  function forgetPassword(){
                 headers:{
                     'Content-Type' :'application/json'
                 },
-                body: JSON.stringify({code , userID})
+                body: JSON.stringify({code , id:userID})
             })
             .then((response) => {
                       
