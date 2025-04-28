@@ -17,9 +17,9 @@ const usStates = [
 ];
 
 const allInterests = ["Technology", "Art", "Music", "Sports", "Travel", "Reading", "Gaming"];
-const tags =  [
-  "electronics", "furniture", "clothing", "gardening services", "free", "willing to trade"
-];
+// const tags =  [
+//   "electronics", "furniture", "clothing", "gardening services", "free", "willing to trade"
+// ];
 
 export default function Profile() {
   const [avatar, setAvatar] = useState(null);
@@ -31,7 +31,7 @@ export default function Profile() {
     profilePhoto: "",
     userProfilePhotoURL: "",
     interests: [],
-    tags: [],
+    // tags: [],
     bio: "",
   });
 
@@ -94,14 +94,14 @@ export default function Profile() {
           ))}
         </fieldset>
 
-        <fieldset className="tagSection">
+        {/* <fieldset className="tagSection">
           <legend>Tags:</legend>
           {profileData.tags.map((tag) => (
             <label key={tag} className="checkboxLabel">
               {tag}
             </label>
           ))}
-        </fieldset>
+        </fieldset> */}
 
         
       </div>

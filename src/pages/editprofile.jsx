@@ -17,7 +17,7 @@ const usStates = [
 ];
 
 const allInterests = ["Technology", "Art", "Music", "Sports", "Travel", "Reading", "Gaming"];
-const tags =  [   "electronics", "furniture", "clothing", "gardening services", "free", "willing to trade" ];
+// const tags =  [   "electronics", "furniture", "clothing", "gardening services", "free", "willing to trade" ];
 
 export default function EditProfile() {
  
@@ -89,51 +89,19 @@ export default function EditProfile() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-  //   const updatedData = { ...profileData };
+    const updatedData = { ...profileData };
 
-  //   if (avatarFile) {
-  //     updatedData.userProfilePhotoURL = avatarPreview; 
-  //     updatedData.profilePhoto = avatarPreview;
-  //   }
-  // fetch(`${API_URL}/api/profile/profile`, {
-  //     method: "PUT",
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(updatedData),
-  //   })
-  //     .then((res) => {
-  //       if (!res.ok) throw new Error("Failed to update profile");
-  //       return res.json();
-  //     })
-  //     .then(() => {
-  //       navigate("/");
-  //     })
-  //     .catch((err) => console.error(err));
-  // };
-
-
-
-    
-    const formData = new FormData();
-    formData.append('location', profileData.location);
-    formData.append('interests', JSON.stringify(profileData.interests));
-    //formData.append('tags', JSON.stringify(profileData.tags));
-    formData.append('bio', profileData.bio);
-    formData.append('role', profileData.role);
     if (avatarFile) {
-    
-      formData.append('profilePhoto',avatarFile );
+      updatedData.userProfilePhotoURL = avatarPreview; 
+      updatedData.profilePhoto = avatarPreview;
     }
-
-    fetch(`${API_URL}/api/profile/profile`, {
+  fetch(`${API_URL}/api/profile/profile`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
-        
+        "Content-Type": "application/json",
       },
-      body: formData,
+      body: JSON.stringify(updatedData),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to update profile");
@@ -143,7 +111,39 @@ export default function EditProfile() {
         navigate("/");
       })
       .catch((err) => console.error(err));
-    }
+  };
+
+
+
+    
+    // const formData = new FormData();
+    // formData.append('location', profileData.location);
+    // formData.append('interests', JSON.stringify(profileData.interests));
+    // //formData.append('tags', JSON.stringify(profileData.tags));
+    // formData.append('bio', profileData.bio);
+    // formData.append('role', profileData.role);
+    // if (avatarFile) {
+    
+    //   formData.append('profilePhoto',avatarFile );
+    // }
+
+    // fetch(`${API_URL}/api/profile/profile`, {
+    //   method: "PUT",
+    //   headers: {
+    //     Authorization: `Bearer ${token}`,
+        
+    //   },
+    //   body: formData,
+    // })
+    //   .then((res) => {
+    //     if (!res.ok) throw new Error("Failed to update profile");
+    //     return res.json();
+    //   })
+    //   .then(() => {
+    //     navigate("/");
+    //   })
+    //   .catch((err) => console.error(err));
+    // }
 
 
   
@@ -246,6 +246,7 @@ const Wrapper = styled.section`
     width: 100%;
     max-width: 500px;
     text-align: center;
+    max-height: 1000px;
   }
 
   h2 {
