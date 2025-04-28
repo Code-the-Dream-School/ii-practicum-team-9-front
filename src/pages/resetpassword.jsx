@@ -4,6 +4,7 @@ import { useState  } from "react"
 import { toast, ToastContainer } from "react-toastify"
 import { API_URL } from "../endpoints";
 import {  useLocation ,useNavigate } from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function resetpassword(){
     const navigate = useNavigate();
@@ -35,12 +36,13 @@ export default function resetpassword(){
             return;
         }
         
+       
         fetch(`${API_URL}/reset` , {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json', 
                     },
-                    body: JSON.stringify({ password , id:userId})
+                    body: JSON.stringify({ password , id: userId.userId})
                 }).then((response) => {
                               
                     if (!response.ok) {
@@ -68,7 +70,7 @@ export default function resetpassword(){
     
     return (
         <Wrapper>
-            <ToastContainer/>
+            <ToastContainer newestOnTop={true} style={{ zIndex: 9999 }}/>
             <form>
             <div className="input-group" >
                 <label htmlFor="password">Enter your passowrd</label>
