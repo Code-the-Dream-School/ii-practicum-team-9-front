@@ -1,7 +1,10 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../endpoints" ;
+import { API_URL } from "../endpoints";
+import profile_noImage from "../assets/profile_noImage.png";
+import { FaEdit } from "react-icons/fa";
+
 const usStates = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
   "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
@@ -14,239 +17,244 @@ const usStates = [
 ];
 
 const allInterests = ["Technology", "Art", "Music", "Sports", "Travel", "Reading", "Gaming"];
-
+const tags =  [
+  "electronics", "furniture", "clothing", "gardening services", "free", "willing to trade"
+];
 export default function EditProfile() {
-  const navigate= useNavigate() ;
+  const navigate = useNavigate();
+  const token = sessionStorage.getItem("token");
+  const fileInputRef = useRef();
 
-  const token = sessionStorage.getItem("token");        
-  const userId= sessionStorage.getItem("userId");
+  const [avatarPreview, setAvatarPreview] = useState(profile_noImage);
+  const [avatarFile, setAvatarFile] = useState(null);
 
-  const [avatar, setAvatar] = useState(null);
-  const [preview, setPreview] = useState(null);
   const [profileData, setProfileData] = useState({
-    
-    user: "",
-    role: "user",
+    user: { name: "", email: "" },
     location: "",
     profilePhoto: "",
+    userProfilePhotoURL: "",
     interests: [],
-    tags: [],
     bio: "",
   });
- 
-  const [tags, setTags] = useState([""]);
-  const [interest, setInterest] = useState([""]);
- 
 
   useEffect(() => {
-          fetch(`${API_URL}/api/profile/profile`, {
-              method: "GET",
-              headers: {
-                  "Authorization": `Bearer ${token}`,
-                  "Content-Type": "application/json",
-              }
-          })
-          .then((response) => {
-              if (!response.ok) {
-                  throw new Error("Failed to fetch  profile data");
-              }
-              return response.json();
-          })
-          .then((data) =>{
-            setProfileData(data)
-             
-          })
-          .catch((err) => console.error(err));
-      }, []);
+    fetch(`${API_URL}/api/profile/profile`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch profile data");
+        return res.json();
+      })
+      .then((data) => {
+        setProfileData(data);
+        if (data.profilePhoto) {
+          setAvatarPreview(data.profilePhoto);
+        }
+      })
+      .catch((err) => console.error(err));
+  }, [token]);
 
-  const handleAvatarChange = (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setAvatar(file);
-      setPreview(URL.createObjectURL(file));
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
     }
+  };
+
+  const handleEditClick = () => {
+    fileInputRef.current.click();
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfileData(prev => ({ ...prev, [name]: value }));
+    setProfileData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleInterestChange = (e) => {
     const { value, checked } = e.target;
-    setProfileData(prev => ({
+    setProfileData((prev) => ({
       ...prev,
       interests: checked
         ? [...prev.interests, value]
-        : prev.interests.filter((i) => i !== value)
+        : prev.interests.filter((i) => i !== value),
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-console.log("profileData befor insert" , profileData)
-   
-fetch(`${API_URL}/api/profile/profile`, {
+
+    const updatedData = { ...profileData };
+    if (avatarFile) {
+      updatedData.userProfilePhotoURL = avatarPreview; // Just URL for preview; normally you upload file to server
+      updatedData.profilePhoto = avatarPreview;
+    }
+
+    fetch(`${API_URL}/api/profile/profile`, {
       method: "PUT",
       headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify( profileData )
-  })
-  .then((response) => {
-      if (!response.ok) {
-          throw new Error("Failed to fetch  data");
-      }
-      return response.json();
-  })
-  .then(() =>{
-      
-      console.log("suuceessfull:"); // Debugging
-      //setProfileData(data)
-      //console.log(data)
-  })
-  .catch((err) => console.error(err));
-
-    console.log("Form Data:", profileData);
-    if (avatar) console.log("Avatar file:", avatar.name);
-    navigate("/Home")
+      body: JSON.stringify(updatedData),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update profile");
+        return res.json();
+      })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
     <Wrapper>
-      
-      <form onSubmit={handleSubmit}>
-        <h4>Edit Profile</h4>
-        <div className="mainSection">
-            <div className="profilePic">
-            {preview ? (
-              <img src={preview} alt="Avatar" className="avatarPreview" />
-            ) : (
-              <div className="avatarPlaceholder">No Image</div>
-            )}
-            
-              <label htmlFor="avatarInput" className="changeIcon">
-                Change Avatar
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                id="avatarInput"
-                onChange={handleAvatarChange}
-                
-              />
-            
-            </div>
+      <div className="card">
+        <h2>Edit Profile</h2>
+        <div className="avatar-section">
+          <img src={avatarPreview} alt="Profile" className="avatar" />
+          <button className="edit-button" type="button" onClick={handleEditClick}>
+            <FaEdit /> Change Photo
+          </button>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            hidden
+          />
+        </div>
+
+        <div className="info">
+          <p><strong>Name:</strong> {profileData.user?.name || "No name"}</p>
+          <p><strong>Email:</strong> {profileData.user?.email || "No email"}</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="form">
           <div className="inputGroup">
-            <label>Username:</label>
-            <input type="text" name="username" value={profileData.user.email} disabled /></div>
-            <div className="inputGroup">  
-            <label>Name:</label>
-            <input type="text" name="name" value={profileData.user.name} disabled />
+            <label>Bio:</label>
+            <textarea
+              name="bio"
+              value={profileData.bio}
+              onChange={handleChange}
+            />
           </div>
-          
-        </div>
 
-        <div className="inputGroup">
-          <label>Bio:</label>
-          <textarea name="bio" value={profileData.bio} onChange={handleChange} />
-        </div>
+          <fieldset className="checkboxGroup">
+            <legend>Interests:</legend>
+            {allInterests.map((interest) => (
+              <label key={interest}>
+                <input
+                  type="checkbox"
+                  value={interest}
+                  checked={profileData.interests.includes(interest)}
+                  onChange={handleInterestChange}
+                />
+                {interest}
+              </label>
+            ))}
+          </fieldset>
 
-        <fieldset className="bioSection">
-          <legend>Interests:</legend>
-          {allInterests.map((interest) => (
-            <label key={interest} className="checkboxLabel">
-              <input
-                type="checkbox"
-                value={interest}
-                checked={profileData.interests.includes(interest)}
-                onChange={handleInterestChange}
-              />
-              {interest}
-            </label>
-          ))}
-        </fieldset>
-
-        <div className="inputGroup">
-          <label>
-            Location:
-            <select name="location" value={profileData.location} onChange={(e)=>handleChange(e)}>
-              <option value="">Select a state</option>
+          <div className="inputGroup">
+            <label>Location:</label>
+            <select
+              name="location"
+              value={profileData.location}
+              onChange={handleChange}
+            >
+              <option value="">Select a State</option>
               {usStates.map((state) => (
-                <option key={state} value={state}>{state}</option>
+                <option key={state} value={state}>
+                  {state}
+                </option>
               ))}
             </select>
-          </label>
-       
+          </div>
 
-        <button type="submit">Save Profile</button>
-        </div>
-      </form>
+          <button type="submit" className="save-button">Save Changes</button>
+        </form>
+      </div>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.section`
-  display: flex;
-  justify-content: center;  
-  align-items: center;      
-  width: 100%;
   min-height: 100vh;
-  background-color: #f5f5f5;
-  padding: 40px 20px;
-  box-sizing: border-box;
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 
-  // form {
-  //   max-width: 800px;
-  //   width: 100%;
-  //   margin: 0 auto;
-  //   background: white;
-  //   padding: 30px;
-  //   border-radius: 10px;
-  //   box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  //   display: flex;
-  //   flex-direction: column;
-  //   gap: 20px;
-  // }
-
-  .mainSection {
-    // display: flex;
-    // flex-wrap: wrap;
-    // gap: 20px;
-    // align-items: flex-start;
+  .card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
   }
 
-  .leftInfo {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 250px;
+  h2 {
+    margin-bottom: 20px;
+    font-size: 1.8rem;
   }
 
-  .profilePic {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 250px;
+  .avatar-section {
+    position: relative;
+    margin-bottom: 20px;
   }
 
-  .avatarPreview {
+  .avatar {
     width: 120px;
     height: 120px;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid #ccc;
+    border: 3px solid #ddd;
+  }
+
+  .edit-button {
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: #4CAF50;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1rem;
+  }
+
+  .info {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+  }
+
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
 
   input, textarea, select {
-    border: 1px solid #ccc;
+    padding: 10px;
     border-radius: 8px;
-    padding: 8px;
+    border: 1px solid #ccc;
     font-size: 1rem;
-    width: 100%;
   }
 
   textarea {
@@ -254,41 +262,34 @@ const Wrapper = styled.section`
     min-height: 100px;
   }
 
-  label {
-    font-weight: bold;
-  }
-
-  .checkboxLabel {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 5px 0;
-  }
-
-  .bottomSection {
+  .checkboxGroup {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
+    border: none;
+    padding: 0;
   }
 
-  button {
-    padding: 0.7rem;
-    background: #4CAF50;
+  .checkboxGroup label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: normal;
+  }
+
+  .save-button {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 8px;
     font-size: 1rem;
+    border-radius: 8px;
     cursor: pointer;
-    width: fit-content;
+    transition: 0.3s;
   }
 
-  button:hover {
-    background: #45a049;
-  }
-
-  @media (max-width: 600px) {
-    .topSection {
-      flex-direction: column;
-    }
+  .save-button:hover {
+    background-color: #45a049;
   }
 `;

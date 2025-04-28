@@ -1,7 +1,9 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { API_URL } from "../endpoints" ;
+import { API_URL } from "../endpoints";
 import { useNavigate } from "react-router-dom";
+import profile_noImage from "../assets/profile_noImage.png";
+import { FaEdit } from "react-icons/fa"; 
 
 const usStates = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
@@ -15,181 +17,181 @@ const usStates = [
 ];
 
 const allInterests = ["Technology", "Art", "Music", "Sports", "Travel", "Reading", "Gaming"];
+const tags =  [
+  "electronics", "furniture", "clothing", "gardening services", "free", "willing to trade"
+];
 
 export default function Profile() {
   const [avatar, setAvatar] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [formData, setFormData] = useState({
-    id: "",
+  const [preview, setPreview] = useState(profile_noImage);
+  const [profileData, setProfileData] = useState({
     user: "",
     role: "user",
     location: "",
     profilePhoto: "",
+    userProfilePhotoURL: "",
     interests: [],
     tags: [],
     bio: "",
   });
-  const navigate= useNavigate() ;
-  const token = sessionStorage.getItem("token");        
-  const userId= sessionStorage.getItem("userId");
-           
-    console.log("userId" , userId)
-    
-    useEffect(() => {
-        fetch(`${API_URL}/api/profile/profile`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-            }
-        })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Failed to fetch  data");
-            }
-            return response.json();
-        })
-        .then((data) =>{
-            console.log("Fetched Data:", data); // Debugging
-            //setFormData(data)
-            console.log(data)
-        })
-        .catch((err) => console.error(err));
-    }, []);
-    
-    
-               
 
+  const navigate = useNavigate();
+  const token = sessionStorage.getItem("token");
+  const userId = sessionStorage.getItem("userId");
 
+  useEffect(() => {
+    fetch(`${API_URL}/api/profile/profile`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch profile data");
+        }
+        return response.json();
+      })
+      .then((data) => setProfileData(data))
+      .catch((err) => console.error(err));
+  }, []);
 
   const handleEdit = (e) => {
-    navigate("/EditProfile")
+    navigate("/EditProfile");
   };
 
   return (
     <Wrapper>
-        
-        <div className="container">
+      <div className="container">
         <h4>My Profile</h4>
-          <div className="profilePic">
-          {preview ? (
-              <img src={preview} alt="Avatar" className="avatarPreview" />
-            ) : (
-              <div className="avatarPlaceholder">No Image</div>
-            )}
+        <div className="profilePic">
+          {profileData.profilePhoto ? (
+            <img src={profileData.profilePhoto} alt="ProfilePhoto" className="avatarPreview" />
+          ) : (
+            <img src={preview} alt="ProfilePhoto" className="avatarPreview" />
+          )}
+          <div className="editIcon" onClick={handleEdit}>
+            <FaEdit />
+            <span>Edit Profile</span>
           </div>
-          <div className="info">
-            <label name="username" >{formData?.username || "userId" }</label>
-            <label name="username"  >{formData?.name || "name"} </label>
-            <label name="bio"  defaultValue={"Bio"} > {formData?.bio || "bio"}</label>
+        </div>
+
+        <div className="info">
+          <label>{profileData?.user.email || "userId"}</label>
+          <label>{profileData?.user.name || "name"}</label>
+          <label>{profileData?.bio || "bio"}</label>
+          <label>Location: {profileData.location}</label>
         </div>
 
         <fieldset className="bioSection">
           <legend>Interests:</legend>
-          {allInterests.map((interest) => (
-            <label key={interest} className="checkboxLabel" >
-              
+          {profileData.interests.map((interest) => (
+            <label key={interest} className="checkboxLabel">
               {interest}
             </label>
           ))}
         </fieldset>
 
-        <div className="bottomSection">
-          <label>
-            Location:
-            
-          </label>
-        </div>
+        <fieldset className="tagSection">
+          <legend>Tags:</legend>
+          {profileData.tags.map((tag) => (
+            <label key={tag} className="checkboxLabel">
+              {tag}
+            </label>
+          ))}
+        </fieldset>
+
         
-        <button type="submit" onClick={handleEdit}>Edit Profile</button>
-        </div>
+      </div>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.section`
   display: flex;
-  justify-content: center;  
-  align-items: center;      
+  justify-content: center;
+  align-items: center;
   width: 100%;
   min-height: 100vh;
   background-color: #f5f5f5;
   padding: 40px 20px;
   box-sizing: border-box;
 
-
-  h4{
-     text-align: center;
-    width: 100%;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-  
-  }
-
-  label{
-  display: inline-block; 
-  border: 1px solid #ccc;
-  padding: 6px 10px;
-  border-radius: 5px;
-  background-color: #f9f9f9; 
-  margin-bottom: 8px
+  h4 {
+    text-align: center;
+    color: #333;
+    font-size: 1.8rem;
+    font-weight: 600;
   }
 
   .container {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    gap: 20px;
-    align-items: flex-start;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
   }
 
-  .info {
-    flex: 1;
+  .profilePic {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    min-width: 250px;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    position: relative;
   }
 
-  .profilePic img{
-  display: flex;
-  justify-content: center;  
-  align-items: center;      
-    
-    flex-direction: column;
-    border: 1px solid #ccc;
-    gap: 10px;
-    min-width: 250px;
-    border: 2px solid rgb(239, 241, 65) 
-    padding: 4px; 
-    background-color: #fff;
-  }
-
-  .avatarPreview {
+  .profilePic .avatarPreview {
+    border-radius: 50%;
     width: 120px;
     height: 120px;
     object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .editIcon {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #fff;
+    padding: 5px;
     border-radius: 50%;
-    border: 2px solid rgb(239, 241, 65) 
-    padding: 4px; 
-    background-color: #fff;  
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #666;
   }
 
-  input, textarea, select {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 8px;
+  .editIcon:hover {
+    background-color: #f9f9f9;
+    color: #333;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    min-width: 250px;
+  }
+
+  .info label {
     font-size: 1rem;
-    width: 100%;
-  }
-
-  textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
-
-  label {
-    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
   }
 
   .checkboxLabel {
@@ -197,32 +199,18 @@ const Wrapper = styled.section`
     align-items: center;
     gap: 0.5rem;
     margin: 5px 0;
-  }
-
-  .bottomSection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  button {
-    padding: 0.7rem;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    font-size: 0.9rem;
     cursor: pointer;
-    width: fit-content;
   }
 
-  button:hover {
-    background: #45a049;
+  .bioSection, .tagSection {
+    margin-top: 20px;
   }
 
-  @media (max-width: 600px) {
-    .topSection {
-      flex-direction: column;
-    }
-  }
+  
 `;
+
