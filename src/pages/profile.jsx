@@ -26,7 +26,7 @@ export default function Profile() {
   const [preview, setPreview] = useState(profile_noImage);
   const [profileData, setProfileData] = useState({
     user: "",
-    role: "user",
+    role: "",
     location: "",
     profilePhoto: "",
     userProfilePhotoURL: "",
@@ -82,6 +82,7 @@ export default function Profile() {
           <label>{profileData?.user.name || "name"}</label>
           <label>{profileData?.bio || "bio"}</label>
           <label>Location: {profileData.location}</label>
+          <label>Role: {profileData.role}</label>
         </div>
 
         <fieldset className="bioSection">

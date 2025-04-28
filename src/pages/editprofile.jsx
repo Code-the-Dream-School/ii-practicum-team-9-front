@@ -35,6 +35,7 @@ export default function EditProfile() {
     userProfilePhotoURL: "",
     interests: [],
     bio: "",
+    role:"",
   });
 
   useEffect(() => {
@@ -161,6 +162,17 @@ export default function EditProfile() {
           </fieldset>
 
           <div className="inputGroup">
+            <label>Role:</label>
+            <select
+              name="role"        
+              value={profileData.role}
+              onChange={handleChange}
+            >
+              <option key="user" value="user">user</option>
+              <option key="admin" value="admin">admin</option>
+            </select>
+          </div>
+          <div className="inputGroup">
             <label>Location:</label>
             <select
               name="location"
@@ -260,6 +272,7 @@ const Wrapper = styled.section`
   textarea {
     resize: vertical;
     min-height: 100px;
+    font-weight: normal;
   }
 
   .checkboxGroup {
