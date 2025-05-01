@@ -37,8 +37,7 @@ const EditPostModal = ({ post, onClose, onUpdate }) => {
 
   e.preventDefault();
 
-  console.log('Form Data:', formData);  
-  console.log('Post ID:', post._id);   
+  
 
   if (!_id) {
     console.error('Post ID is missing');
@@ -55,16 +54,16 @@ const EditPostModal = ({ post, onClose, onUpdate }) => {
     });
 
     
-    console.log('Response:', response);
+    
      
 
     
     onUpdate(response.data.data.item); 
     onClose();  
-  } catch (error) {
-     
+  } catch (error) { 
+
     console.error('Error updating post:', error);
-    console.log('Error response:', error.response);
+     
   }
 };
 

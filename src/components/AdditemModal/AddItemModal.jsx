@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './AddItemModal.css';
+import { API_URL } from '../../endpoints';
 
 const AddItemModal = ({ closeModal }) => {
   const [title, setTitle] = useState('');
@@ -21,12 +22,12 @@ const AddItemModal = ({ closeModal }) => {
 
     try {
       await axios.post(
-        'http://localhost:5000/api/items/add-item',
+        `${API_URL}/api/items/add-item`,
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data', // This header is automatically set with FormData
+            'Content-Type': 'multipart/form-data',  
           },
         }
       );

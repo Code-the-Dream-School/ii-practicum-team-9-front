@@ -18,7 +18,7 @@ const ExplorePage = () => {
             Authorization: `Bearer ${sessionStorage.getItem('token') || ''}`,
           },
         });
-        console.log('API Response:', response);
+         
 
         if (response && response.data && response.data.data && response.data.data.items) {
           setItems(response.data.data.items);
@@ -35,7 +35,7 @@ const ExplorePage = () => {
   }, []);
  
   const handleSearch = (searchQuery) => {
-    console.log('Search Term:', searchQuery);  
+     
     setSearchTerm(searchQuery);   
 
      

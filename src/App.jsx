@@ -6,13 +6,12 @@ import NavBar from "./components/NavBar/NavBar";
 import AddItemModal from "./components/AdditemModal/AddItemModal";
 import { Home, Barter, Chat } from "./pages";
 import Explore from "./pages/Explore";
-//import ExplorePage from "./pages/ExplorePage/ExplorePage";
 import "./App.css";
 import "./index.css";
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
