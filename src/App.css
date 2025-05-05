@@ -48,7 +48,7 @@ body,
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   gap: 20px;
-  /* Space between search bar, button, and profile */
+   
 }
 
 /* Search bar */
@@ -69,7 +69,7 @@ body,
   cursor: pointer;
 }
 
-/* PostSections - Increase spacing */
+ 
 .post-sections {
   display: flex;
   justify-content: space-between;
@@ -77,7 +77,7 @@ body,
   padding: 20px 0;
 }
 
-/* Individual Post Section - Bigger with padding */
+ 
 .post-section {
   flex: 1;
   padding: 25px;
@@ -85,7 +85,7 @@ body,
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   min-height: 200px;
-  /* Ensures posts are visible */
+  
 }
 
 .content-sections {
@@ -99,7 +99,7 @@ body,
   flex: 2;
 }
 
-/* Styling for the guidelines text */
+ 
 .guidelines-container h2 {
   font-size: 24px;
   font-weight: bold;
@@ -112,7 +112,7 @@ body,
   color: #555;
 }
 
-/* Responsive adjustments */
+ 
 @media (max-width: 768px) {
   .app-container {
     flex-direction: column;

@@ -66,3 +66,10 @@
 .file-upload-label:hover {
     background-color: #45a049;
 }
+
+.error-message {
+    color: #ff0000;
+    font-size: 0.9em;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}

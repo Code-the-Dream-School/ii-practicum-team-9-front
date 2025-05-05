@@ -4,13 +4,11 @@ import './PostSection.css';
 import EditPostModal from '../EditPosts/EditPostModal';
 import { API_URL } from '../../endpoints';
 
-
 const PostSection = ({ title, description, image, owner, currentUserId, _id }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
-
 
   const isOwner = owner && owner._id && owner._id.toString() === currentUserId.toString();
 
@@ -18,30 +16,24 @@ const PostSection = ({ title, description, image, owner, currentUserId, _id }) =
     setIsEditModalOpen(true);
   };
 
- const handleDelete = async (id) => {
-  try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-      },
-    };
+  const handleDelete = async (id) => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
+        },
+      };
 
-    await axios.delete(`${API_URL}/api/items/delete-item/${id}`, config);
+      await axios.delete(`${API_URL}/api/items/delete-item/${id}`, config);
 
-    
-    setPosts((prevPosts) => prevPosts.filter(post => post._id !== id));
-    setIsDeleteModalOpen(false);
-
-     
-    setSuccessMessage("Post deleted successfully!");
-
-
-    console.log("Post deleted successfully");  
-  } catch (error) {
-    console.error("Error deleting post:", error);
-  }
-};
-
+      setPosts((prevPosts) => prevPosts.filter(post => post._id !== id));
+      setIsDeleteModalOpen(false);
+      setSuccessMessage("Post deleted successfully!");
+      console.log("Post deleted successfully");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   return (
     <div className="post-section">
@@ -66,7 +58,6 @@ const PostSection = ({ title, description, image, owner, currentUserId, _id }) =
           post={{ title, description, imageUrl: image, _id }}
           onClose={() => setIsEditModalOpen(false)}
           onUpdate={(updatedPost) => {
-             
             setIsEditModalOpen(false);
           }}
         />

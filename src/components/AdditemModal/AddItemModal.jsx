@@ -8,9 +8,29 @@ const AddItemModal = ({ closeModal }) => {
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
   const [category, setCategory] = useState('');
+  const [fileError, setFileError] = useState('');
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+
+    if (selectedFile && selectedFile.size > maxSize) {
+      setFileError('File size must be less than 10MB');
+      setFile(null);
+      e.target.value = null; // Reset the file input
+    } else {
+      setFileError('');
+      setFile(selectedFile);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (fileError) {
+      alert('Please select a valid file');
+      return;
+    }
 
     const formData = new FormData();
     formData.append('title', title);
@@ -34,6 +54,20 @@ const AddItemModal = ({ closeModal }) => {
       closeModal();
     } catch (error) {
       console.error('Error adding item:', error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Error response data:', error.response.data);
+        console.error('Error response status:', error.response.status);
+        console.error('Error response headers:', error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('Error request:', error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error message:', error.message);
+      }
+      alert('Failed to add item. Please try again.');
     }
   };
 
@@ -56,8 +90,9 @@ const AddItemModal = ({ closeModal }) => {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={handleFileChange}
           />
+          {fileError && <p className="error-message">{fileError}</p>}
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}

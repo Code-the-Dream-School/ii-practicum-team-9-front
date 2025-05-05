@@ -1,4 +1,3 @@
- 
 import React, { useEffect, useState } from "react";
 import axios from "axios"; 
 import Header from "../components/Header/Header";
@@ -10,6 +9,10 @@ const Home = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);   
   const [loading, setLoading] = useState(true);
   const currentUserId = sessionStorage.getItem("userId");
+  const userName = sessionStorage.getItem("userName");
+  
+  console.log("Current User ID:", currentUserId);
+  console.log("Session Storage:", sessionStorage);
 
   const handleUpdatePost = (updatedPost) => {
     setPosts((prevPosts) =>
@@ -30,16 +33,21 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/items/user/items`, {
+        const response = await axios.get(`${API_URL}/api/items/explore`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
           },
         });
 
-        if (response && response.data && response.data.data.items) {
-          setPosts(response.data.data.items);
-          setFilteredPosts(response.data.data.items);  // Set initial posts
+        if (response && response.data && response.data.data && response.data.data.items) {
+          // Filter posts to show only the current user's posts
+          const userPosts = response.data.data.items.filter(
+            (post) => post.owner && post.owner._id === currentUserId
+          );
+          console.log("User's posts:", userPosts);
+          setPosts(userPosts);
+          setFilteredPosts(userPosts);
         } else {
           console.error("Unexpected response structure", response);
         }
@@ -51,7 +59,7 @@ const Home = () => {
     };
 
     fetchPosts();
-  }, []);
+  }, [currentUserId]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -60,7 +68,11 @@ const Home = () => {
   return (
     <div>
       <Header onSearch={handleSearch} />   
-      <h1>My Posts</h1>
+      <div style={{ textAlign: 'center', margin: '20px 0', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+        <h1>Welcome Back, {userName}</h1>
+        <p>Manage your posts and connect with the community</p>
+      </div>
+      <h2 style={{ margin: '20px 0' }}>My Posts</h2>
       <div className="post-grid">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
