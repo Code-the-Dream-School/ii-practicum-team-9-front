@@ -25,13 +25,13 @@ export default function Profile() {
   const [avatar, setAvatar] = useState(null);
   const [preview, setPreview] = useState(profile_noImage);
   const [profileData, setProfileData] = useState({
-    user: "",
+    
     role: "",
     location: "",
     profilePhoto: "",
     userProfilePhotoURL: "",
     interests: [],
-    // tags: [],
+    user: {},
     bio: "",
   });
 
@@ -40,7 +40,7 @@ export default function Profile() {
   const userId = sessionStorage.getItem("userId");
 
   useEffect(() => {
-    fetch(`${API_URL}/api/profile/profile`, {
+    fetch(`${API_URL}/api/users/profile`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${token}`,
@@ -53,13 +53,13 @@ export default function Profile() {
         }
         return response.json();
       })
-      .then((data) => setProfileData(data))
+      .then((data) => {
+        console.log(data)
+        setProfileData(data.data)})
       .catch((err) => console.error(err));
   }, []);
 
-  const handleEdit = (e) => {
-    navigate("/EditProfile");
-  };
+  
 
   return (
     <Wrapper>
@@ -71,10 +71,7 @@ export default function Profile() {
           ) : (
             <img src={preview} alt="ProfilePhoto" className="avatarPreview" />
           )}
-          <div className="editIcon" onClick={handleEdit}>
-            <FaEdit />
-            <span>Edit Profile</span>
-          </div>
+          
         </div>
 
         <div className="info">
@@ -114,9 +111,9 @@ const Wrapper = styled.section`
   justify-content: center;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
   background-color: #f5f5f5;
-  padding: 40px 20px;
+  padding: 10px 20px;
   box-sizing: border-box;
 
   h4 {
@@ -128,14 +125,17 @@ const Wrapper = styled.section`
 
   .container {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    flex-direction: 
+    column;flex-direction: column;
+   
     background-color: white;
-    padding: 30px;
+   
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 600px;
+    padding: 10px 20px;
+    box-sizing: border-box;
   }
 
   .profilePic {

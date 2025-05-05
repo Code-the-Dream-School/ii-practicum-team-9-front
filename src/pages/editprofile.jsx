@@ -26,20 +26,19 @@ export default function EditProfile() {
   const fileInputRef = useRef();
 
   const [avatarPreview, setAvatarPreview] = useState(profile_noImage);
-  const [avatarFile, setAvatarFile] = useState(null);
+  
 
   const [profileData, setProfileData] = useState({
     user: { name: "", email: "" },
     location: "",
     profilePhoto: "",
-    userProfilePhotoURL: "",
     interests: [],
     bio: "",
     role:"",
   });
 
   useEffect(() => {
-    fetch(`${API_URL}/api/profile/profile`, {
+    fetch(`${API_URL}/api/users/profile`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,19 +50,21 @@ export default function EditProfile() {
         return res.json();
       })
       .then((data) => {
-        setProfileData(data);
-        if (data.profilePhoto) {
-          setAvatarPreview(data.profilePhoto);
+        setProfileData(data.data);
+        if (data.data.profilePhoto) {
+          setAvatarPreview(data.data.profilePhoto);
         }
       })
       .catch((err) => console.error(err));
   }, [token]);
 
   const handleFileChange = (e) => {
+
     const file = e.target.files[0];
     if (file) {
-      setAvatarFile(file);
+      
       setAvatarPreview(URL.createObjectURL(file));
+      UpdatProfilePhoto(file);
     }
   };
 
@@ -86,22 +87,44 @@ export default function EditProfile() {
     }));
   };
 
-  const handleSubmit = (e) => {
+   const  UpdatProfilePhoto=(file)=>{
+
+    const formData = new FormData();
+    formData.append('image',file );
+   
+    fetch(`${API_URL}/api/users/upload`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        
+      },
+      body: formData,
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update profile");
+        return res.json();
+      })
+      .then(() => {
+        //navigate("/");
+      })
+      .catch((err) => console.error(err));
+   }
+   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const updatedData = { ...profileData };
 
-    if (avatarFile) {
-      updatedData.userProfilePhotoURL = avatarPreview; 
-      updatedData.profilePhoto = avatarPreview;
-    }
-  fetch(`${API_URL}/api/profile/profile`, {
+
+
+  const updatedData = { ...profileData };
+
+   
+  fetch(`${API_URL}/api/users/profile`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedData),
+      body: JSON.stringify(profileData),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to update profile");
@@ -111,41 +134,14 @@ export default function EditProfile() {
         navigate("/");
       })
       .catch((err) => console.error(err));
-  };
+      }
+   
 
 
 
     
-    // const formData = new FormData();
-    // formData.append('location', profileData.location);
-    // formData.append('interests', JSON.stringify(profileData.interests));
-    // //formData.append('tags', JSON.stringify(profileData.tags));
-    // formData.append('bio', profileData.bio);
-    // formData.append('role', profileData.role);
-    // if (avatarFile) {
     
-    //   formData.append('profilePhoto',avatarFile );
-    // }
-
-    // fetch(`${API_URL}/api/profile/profile`, {
-    //   method: "PUT",
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-        
-    //   },
-    //   body: formData,
-    // })
-    //   .then((res) => {
-    //     if (!res.ok) throw new Error("Failed to update profile");
-    //     return res.json();
-    //   })
-    //   .then(() => {
-    //     navigate("/");
-    //   })
-    //   .catch((err) => console.error(err));
-    // }
-
-
+  
   
 
   return (
