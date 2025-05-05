@@ -24,8 +24,36 @@ const ExplorePage = () => {
         });
 
         if (response && response.data && response.data.data && response.data.data.items) {
-          setItems(response.data.data.items);
-          setFilteredItems(response.data.data.items);
+          // Fetch like counts and user's like status for each item
+          const itemsWithLikes = await Promise.all(
+            response.data.data.items.map(async (item) => {
+              try {
+                const likeResponse = await axios.get(
+                  `${API_URL}/api/v1/like/get-likes/${item._id}`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                    },
+                  }
+                );
+                const likeData = likeResponse.data.data.likeData || [];
+                const currentUserId = sessionStorage.getItem('userId');
+                const isLiked = likeData.some(like => like.user._id === currentUserId);
+                
+                return {
+                  ...item,
+                  likes: likeResponse.data.data.likeCount || 0,
+                  isLiked: isLiked
+                };
+              } catch (error) {
+                console.error(`Error fetching likes for item ${item._id}:`, error);
+                return { ...item, likes: 0, isLiked: false };
+              }
+            })
+          );
+          
+          setItems(itemsWithLikes);
+          setFilteredItems(itemsWithLikes);
         } else {
           console.error('Unexpected response structure', response);
         }
@@ -62,23 +90,48 @@ const ExplorePage = () => {
   const handleLikeClick = async (item) => {
     try {
       const response = await axios.post(
-        `${API_URL}/api/items/${item._id}/like`,
-        {},
+        `${API_URL}/api/v1/like`,
+        { itemId: item._id },
         {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         }
       );
-      console.log('Like response:', response.data);
-       
-      const updatedItems = items.map(i => 
-        i._id === item._id ? { ...i, likes: response.data.likes } : i
-      );
-      setItems(updatedItems);
-      setFilteredItems(updatedItems);
+      
+      if (response.data.status === 'success') {
+        // After like/unlike, fetch the updated like count
+        const likeResponse = await axios.get(
+          `${API_URL}/api/v1/like/get-likes/${item._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            },
+          }
+        );
+
+        const likeData = likeResponse.data.data.likeData || [];
+        const currentUserId = sessionStorage.getItem('userId');
+        const isLiked = likeData.some(like => like.user._id === currentUserId);
+        
+        // Update only the clicked item with the new like count and state
+        const updatedItems = items.map(i => {
+          if (i._id === item._id) {
+            return {
+              ...i,
+              isLiked: isLiked,
+              likes: likeResponse.data.data.likeCount || 0
+            };
+          }
+          return i;
+        });
+        
+        setItems(updatedItems);
+        setFilteredItems(updatedItems);
+      }
     } catch (error) {
       console.error('Error liking item:', error);
+      alert('Failed to like item. Please try again.');
     }
   };
 
@@ -144,10 +197,10 @@ const ExplorePage = () => {
                         </button>
                         <button
                           onClick={() => handleLikeClick(item)}
-                          className={styles.likeButton}
+                          className={`${styles.likeButton} ${item.isLiked ? styles.liked : ''}`}
                         >
                           <FaHeart className={styles.heartIcon} />
-                          Like ({item.likes || 0})
+                          {item.isLiked ? 'Unlike' : 'Like'} ({item.likes || 0})
                         </button>
                       </div>
                     </div>

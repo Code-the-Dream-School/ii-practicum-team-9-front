@@ -151,6 +151,15 @@
 .likeButton {
   background-color: #f44336;
   color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .likeButton:hover {
@@ -158,8 +167,25 @@
   transform: translateY(-2px);
 }
 
-.swapIcon,
+.likeButton.liked {
+  background-color: #e91e63;
+}
+
+.likeButton.liked:hover {
+  background-color: #c2185b;
+}
+
 .heartIcon {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.likeButton.liked .heartIcon {
+  transform: scale(1.2);
+  color: #fff;
+}
+
+.swapIcon {
   font-size: 1.2rem;
 }
 
