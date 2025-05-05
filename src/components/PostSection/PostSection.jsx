@@ -4,7 +4,7 @@ import './PostSection.css';
 import EditPostModal from '../EditPosts/EditPostModal';
 import { API_URL } from '../../endpoints';
 
-const PostSection = ({ title, description, image, owner, currentUserId, _id, onUpdate }) => {
+const PostSection = ({ title, description, image, owner, currentUserId, _id, onUpdate, createdAt }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -37,7 +37,7 @@ const PostSection = ({ title, description, image, owner, currentUserId, _id, onU
       <div className="post-card">
         <h3>{title}</h3>
         <div className="post-image-container">
-          <img 
+          <img
             src={image || "/default-image.jpg"} 
             alt={title} 
             className="post-image" 

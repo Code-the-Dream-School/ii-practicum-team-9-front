@@ -174,9 +174,9 @@ const ExplorePage = () => {
                       </div>
                       <h3 className={styles.itemTitle}>{item.title}</h3>
                       {item.imageUrl && (
-                        <img 
-                          src={item.imageUrl} 
-                          alt={item.title} 
+                        <img
+                          src={item.imageUrl}
+                          alt={item.title}
                           className={styles.itemImage}
                         />
                       )}

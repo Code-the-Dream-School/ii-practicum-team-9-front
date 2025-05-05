@@ -38,6 +38,26 @@
 
 .post-description {
     margin: 10px 0;
+.post-created-date {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: #666666;
+    background-color: #e0e7ff;
+    padding: 4px 8px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-align: right;
+    align-self: flex-start;
+    font-style: normal;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+
+.post-created-date:hover {
+    background-color: #c7d2fe;
+}
     flex-grow: 1;
     overflow-wrap: break-word;
     color: #666;

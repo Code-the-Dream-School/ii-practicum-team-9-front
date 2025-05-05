@@ -84,7 +84,8 @@ const Home = () => {
               owner={post.owner}
               currentUserId={currentUserId}
               _id={post._id}
-              onUpdate={handleUpdatePost}   
+              createdAt={post.createdAt}
+              onUpdate={handleUpdatePost}
             />
           ))
         ) : (
