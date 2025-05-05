@@ -103,9 +103,11 @@ const AddItemModal = ({ closeModal }) => {
             <option value="lesson">Lesson</option>
           </select>
 
-          <button type="submit">Add Item</button>
+          <div className="modal-buttons">
+            <button type="submit">Add Item</button>
+            <button type="button" onClick={closeModal}>Close</button>
+          </div>
         </form>
-        <button onClick={closeModal}>Close</button>
       </div>
     </div>
   );

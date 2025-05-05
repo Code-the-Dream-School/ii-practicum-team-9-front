@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../../endpoints';
+import './EditPostModal.css';
 
 const EditPostModal = ({ post, onClose, onUpdate }) => {
-  
-  console.log('Received Post in Modal:', post);   
-
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    imageUrl: '',
+    category: ''
   });
+  const [file, setFile] = useState(null);
+  const [fileError, setFileError] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [error, setError] = useState('');
  
   useEffect(() => {
     if (post) {
       setFormData({
         title: post.title || '',
         description: post.description || '',
-        imageUrl: post.imageUrl || '',
+        category: post.category || ''
       });
+      setPreviewUrl(post.imageUrl || '');
     }
   }, [post]);
 
-   
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -31,47 +33,75 @@ const EditPostModal = ({ post, onClose, onUpdate }) => {
     }));
   };
 
-   
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+
+    if (selectedFile && selectedFile.size > maxSize) {
+      setFileError('File size must be less than 10MB');
+      setFile(null);
+      e.target.value = null;
+    } else {
+      setFileError('');
+      setFile(selectedFile);
+      // Create a preview URL for the selected image
+      const objectUrl = URL.createObjectURL(selectedFile);
+      setPreviewUrl(objectUrl);
+    }
+  };
+
   const handleSubmit = async (e) => {
-  const { _id } = post;
+    e.preventDefault();
+    setError('');
+    const { _id } = post;
 
-  e.preventDefault();
+    if (!_id) {
+      setError('Post ID is missing');
+      return;
+    }
 
-  
-
-  if (!_id) {
-    console.error('Post ID is missing');
-    return;  
-  }
-
-  try {
+    try {
+      const submitData = new FormData();
+      submitData.append('title', formData.title);
+      submitData.append('description', formData.description);
+      submitData.append('category', formData.category);
+      if (file) {
+        submitData.append('image', file);
+      }
     
-    const response = await axios.patch(`${API_URL}/api/items/update-item/${_id}`, formData, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-      },
-    });
+      const response = await axios.patch(
+        `${API_URL}/api/items/update-item/${_id}`, 
+        submitData,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
-    
-    
-     
-
-    
-    onUpdate(response.data.data.item); 
-    onClose();  
-  } catch (error) { 
-
-    console.error('Error updating post:', error);
-     
-  }
-};
-
+      if (response.data.data && response.data.data.item) {
+        const updatedItem = response.data.data.item;
+        // Ensure all required fields are present
+        if (!updatedItem._id || !updatedItem.title || !updatedItem.description) {
+          throw new Error('Invalid response: missing required fields');
+        }
+        onUpdate(updatedItem);
+        onClose();
+      } else {
+        throw new Error('Invalid response structure from server');
+      }
+    } catch (error) {
+      console.error('Error updating post:', error);
+      setError(error.response?.data?.message || error.message || 'Failed to update post. Please try again.');
+    }
+  };
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
         <h3>Edit Post</h3>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div>
             <label>Title:</label>
@@ -80,6 +110,7 @@ const EditPostModal = ({ post, onClose, onUpdate }) => {
               name="title"
               value={formData.title}
               onChange={handleChange}
+              required
             />
           </div>
           <div>
@@ -88,16 +119,36 @@ const EditPostModal = ({ post, onClose, onUpdate }) => {
               name="description"
               value={formData.description}
               onChange={handleChange}
+              required
             />
           </div>
           <div>
-            <label>Image URL:</label>
-            <input
-              type="text"
-              name="imageUrl"
-              value={formData.imageUrl}
+            <label>Category:</label>
+            <select
+              name="category"
+              value={formData.category}
               onChange={handleChange}
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="item">Item</option>
+              <option value="service">Service</option>
+              <option value="lesson">Lesson</option>
+            </select>
+          </div>
+          <div>
+            <label>Image:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
             />
+            {fileError && <p className="error-message">{fileError}</p>}
+            {previewUrl && (
+              <div className="image-preview">
+                <img src={previewUrl} alt="Preview" />
+              </div>
+            )}
           </div>
           <div className="modal-buttons">
             <button type="submit">Update Post</button>

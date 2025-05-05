@@ -8,11 +8,9 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);   
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const currentUserId = sessionStorage.getItem("userId");
   const userName = sessionStorage.getItem("userName");
-  
-  console.log("Current User ID:", currentUserId);
-  console.log("Session Storage:", sessionStorage);
 
   const handleUpdatePost = (updatedPost) => {
     setPosts((prevPosts) =>
@@ -40,19 +38,17 @@ const Home = () => {
           },
         });
 
-        if (response && response.data && response.data.data && response.data.data.items) {
-          // Filter posts to show only the current user's posts
+        if (response?.data?.data?.items) {
           const userPosts = response.data.data.items.filter(
             (post) => post.owner && post.owner._id === currentUserId
           );
-          console.log("User's posts:", userPosts);
           setPosts(userPosts);
           setFilteredPosts(userPosts);
         } else {
-          console.error("Unexpected response structure", response);
+          setError("No posts found");
         }
       } catch (error) {
-        console.error("Error fetching posts:", error);
+        setError("Failed to fetch posts. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -63,6 +59,10 @@ const Home = () => {
 
   if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
   }
 
   return (

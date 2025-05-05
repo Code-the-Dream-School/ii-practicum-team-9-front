@@ -6,7 +6,7 @@
 
 .mainContent {
   flex: 1;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .textWrapper {
@@ -17,27 +17,27 @@
 .textWrapper h1 {
   font-size: 2.5rem;
   color: #333;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-align: center;
   animation: fadeInDown 0.5s ease-out;
 }
 
 .wrapper {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .bodyWrapper {
   background-color: white;
   border-radius: 8px;
-  padding: 2rem;
+  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .itemsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 1rem;
+  gap: 1.5rem;
+  padding: 0.5rem;
 }
 
 .itemContainer {

@@ -4,10 +4,9 @@ import './PostSection.css';
 import EditPostModal from '../EditPosts/EditPostModal';
 import { API_URL } from '../../endpoints';
 
-const PostSection = ({ title, description, image, owner, currentUserId, _id }) => {
+const PostSection = ({ title, description, image, owner, currentUserId, _id, onUpdate }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [posts, setPosts] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
 
   const isOwner = owner && owner._id && owner._id.toString() === currentUserId.toString();
@@ -25,11 +24,9 @@ const PostSection = ({ title, description, image, owner, currentUserId, _id }) =
       };
 
       await axios.delete(`${API_URL}/api/items/delete-item/${id}`, config);
-
-      setPosts((prevPosts) => prevPosts.filter(post => post._id !== id));
+      onUpdate({ _id: id, deleted: true });
       setIsDeleteModalOpen(false);
       setSuccessMessage("Post deleted successfully!");
-      console.log("Post deleted successfully");
     } catch (error) {
       console.error("Error deleting post:", error);
     }
@@ -37,10 +34,20 @@ const PostSection = ({ title, description, image, owner, currentUserId, _id }) =
 
   return (
     <div className="post-section">
-      <h3>{title}</h3>
       <div className="post-card">
-        <img src={image} alt="Post" className="post-image" />
-        <p>{description}</p>
+        <h3>{title}</h3>
+        <div className="post-image-container">
+          <img 
+            src={image || "/default-image.jpg"} 
+            alt={title} 
+            className="post-image" 
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/default-image.jpg";
+            }}
+          />
+        </div>
+        <p className="post-description">{description}</p>
         {isOwner ? (
           <div className="owner-buttons">
             <button className="edit-btn" onClick={handleEdit}>Edit</button>
@@ -58,6 +65,7 @@ const PostSection = ({ title, description, image, owner, currentUserId, _id }) =
           post={{ title, description, imageUrl: image, _id }}
           onClose={() => setIsEditModalOpen(false)}
           onUpdate={(updatedPost) => {
+            onUpdate(updatedPost);
             setIsEditModalOpen(false);
           }}
         />

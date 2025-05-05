@@ -98,11 +98,11 @@ const ExplorePage = () => {
   return (
     <div className={styles.explorePage}>
       <Header onSearch={handleSearch} />
-      <div style={{ textAlign: 'center', margin: '20px 0', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+      <div style={{ textAlign: 'center', margin: '10px 0', padding: '15px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
         <h1>Explore the Community</h1>
         <p>Barter with your neighbors and like your favorite posts</p>
       </div>
-      <h2 style={{ margin: '20px 0' }}>Community Posts</h2>
+      <h2 style={{ margin: '10px 0' }}>Community Posts</h2>
       <main className={styles.mainContent}>
         <div className={styles.textWrapper}>
           <div className={styles.wrapper}>

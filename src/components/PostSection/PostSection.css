@@ -1,5 +1,6 @@
 .post-section {
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .post-card {
@@ -8,38 +9,74 @@
     background-color: #f9f9f9;
     padding: 15px;
     border-radius: 10px;
+    min-height: 400px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.post-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.post-image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
 }
 
 .post-image {
     width: 100%;
-    height: auto;
-    border-radius: 10px;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .post-description {
     margin: 10px 0;
+    flex-grow: 1;
+    overflow-wrap: break-word;
+    color: #666;
+    line-height: 1.4;
 }
 
 .barter-btn {
     background-color: #fff554;
     border: none;
     padding: 10px;
-    border-radius: 10%;
+    border-radius: 8px;
     color: black;
     cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.barter-btn:hover {
+    background-color: #e6dc4a;
 }
 
 .owner-buttons {
     display: flex;
     gap: 10px;
+    margin-top: 15px;
+    width: 100%;
 }
 
 .edit-btn,
 .delete-btn {
-    padding: 8px;
+    padding: 10px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    flex: 1;
+    font-weight: 500;
+    transition: opacity 0.2s;
 }
 
 .edit-btn {
@@ -47,7 +84,64 @@
     color: black;
 }
 
+.edit-btn:hover {
+    opacity: 0.9;
+}
+
 .delete-btn {
     background-color: #f44336;
     color: white;
+}
+
+.delete-btn:hover {
+    opacity: 0.9;
+}
+
+.success-message {
+    color: #4caf50;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.modal-buttons button:hover {
+    opacity: 0.9;
 }
