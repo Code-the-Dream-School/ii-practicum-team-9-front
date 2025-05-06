@@ -5,20 +5,13 @@ import { API_URL } from "../endpoints";
 import profile_noImage from "../assets/profile_noImage.png";
 import { FaEdit } from "react-icons/fa";
 import { ToastContainer,toast } from "react-toastify";
+import {US_STATES , ALL_INTERESTS} from "../data.js"
 
-const usStates = [
-  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
-  "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
-  "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
-  "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
-  "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
-  "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
-  "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
-];
+const usStates = US_STATES ;
 
-const allInterests = ["Technology", "Art", "Music", "Sports", "Travel", "Reading", "Gaming"];
-// const tags =  [   "electronics", "furniture", "clothing", "gardening services", "free", "willing to trade" ];
+const allInterests = ALL_INTERESTS;
+
+
 
 export default function EditProfile() {
  
@@ -27,6 +20,7 @@ export default function EditProfile() {
   const fileInputRef = useRef();
 
   const [avatarPreview, setAvatarPreview] = useState(profile_noImage);
+  const [selectedFile, setSelectedFile] = useState(null);
   
 
   const [profileData, setProfileData] = useState({
@@ -60,36 +54,27 @@ export default function EditProfile() {
   }, [token]);
 
   const handleFileChange = (e) => {
-
     const file = e.target.files[0];
     if (file) {
-      
-      setAvatarPreview(URL.createObjectURL(file));
-      UpdatProfilePhoto(file);
+      setSelectedFile(file);          
+            
     }
   };
+  
+  useEffect(() => {
+    if (!selectedFile) return;
+  
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setAvatarPreview(objectUrl);
+    UpdatProfilePhoto(selectedFile);  
+    // Cleanup function
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+    
 
-  const handleEditClick = () => {
-    fileInputRef.current.click();
-  };
+  const  UpdatProfilePhoto=(file)=>{
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProfileData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleInterestChange = (e) => {
-    const { value, checked } = e.target;
-    setProfileData((prev) => ({
-      ...prev,
-      interests: checked
-        ? [...prev.interests, value]
-        : prev.interests.filter((i) => i !== value),
-    }));
-  };
-
-   const  UpdatProfilePhoto=(file)=>{
-
+    console.log(file)
     const formData = new FormData();
     formData.append('image',file );
    
@@ -110,15 +95,38 @@ export default function EditProfile() {
       })
       .catch((err) => console.error(err));
    }
+
+
+
+
+
+ 
+
+  const handleEditClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProfileData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleInterestChange = (e) => {
+    const { value, checked } = e.target;
+    setProfileData((prev) => ({
+      ...prev,
+      interests: checked
+        ? [...prev.interests, value]
+        : prev.interests.filter((i) => i !== value),
+    }));
+  };
+
+   
+
    const handleSubmit = (e) => {
     e.preventDefault();
 
 
-
-
-  const updatedData = { ...profileData };
-
-   
   fetch(`${API_URL}/api/users/profile`, {
       method: "PUT",
       headers: {

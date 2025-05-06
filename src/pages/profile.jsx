@@ -5,22 +5,12 @@ import { useNavigate } from "react-router-dom";
 import profile_noImage from "../assets/profile_noImage.png";
 import { FaEdit } from "react-icons/fa"; 
 import { GrContactInfo } from "react-icons/gr";
+import {US_STATES , ALL_INTERESTS} from "../data.js"
 
-const usStates = [
-  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
-  "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois",
-  "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
-  "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana",
-  "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
-  "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania",
-  "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah",
-  "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
-];
+const usStates = US_STATES ;
 
-const allInterests = ["Technology", "Art", "Music", "Sports", "Travel", "Reading", "Gaming"];
-// const tags =  [
-//   "electronics", "furniture", "clothing", "gardening services", "free", "willing to trade"
-// ];
+const allInterests = ALL_INTERESTS;
+
 
 export default function Profile() {
   const [avatar, setAvatar] = useState(null);
