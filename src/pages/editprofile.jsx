@@ -66,13 +66,13 @@ export default function EditProfile() {
   
     const objectUrl = URL.createObjectURL(selectedFile);
     setAvatarPreview(objectUrl);
-    UpdatProfilePhoto(selectedFile);  
+    UpdateProfilePhoto(selectedFile);  
     // Cleanup function
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
     
 
-  const  UpdatProfilePhoto=(file)=>{
+  const  UpdateProfilePhoto=(file)=>{
 
     console.log(file)
     const formData = new FormData();
