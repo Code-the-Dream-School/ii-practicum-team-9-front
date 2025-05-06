@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../endpoints";
 import profile_noImage from "../assets/profile_noImage.png";
 import { FaEdit } from "react-icons/fa";
+import { ToastContainer,toast } from "react-toastify";
 
 const usStates = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
@@ -105,7 +106,7 @@ export default function EditProfile() {
         return res.json();
       })
       .then(() => {
-        //navigate("/");
+        toast.success("Profile Photo Updated Successfully!")
       })
       .catch((err) => console.error(err));
    }
@@ -131,7 +132,11 @@ export default function EditProfile() {
         return res.json();
       })
       .then(() => {
-        navigate("/");
+        toast.success("Profile Info Updated Successfully!")
+        setTimeout(() => {
+          navigate('/');
+        }, 3000);
+       
       })
       .catch((err) => console.error(err));
       }
@@ -144,197 +149,238 @@ export default function EditProfile() {
   
   
 
-  return (
-    <Wrapper>
-      <div className="card">
-        <h2>Edit Profile</h2>
-        <div className="avatar-section">
-          <img src={avatarPreview} alt="Profile" className="avatar" />
-          <button className="edit-button" type="button" onClick={handleEditClick}>
-            <FaEdit /> Change Photo
-          </button>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            accept="image/*"
-            hidden
-          />
-        </div>
-
-        <div className="info">
-          <p><strong>Name:</strong> {profileData.user?.name || "No name"}</p>
-          <p><strong>Email:</strong> {profileData.user?.email || "No email"}</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="form">
-          <div className="inputGroup">
-            <label>Bio:</label>
-            <textarea
-              name="bio"
-              value={profileData.bio}
-              onChange={handleChange}
-            />
-          </div>
-
-          <fieldset className="checkboxGroup">
-            <legend>Interests:</legend>
-            {allInterests.map((interest) => (
-              <label key={interest}>
+      return (
+        <Wrapper>
+          <ToastContainer position="top-center" autoClose={3000} />
+          <div className="card">
+            <div className="title">My Profile</div>
+            <hr className="my-line" />
+            <div className="topSection">
+              <div className="avatar-section">
+                <img src={avatarPreview} alt="Profile" className="avatar" />
+                <button className="edit-button" type="button" onClick={handleEditClick}>
+                  <FaEdit /> Change Photo
+                </button>
                 <input
-                  type="checkbox"
-                  value={interest}
-                  checked={profileData.interests.includes(interest)}
-                  onChange={handleInterestChange}
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                  hidden
                 />
-                {interest}
-              </label>
-            ))}
-          </fieldset>
+              </div>
+      
+              <div className="info">
+                <p><strong>Name:</strong> {profileData.user?.name || "No name"}</p>
+                <p><strong>Email:</strong> {profileData.user?.email || "No email"}</p>
+              </div>
+            </div>
+            <hr className="my-line" />
+            <form onSubmit={handleSubmit} className="form">
+              <div className="inputGroup">
+                <label>Bio:</label>
+                <textarea
+                  name="bio"
+                  value={profileData.bio}
+                  onChange={handleChange}
+                />
+              </div>
+      
+              <fieldset className="checkboxGroup">
+                <legend>Interests:</legend>
+                {allInterests.map((interest) => (
+                  <label key={interest}>
+                    <input
+                      type="checkbox"
+                      value={interest}
+                      checked={profileData.interests.includes(interest)}
+                      onChange={handleInterestChange}
+                    />
+                    {interest}
+                  </label>
+                ))}
+              </fieldset>
 
-          <div className="inputGroup">
-            <label>Role:</label>
-            <select
-              name="role"        
-              value={profileData.role}
-              onChange={handleChange}
-            >
-              <option key="user" value="user">user</option>
-              <option key="admin" value="admin">admin</option>
-            </select>
+              <hr className="my-line" />
+      
+              <div className="inputGroup">
+                <label>Role:</label>
+                <select
+                  name="role"
+                  value={profileData.role}
+                  onChange={handleChange}
+                >
+                  <option value="user">user</option>
+                  <option value="admin">admin</option>
+                </select>
+              </div>
+      
+              <div className="inputGroup">
+                <label>Location:</label>
+                <select
+                  name="location"
+                  value={profileData.location}
+                  onChange={handleChange}
+                >
+                  <option value="">Select a State</option>
+                  {usStates.map((state) => (
+                    <option key={state} value={state}>{state}</option>
+                  ))}
+                </select>
+              </div>
+      
+              <button type="submit" className="save-button">Save Changes</button>
+            </form>
           </div>
-          <div className="inputGroup">
-            <label>Location:</label>
-            <select
-              name="location"
-              value={profileData.location}
-              onChange={handleChange}
-            >
-              <option value="">Select a State</option>
-              {usStates.map((state) => (
-                <option key={state} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <button type="submit" className="save-button">Save Changes</button>
-        </form>
-      </div>
-    </Wrapper>
-  );
-}
-
-const Wrapper = styled.section`
-  min-height: 100vh;
-  background: #f5f5f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-
-  .card {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    max-height: 1000px;
-  }
-
-  h2 {
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-  }
-
-  .avatar-section {
-    position: relative;
-    margin-bottom: 20px;
-  }
-
-  .avatar {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 3px solid #ddd;
-  }
-
-  .edit-button {
-    margin-top: 10px;
-    background: none;
-    border: none;
-    color: #4CAF50;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 1rem;
-  }
-
-  .info {
-    margin-bottom: 20px;
-    text-align: left;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    text-align: left;
-  }
-
-  .inputGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  input, textarea, select {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-  }
-
-  textarea {
-    resize: vertical;
-    min-height: 100px;
-    font-weight: normal;
-  }
-
-  .checkboxGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    border: none;
-    padding: 0;
-  }
-
-  .checkboxGroup label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: normal;
-  }
-
-  .save-button {
-    margin-top: 20px;
-    padding: 12px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  .save-button:hover {
-    background-color: #45a049;
-  }
-`;
+          
+        </Wrapper>
+      );
+    }
+      const Wrapper = styled.section`
+        width: 90%;
+        height: 100%;
+        background: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 10px;
+          .my-line {
+        border: none;
+        height: 2px;
+        background-color: #ccc;
+        margin: 20px 0;
+      }
+        .card {
+          background: white;
+          padding: 20px;
+          border-radius: 12px;
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          max-width: 500px;
+          text-align: center;
+        }
+      
+        .title {
+          text-align: center;
+          color: #333;
+          font-size: 1.25rem;
+          font-weight: 600;
+          margin-bottom: 10px;
+        }
+      
+        .topSection {
+          display: flex;
+          gap: 15px;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: wrap;
+          margin-bottom: 10px;
+        }
+      
+        .avatar-section {
+          text-align: center;
+        }
+      
+        .avatar {
+          width: 100px;
+          height: 100px;
+          object-fit: cover;
+          border-radius: 50%;
+          border: 2px solid #ccc;
+        }
+      
+        .edit-button {
+          margin-top: 8px;
+          background: none;
+          border: none;
+          color: #4CAF50;
+          font-weight: bold;
+          cursor: pointer;
+          font-size: 0.9rem;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+      
+        .info {
+          text-align: left;
+          flex: 1;
+        }
+      
+        .form {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          text-align: left;
+        }
+      
+        .inputGroup {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+      
+        input, textarea, select {
+          padding: 8px;
+          width: 100%;
+          border-radius: 6px;
+          border: 1px solid #ccc;
+          font-size: 0.95rem;
+        }
+      
+        textarea {
+          resize: vertical;
+          min-height: 80px;
+        }
+      
+        .checkboxGroup {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          border: none;
+          padding: 0;
+        }
+      
+        .checkboxGroup label {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-weight: normal;
+        }
+      
+        label {
+          font-weight: bold;
+        }
+      
+        .save-button {
+          margin-top: 10px;
+          padding: 10px;
+          background-color: #4CAF50;
+          color: white;
+          border: none;
+          font-size: 1rem;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+      
+        .save-button:hover {
+          background-color: #45a049;
+        }
+      
+        @media (max-width: 600px) {
+          .topSection {
+            flex-direction: column;
+            align-items: center;
+          }
+      
+          .info {
+            text-align: center;
+          }
+      
+          .inputGroup {
+            gap: 3px;
+          }
+        }
+      `;
+      

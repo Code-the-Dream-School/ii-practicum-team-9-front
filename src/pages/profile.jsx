@@ -4,6 +4,7 @@ import { API_URL } from "../endpoints";
 import { useNavigate } from "react-router-dom";
 import profile_noImage from "../assets/profile_noImage.png";
 import { FaEdit } from "react-icons/fa"; 
+import { GrContactInfo } from "react-icons/gr";
 
 const usStates = [
   "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
@@ -64,24 +65,33 @@ export default function Profile() {
   return (
     <Wrapper>
       <div className="container">
-        <h4>My Profile</h4>
-        <div className="profilePic">
-          {profileData.profilePhoto ? (
-            <img src={profileData.profilePhoto} alt="ProfilePhoto" className="avatarPreview" />
-          ) : (
-            <img src={preview} alt="ProfilePhoto" className="avatarPreview" />
-          )}
-          
+        <div className="title">My Profile</div>
+        <hr className="my-line"/>
+        <div className="topSection">
+            <div className="profilePic">
+            {profileData.profilePhoto ? (
+                <img src={profileData.profilePhoto} alt="ProfilePhoto" className="avatarPreview" />
+            ) : (
+                <img src={preview} alt="ProfilePhoto" className="avatarPreview" />
+            )}
+            
+            </div>
+            <div className="info1">
+            <label>{profileData?.user.email || "userId"}</label>
+            <label>{profileData?.user.name || "name"}</label>
+            </div>
+        </div>    
+        <hr className="my-line"/>
+        <div className="info2">
+        <div className="icon-style"><GrContactInfo  className="contanct-style"/></div><label>{profileData?.bio || "bio"}</label>
         </div>
-
-        <div className="info">
-          <label>{profileData?.user.email || "userId"}</label>
-          <label>{profileData?.user.name || "name"}</label>
-          <label>{profileData?.bio || "bio"}</label>
-          <label>Location: {profileData.location}</label>
-          <label>Role: {profileData.role}</label>
+        <hr className="my-line"/>
+        <div className="info3">
+        <label>Location: {profileData.location}</label>
+        <label>Role: {profileData.role}</label>
+        <label></label>
         </div>
-
+        
         <fieldset className="bioSection">
           <legend>Interests:</legend>
           {profileData.interests.map((interest) => (
@@ -91,15 +101,7 @@ export default function Profile() {
           ))}
         </fieldset>
 
-        {/* <fieldset className="tagSection">
-          <legend>Tags:</legend>
-          {profileData.tags.map((tag) => (
-            <label key={tag} className="checkboxLabel">
-              {tag}
-            </label>
-          ))}
-        </fieldset> */}
-
+        
         
       </div>
     </Wrapper>
@@ -116,17 +118,43 @@ const Wrapper = styled.section`
   padding: 10px 20px;
   box-sizing: border-box;
 
-  h4 {
+  .my-line {
+    border: none;
+    height: 2px;
+    background-color: #ccc;
+    margin: 20px 0;
+  }
+  .title {
+    justify-content: center;
+    align-items: center;
     text-align: center;
     color: #333;
-    font-size: 1.8rem;
-    font-weight: 600;
+    font-size: 1 rem;
+    font-weight: 500;
   }
+
+.topSection{
+
+    display: flex;
+    flex-direction: row; 
+    
+   
+
+}
+.contanct-style{
+font-size: 20px;  
+  color: yellow;   
+}
+.icon-style{
+background: black;
+border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
   .container {
     display: flex;
-    flex-direction: 
-    column;flex-direction: column;
+    flex-direction: column; 
+    flex-direction: column;
    
     background-color: white;
    
@@ -179,16 +207,42 @@ const Wrapper = styled.section`
     background-color: #f9f9f9;
     color: #333;
   }
-
-  .info {
+    .info1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
     min-width: 250px;
+    font-size: 0.8 rem;
+    font-weight: 500;
+
+   }
+  .info2 {
+     display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 250px;
   }
 
+  .info3 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 250px;
+  }
+.info4 {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 50px;
+  min-width: 250px;
+  }
   .info label {
     font-size: 1rem;
     color: #333;
