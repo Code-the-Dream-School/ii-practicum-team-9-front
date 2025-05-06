@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Header.css';
 import profilePic from '../../assets/profile-pic.jpg';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header = ({ onSearch }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -24,6 +25,18 @@ const Header = ({ onSearch }) => {
     navigate("/login");  
   };
 
+
+  const handleEditProfile = () => {
+      
+    navigate("/editprofile");    
+  };
+
+  const handleViewProfile = () => {
+    
+    navigate("/profile");  
+  };
+
+ 
   return (
     <div className="header-container">
       <div className="header">
@@ -45,9 +58,9 @@ const Header = ({ onSearch }) => {
           {dropdownVisible && (
             <div className="dropdown">
               <ul>
-                <li>Edit Profile</li>
-                <li>View Profile</li>
-                <li onClick={handleLogout}>Logout</li>
+              <li onClick={handleViewProfile}>View Profile</li>
+              <li onClick={handleEditProfile} >Edit Profile</li>
+              <li onClick={handleLogout}>Logout</li>
               </ul>
             </div>
           )}
