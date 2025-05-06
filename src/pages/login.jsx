@@ -4,7 +4,7 @@ import { useNavigate ,Link } from 'react-router-dom';
 import { API_URL } from "../endpoints";
 import callApi from "../util/api";
 
-export default function Login() {
+export default function Login({ setIsAuthenticated }) {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -81,6 +81,10 @@ export default function Login() {
         </Wrapper>
     );
 }
+
+// Login.propTypes = {
+//     setIsAuthenticated: PropTypes.func.isRequired,
+// };
 
 const Wrapper = styled.section`
     display: flex;
