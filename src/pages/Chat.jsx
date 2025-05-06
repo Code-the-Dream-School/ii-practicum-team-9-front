@@ -1,11 +1,7 @@
-
 import { useState } from "react";
 import { Layout, List, Input, Button, Typography } from "antd";
 const { Sider, Content } = Layout;
 const { Title } = Typography;
-
-
-
 
 const Chat = () => {
     const [messages, setMessages] = useState([

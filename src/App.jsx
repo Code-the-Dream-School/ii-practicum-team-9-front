@@ -5,13 +5,14 @@ import React, { useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import AddItemModal from "./components/AdditemModal/AddItemModal";
 import {Home,Barter,Explore,Chat ,Profile ,EditProfile} from "./pages";
-import ExplorePage from "./pages/ExplorePage/ExplorePage";
+import Explore from "./pages/Explore";
 import "./App.css";
 import "./index.css";
 
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -24,7 +25,7 @@ const App = () => {
         <div className="main-content">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/explore" element={<Explore />} />
             <Route path="/barter" element={<Barter />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/profile" element={<Profile />} />

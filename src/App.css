@@ -1,9 +1,10 @@
 html,
 body,
 #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: white;
 }
 
 .app-container {
@@ -28,13 +29,14 @@ body,
 
 /* Main content */
 .main-content {
-  flex: 1;
-  padding: 30px;
-  overflow-y: auto;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+     
 }
 
 /* Header with search bar and profile */
@@ -128,7 +130,34 @@ body,
   }
 
   .post-sections {
-    flex-direction: column;
-    gap: 15px;
-  }
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+.post-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.post-section {
+    flex: 1 1 calc(33% - 20px);
+    max-width: calc(33% - 20px);
+    box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+    .post-section {
+        flex: 1 1 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 600px) {
+    .post-section {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
 }
