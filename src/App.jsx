@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import AddItemModal from "./components/AdditemModal/AddItemModal";
 import {Home,Barter,Explore,Chat ,Profile ,EditProfile} from "./pages";
-import Explore from "./pages/Explore";
+
 import "./App.css";
 import "./index.css";
 
