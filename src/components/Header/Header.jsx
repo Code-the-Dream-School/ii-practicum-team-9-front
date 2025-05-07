@@ -25,6 +25,7 @@ const Header = ({ onSearch }) => {
     navigate("/login");  
   };
 
+
   const handleEditProfile = () => {
       
     navigate("/editprofile");    
@@ -35,6 +36,7 @@ const Header = ({ onSearch }) => {
     navigate("/profile");  
   };
 
+ 
   return (
     <div className="header-container">
       <div className="header">
