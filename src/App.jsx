@@ -1,22 +1,25 @@
 import { ToastContainer } from "react-toastify";
-import {  Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
 
 import NavBar from "./components/NavBar/NavBar";
 import AddItemModal from "./components/AdditemModal/AddItemModal";
-import {Home,Barter,Explore} from "./pages";
-import './App.css';
-import './index.css';
+import {Home,Barter,Explore,Profile ,EditProfile} from "./pages";
+
+import "./App.css";
+import "./index.css";
+
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   return (
     <>
-      <ToastContainer />      
+      <ToastContainer />
       <div className="app-container">
         <NavBar openModal={openModal} />
         <div className="main-content">
@@ -24,11 +27,12 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/barter" element={<Barter />} />
-            
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/editprofile" element={<EditProfile />} />
           </Routes>
         </div>
         {isModalOpen && <AddItemModal closeModal={closeModal} />}
-      </div>      
+      </div>
     </>
   );
 };
