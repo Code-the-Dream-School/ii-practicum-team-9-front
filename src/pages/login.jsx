@@ -5,7 +5,7 @@ import callApi from "../util/api";
 import styles from './Login.module.css';
 import backgroundBarter from '../assets/backgroundbarter.jpeg';
 
-export default function Login() {
+export default function Login({ setIsAuthenticated }) {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

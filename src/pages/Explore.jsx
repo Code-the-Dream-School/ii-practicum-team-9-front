@@ -151,7 +151,16 @@ const ExplorePage = () => {
   return (
     <div className={styles.explorePage}>
       <Header onSearch={handleSearch} />
-      <div style={{ textAlign: 'center', margin: '10px 0', padding: '15px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+      <div style={{
+        textAlign: 'center',
+        margin: '20px 0',
+        padding: '30px',
+        backgroundColor: '#e8e8e8',
+        borderRadius: '16px',
+        width: '100%',
+        maxWidth: '1000px',
+        margin: '20px auto'
+      }}>
         <h1>Explore the Community</h1>
         <p>Barter with your neighbors and like your favorite posts</p>
       </div>

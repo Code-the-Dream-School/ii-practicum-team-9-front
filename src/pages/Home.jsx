@@ -68,7 +68,16 @@ const Home = () => {
   return (
     <div>
       <Header onSearch={handleSearch} />   
-      <div style={{ textAlign: 'center', margin: '20px 0', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+      <div style={{
+        textAlign: 'center',
+        margin: '20px 0',
+        padding: '30px',
+        backgroundColor: '#e8e8e8',
+        borderRadius: '16px',
+        width: '100%',
+        maxWidth: '1000px',
+        margin: '20px auto'
+      }}>
         <h1>Welcome Back, {userName}</h1>
         <p>Manage your posts and connect with the community</p>
       </div>
