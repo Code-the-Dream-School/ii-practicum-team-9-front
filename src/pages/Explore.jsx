@@ -154,14 +154,14 @@ const ExplorePage = () => {
       <div style={{
         textAlign: 'center',
         padding: '30px',
-        backgroundColor: '#e8e8e8',
+        backgroundColor: 'white',
         borderRadius: '16px',
         width: '100%',
         maxWidth: '1000px',
-        margin: '20px auto'
+        border: '1px solid #fff554'
       }}>
-        <h1>Explore the Community</h1>
-        <p>Barter with your neighbors and like your favorite posts</p>
+        <h1 style={{ textAlign: 'center' }}>Explore the Community</h1>
+        <p style={{ textAlign: 'center' }}>Barter with your neighbors and like your favorite posts</p>
       </div>
       <h2 style={{ margin: '10px 0' }}>Community Posts</h2>
       <main className={styles.mainContent}>

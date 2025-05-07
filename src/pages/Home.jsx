@@ -71,17 +71,23 @@ const Home = () => {
       <div style={{
         textAlign: 'center',
         padding: '30px',
-        backgroundColor: '#e8e8e8',
+        backgroundColor: 'white',
         borderRadius: '16px',
         width: '100%',
         maxWidth: '1000px',
-        margin: '20px auto'
+        margin: '20px auto',
+        border: '1px solid #fff554'
       }}>
         <h1>Welcome Back, {userName}</h1>
         <p>Manage your posts and connect with the community</p>
       </div>
       <h2 style={{ margin: '20px 0' }}>My Posts</h2>
-      <div className="post-grid">
+      <div className="post-grid" style={{
+        backgroundColor: 'white',
+        padding: '2rem',
+        borderRadius: '12px',
+        margin: '2rem 0'
+      }}>
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (
             <PostSection

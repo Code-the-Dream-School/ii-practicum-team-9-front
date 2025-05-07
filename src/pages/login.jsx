@@ -4,6 +4,7 @@ import { API_URL } from "../endpoints";
 import callApi from "../util/api";
 import styles from './Login.module.css';
 import backgroundBarter from '../assets/backgroundbarter.jpeg';
+import styled from 'styled-components';
 
 export default function Login({ setIsAuthenticated }) {
     const navigate = useNavigate();

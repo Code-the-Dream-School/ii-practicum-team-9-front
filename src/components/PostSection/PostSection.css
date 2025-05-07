@@ -1,17 +1,22 @@
 .post-section {
     margin-bottom: 20px;
     width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .post-card {
     display: flex;
     flex-direction: column;
     background-color: #f9f9f9;
-    padding: 15px;
+    padding: 1.5rem;
     border-radius: 10px;
     min-height: 400px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
+    border: 1px solid #fff554;
 }
 
 .post-card h3 {
