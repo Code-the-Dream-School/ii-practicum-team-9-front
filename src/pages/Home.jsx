@@ -70,7 +70,6 @@ const Home = () => {
       <Header onSearch={handleSearch} />   
       <div style={{
         textAlign: 'center',
-        margin: '20px 0',
         padding: '30px',
         backgroundColor: '#e8e8e8',
         borderRadius: '16px',
