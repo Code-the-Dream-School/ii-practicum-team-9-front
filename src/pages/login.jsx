@@ -58,7 +58,7 @@ export default function Login({ setIsAuthenticated }) {
                 headers:{    Authorization: token}
                   }) ;
 
-            console.log(response.data.data.profilePhoto )      
+               
 
             let profilephoto =response?.data.data.profilePhoto ;    
                
