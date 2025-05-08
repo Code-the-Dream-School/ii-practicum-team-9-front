@@ -16,6 +16,7 @@ const ExplorePage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
+        debugger
         const response = await axios.get(`${API_URL}/api/items/explore`, {
           headers: {
             'Content-Type': 'application/json',
@@ -28,6 +29,7 @@ const ExplorePage = () => {
           const itemsWithLikes = await Promise.all(
             response.data.data.items.map(async (item) => {
               try {
+                debugger
                 const likeResponse = await axios.get(
                   `${API_URL}/api/v1/like/get-likes/${item._id}`,
                   {
@@ -83,6 +85,7 @@ const ExplorePage = () => {
   };
 
   const handleExchangeClick = (item) => {
+    debugger;
     console.log("Initiate exchange for:", item.title);
     navigate('/barter', { state: { item } });
   };

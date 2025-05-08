@@ -76,6 +76,7 @@ const Barter = ({ item }) => {
     };
 
     useEffect(() => {
+        debugger
         const userId = sessionStorage.getItem("userId");
         const userName = sessionStorage.getItem("userName");
         setUserName(userName);
@@ -87,10 +88,12 @@ const Barter = ({ item }) => {
     }, []);
 
     useEffect(() => {
+        debugger
         scrollToBottom();
     }, [currentConversation]);
 
     useEffect(() => {
+        debugger
         socket.on("private-message", (data) => {
             setMessages((prev) => [...prev, data]);            
             if (
