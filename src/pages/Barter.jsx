@@ -92,8 +92,7 @@ const Barter = ({ item }) => {
 
     useEffect(() => {
         socket.on("private-message", (data) => {
-            setMessages((prev) => [...prev, data]);
-            // Si el mensaje corresponde a la conversación actual, actualiza también
+            setMessages((prev) => [...prev, data]);            
             if (
                 (data.message_from === userId && data.message_to === selectedChatUser?._id) ||
                 (data.message_from === selectedChatUser?._id && data.message_to === userId)
