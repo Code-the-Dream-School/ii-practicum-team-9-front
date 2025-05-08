@@ -23,6 +23,7 @@ export default function Login({ setIsAuthenticated }) {
             const response = await callApi(`${API_URL}/auth/login`, "POST", {
                 data: { email, password }
             });
+           // debugger;
             if (!response) {
                 throw new Error("No response from API.");
               }
