@@ -45,11 +45,7 @@ const Barter = ({ item }) => {
         setInput(""); // clean input
     };
 
-    const register = () => {
-        const userId = sessionStorage.getItem("userId");
-        const userName = sessionStorage.getItem("userName");
-        setUserName(userName);
-        setUserId(userId);
+    const register = () => {        
         if (userId.trim()) {
             socket.emit("register", userId);
         }
@@ -75,7 +71,7 @@ const Barter = ({ item }) => {
             );
             setConversations(senders);
         } catch (error) {
-            console.error("Error al obtener mensajes:", error);
+            console.error("Error getting messages:", error);
         }
     };
 
