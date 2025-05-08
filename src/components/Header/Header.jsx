@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import './Header.css';
-import profilePic from '../../assets/profile-pic.jpg';
+import profile_noImage from '../../assets/profile_noImage.png';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
 
 const Header = ({ onSearch }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-
 
   const toggleDropdown = () => {
     setDropdownVisible((prev) => !prev);
@@ -21,10 +19,12 @@ const Header = ({ onSearch }) => {
       onSearch(e.target.value);   
     }
   };
-    const handleLogout = () => {
+
+  const handleLogout = () => {
     localStorage.removeItem("token");  
     navigate("/login");  
   };
+
 
   const handleEditProfile = () => {
       
@@ -36,6 +36,7 @@ const Header = ({ onSearch }) => {
     navigate("/profile");  
   };
 
+ 
   return (
     <div className="header-container">
       <div className="header">
@@ -48,7 +49,7 @@ const Header = ({ onSearch }) => {
         />
         <div className="profile">
           <img
-            src={profilePic}
+            src={profile_noImage}
             alt="Profile"
             className="profile-pic"
             onClick={toggleDropdown}
