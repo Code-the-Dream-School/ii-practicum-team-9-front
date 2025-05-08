@@ -5,12 +5,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaHeart, FaHandshake } from "react-icons/fa";
 import { GiClothes, GiGardeningShears, GiGuitar } from "react-icons/gi";
+import { Modal } from "antd";
+import Barter from "./Barter";
 import styles from './Explore.module.css';
 
 const ExplorePage = () => {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);  
   const [searchTerm, setSearchTerm] = useState('');
+  const [showModal,setShowModal] = useState(false);
+  const [selectedItem,setSelectedItem] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -84,10 +88,11 @@ const ExplorePage = () => {
     setFilteredItems(filtered);   
   };
 
-  const handleExchangeClick = (item) => {
-    debugger;
+  const handleExchangeClick = (item) => {    
     console.log("Initiate exchange for:", item.title);
-    navigate('/barter', { state: { item } });
+    setSelectedItem(item);
+    setShowModal(true);<I></I>
+    //navigate('/barter', { state: { item } });
   };
 
   const handleLikeClick = async (item) => {
@@ -154,6 +159,11 @@ const ExplorePage = () => {
   return (
     <div className={styles.explorePage}>
       <Header onSearch={handleSearch} />
+      <Modal style={{top:20}} width={800} bodyStyle={{height:"400px"}}
+        open={showModal} onCancel ={()=>{setShowModal(false)}}>
+        <Barter item = {selectedItem}/>
+
+      </Modal>
       <div style={{
         textAlign: 'center',
         padding: '30px',
