@@ -7,8 +7,12 @@ import { Login, Register, ForgetPassword, ResetPassword } from "./pages";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import ExplorePage from "./pages/ExplorePage/ExplorePage";
 
+import { UserProvider } from './components/UserContext';
+
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+     <UserProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -20,11 +24,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           path="*"
           element={
              <ProtectedRoute>
-              <App />
+               
+                  <App />
+               
+            
              </ProtectedRoute>
           }
         />
       </Routes>
     </BrowserRouter>
+    </UserProvider>
   </React.StrictMode>
 );

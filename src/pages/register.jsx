@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import  { toast } from "react-toastify";
+import  { ToastContainer, toast  } from "react-toastify";
 import { API_URL } from "../endpoints"
-import callApi from "../util/api";
+
 
 export default function register(){
 
@@ -18,27 +18,50 @@ export default function register(){
        
     })
    
-    const handleRegister = async ()=>{        
-        setError("");         
-        const response = await callApi(`${API_URL}/auth/register`, "POST", {
-            data: userData
-        });
-
-        const {data,status} = response;
-        if (status !== 201) {
-            toast.error(data?.message || "Network response was not ok.");
-            return;
+    const handleRegister = ()=>{
+        
+       
+        setError(""); 
+       fetch(`${API_URL}/auth/register`, {
+                    method: "POST",
+                    headers: {
+                        
+                        "Content-Type": "application/json",
+                    },
+                   
+                   body: JSON.stringify(userData),
+                })
+                    .then((response) => {
+                      
+                        if (!response.ok) {
+                            return response.json().then((errorData) => {
+                                
+                                throw new Error(errorData?.message || "Network response was not ok.");
+                                
+                            });
+                           
+                        }
+                        return response.json();
+                    })
+                    .then(() => {
+                        toast.success("User Registered successfully!");
             
-        } else {
-            toast.success("User Registered successfully!");
-            setTimeout(() => {
-                navigate("/login");
-            }, 1000);
-        }
-    };
+                        setTimeout(() => {
+                            navigate("/login");
+                        }, 1000);
+                    })
+                    .catch((error) => {
+                        setError(error.message);
+                        console.error("Error:", error);
+                    });
+            };
+
+
+
 
     const handelCancel=()=>{
         navigate("/login") ;
+        
     }
 
     const handlechange = (e) => {
@@ -51,6 +74,7 @@ export default function register(){
 
     return(
         <Wrapper>
+              <ToastContainer position="top-center" autoClose={3000} />
             Register New User
             <form   encType="multipart/form-data"
                     onSubmit={(e) => {
