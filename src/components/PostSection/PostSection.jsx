@@ -1,47 +1,69 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './PostSection.css';
-import EditPostModal from '../EditPosts/EditPostModal';
-import { API_URL } from '../../endpoints';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./PostSection.css";
+import EditPostModal from "../EditPosts/EditPostModal";
+import { API_URL } from "../../endpoints";
 
-
-const PostSection = ({ title, description, image, owner, currentUserId, _id }) => {
+const PostSection = ({
+  title,
+  description,
+  image,
+  owner,
+  currentUserId,
+  _id,
+}) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
+  const [admin, setAdmin] = useState(false);
 
+  useEffect(() => {
+    const isAdmin = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/profile/profile`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
+          },
+        });
+        if (response && response.data.data.role === "admin") {
+          setAdmin(true);
+        }
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
+    isAdmin();
+  }, []);
 
-  const isOwner = owner && owner._id && owner._id.toString() === currentUserId.toString();
+  const isOwner =
+    owner && owner._id && owner._id.toString() === currentUserId.toString();
 
   const handleEdit = () => {
     setIsEditModalOpen(true);
   };
 
- const handleDelete = async (id) => {
-  try {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-      },
-    };
+  const handleDelete = async (id) => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
+        },
+      };
 
-    await axios.delete(`${API_URL}/api/items/delete-item/${id}`, config);
+      await axios.delete(`${API_URL}/api/items/delete-item/${id}`, config);
 
-    
-    setPosts((prevPosts) => prevPosts.filter(post => post._id !== id));
-    setIsDeleteModalOpen(false);
+      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
+      setIsDeleteModalOpen(false);
 
-     
-    setSuccessMessage("Post deleted successfully!");
+      setSuccessMessage("Post deleted successfully!");
 
-
-    console.log("Post deleted successfully");  
-  } catch (error) {
-    console.error("Error deleting post:", error);
-  }
-};
-
+      console.log("Post deleted successfully");
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   return (
     <div className="post-section">
@@ -49,24 +71,32 @@ const PostSection = ({ title, description, image, owner, currentUserId, _id }) =
       <div className="post-card">
         <img src={image} alt="Post" className="post-image" />
         <p>{description}</p>
-        {isOwner ? (
+        {isOwner || admin ? (
           <div className="owner-buttons">
-            <button className="edit-btn" onClick={handleEdit}>Edit</button>
-            <button className="delete-btn" onClick={() => setIsDeleteModalOpen(true)}>Delete</button>
+            <button className="edit-btn" onClick={handleEdit}>
+              Edit
+            </button>
+            <button
+              className="delete-btn"
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
+              Delete
+            </button>
           </div>
         ) : (
           <button className="barter-btn">Barter</button>
         )}
       </div>
 
-      {successMessage && <div className="success-message">{successMessage}</div>}
+      {successMessage && (
+        <div className="success-message">{successMessage}</div>
+      )}
 
       {isEditModalOpen && (
         <EditPostModal
           post={{ title, description, imageUrl: image, _id }}
           onClose={() => setIsEditModalOpen(false)}
           onUpdate={(updatedPost) => {
-             
             setIsEditModalOpen(false);
           }}
         />
