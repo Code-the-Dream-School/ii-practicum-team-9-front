@@ -21,19 +21,6 @@ a:hover {
     color: #535bf2;
 }
 
-body {
-    margin: 0;
-    min-width: 320px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-}
-
 button {
     border-radius: 8px;
     border: 1px solid transparent;
@@ -70,17 +57,19 @@ button:focus-visible {
     }
 }
 
- 
+/* Body and layout styling */
 body {
     margin: 0;
     padding: 0;
     min-width: 320px;
     min-height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    /* Stack items vertically */
     background-color: #242424;
 }
 
+/* Navbar styles */
 .navbar {
     position: fixed;
     top: 0;
@@ -92,16 +81,16 @@ body {
     padding: 20px;
     overflow-y: auto;
     box-sizing: border-box;
-    
 }
 
+/* Main content styles */
 .main-content {
     margin-left: 260px;
+    /* Adjust content to avoid overlap with navbar */
     padding: 20px;
     flex-grow: 1;
     overflow-y: auto;
     box-sizing: border-box;
- 
+    background-color: #f5f5f5;
+    /* Make sure the background is visible */
 }
-
- 

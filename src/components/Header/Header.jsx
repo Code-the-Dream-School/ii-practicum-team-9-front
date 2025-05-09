@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Header.css';
-import profilePic from '../../assets/profile-pic.jpg';
+import profile_noImage from '../../assets/profile_noImage.png';
 import { useNavigate } from 'react-router-dom';
 
 import { useUserPhoto } from '../UserContext';
@@ -22,10 +22,12 @@ const Header = ({ onSearch }) => {
       onSearch(e.target.value);   
     }
   };
-    const handleLogout = () => {
+
+  const handleLogout = () => {
     localStorage.removeItem("token");  
     navigate("/login");  
   };
+
 
   const handleEditProfile = () => {
       
@@ -37,6 +39,7 @@ const Header = ({ onSearch }) => {
     navigate("/profile");  
   };
 
+ 
   return (
     <div className="header-container">
       <div className="header">

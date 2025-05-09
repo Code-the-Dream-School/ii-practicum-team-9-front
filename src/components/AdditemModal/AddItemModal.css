@@ -18,7 +18,8 @@
 }
 
 .modal-content input,
-.modal-content textarea {
+.modal-content textarea,
+.modal-content select {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -26,13 +27,34 @@
     border: 1px solid #ccc;
 }
 
-.modal-content button {
-    background-color: yellow;
-    color: black;
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    flex: 1;
     padding: 10px;
-    border-radius: 5px;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.modal-buttons button[type="submit"] {
+    background-color: #fff554;
+    color: black;
+}
+
+.modal-buttons button[type="button"] {
+    background-color: #6c757d;
+    color: white;
+}
+
+.modal-buttons button:hover {
+    opacity: 0.9;
 }
 
 .add-item-button {
@@ -65,4 +87,11 @@
 
 .file-upload-label:hover {
     background-color: #45a049;
+}
+
+.error-message {
+    color: #ff0000;
+    font-size: 0.9em;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
