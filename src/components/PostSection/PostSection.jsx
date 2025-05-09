@@ -25,26 +25,14 @@ const PostSection = ({
     setIsEditModalOpen(true);
   };
 
-   const handleDelete = async (id) => {
-      try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-          },
-        };
+  const handleDelete = async (id) => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
+        },
+      };
 
-      await axios.delete(`${API_URL}/api/items/delete-item/${id}`, config);
-
-      setPosts((prevPosts) => prevPosts.filter((post) => post._id !== id));
-      setIsDeleteModalOpen(false);
-
-      setSuccessMessage("Post deleted successfully!");
-
-      console.log("Post deleted successfully");
-    } catch (error) {
-      console.error("Error deleting post:", error);
-    }
-  };
       await axios.delete(`${API_URL}/api/items/delete-item/${id}`, config);
       onUpdate({ _id: id, deleted: true });
       setIsDeleteModalOpen(false);
@@ -60,9 +48,9 @@ const PostSection = ({
         <h3>{title}</h3>
         <div className="post-image-container">
           <img
-            src={image || "/default-image.jpg"} 
-            alt={title} 
-            className="post-image" 
+            src={image || "/default-image.jpg"}
+            alt={title}
+            className="post-image"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "/default-image.jpg";
