@@ -33,7 +33,6 @@ const ExplorePage = () => {
           const itemsWithLikes = await Promise.all(
             response.data.data.items.map(async (item) => {
               try {
-                debugger
                 const likeResponse = await axios.get(
                   `${API_URL}/api/v1/like/get-likes/${item._id}`,
                   {
