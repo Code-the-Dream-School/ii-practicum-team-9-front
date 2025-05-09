@@ -1,0 +1,231 @@
+.explorePage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 1rem;
+}
+
+.textWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.textWrapper h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  animation: fadeInDown 0.5s ease-out;
+}
+
+.wrapper {
+  margin-top: 1rem;
+}
+
+.bodyWrapper {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.itemsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 0.5rem;
+}
+
+.itemContainer {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.5s ease-out;
+  border: 1px solid #fff554;
+}
+
+.itemContainer:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  object-fit: cover;
+}
+
+.userName {
+  font-weight: 600;
+  color: #333;
+}
+
+.itemTitle {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.itemImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.itemImage:hover {
+  transform: scale(1.02);
+}
+
+.itemDescription {
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.categoryTag {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  padding: 0.5rem;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.categoryIcon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+  color: #666;
+}
+
+.categoryText {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.swapButton,
+.likeButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.swapButton {
+  background-color: #fff554;
+  color: black;
+}
+
+.swapButton:hover {
+  background-color: #ffeb3b;
+  transform: translateY(-2px);
+}
+
+.likeButton {
+  background-color: #f44336;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.likeButton:hover {
+  background-color: #da190b;
+  transform: translateY(-2px);
+}
+
+.likeButton.liked {
+  background-color: #e91e63;
+}
+
+.likeButton.liked:hover {
+  background-color: #c2185b;
+}
+
+.heartIcon {
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.likeButton.liked .heartIcon {
+  transform: scale(1.2);
+  color: #fff;
+}
+
+.swapIcon {
+  font-size: 1.2rem;
+}
+
+.noResults {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.2rem;
+  grid-column: 1 / -1;
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+} 

@@ -8,9 +8,29 @@ const AddItemModal = ({ closeModal }) => {
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
   const [category, setCategory] = useState('');
+  const [fileError, setFileError] = useState('');
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+
+    if (selectedFile && selectedFile.size > maxSize) {
+      setFileError('File size must be less than 10MB');
+      setFile(null);
+      e.target.value = null; // Reset the file input
+    } else {
+      setFileError('');
+      setFile(selectedFile);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (fileError) {
+      alert('Please select a valid file');
+      return;
+    }
 
     const formData = new FormData();
     formData.append('title', title);
@@ -34,6 +54,16 @@ const AddItemModal = ({ closeModal }) => {
       closeModal();
     } catch (error) {
       console.error('Error adding item:', error);
+      if (error.response) { 
+        console.error('Error response data:', error.response.data);
+      } else if (error.request) {
+         
+        console.error('Error request:', error.request);
+      } else {
+       
+        console.error('Error message:', error.message);
+      }
+      alert('Failed to add item. Please try again.');
     }
   };
 
@@ -56,8 +86,9 @@ const AddItemModal = ({ closeModal }) => {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={handleFileChange}
           />
+          {fileError && <p className="error-message">{fileError}</p>}
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -68,9 +99,11 @@ const AddItemModal = ({ closeModal }) => {
             <option value="lesson">Lesson</option>
           </select>
 
-          <button type="submit">Add Item</button>
+          <div className="modal-buttons">
+            <button type="submit">Add Item</button>
+            <button type="button" onClick={closeModal}>Close</button>
+          </div>
         </form>
-        <button onClick={closeModal}>Close</button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Header.css";
-import profilePic from "../../assets/profile-pic.jpg";
+import profile_noImage from "../../assets/profile_noImage.png";
 import { useNavigate } from "react-router-dom";
 import { useUserPhoto, useIsAdmin } from "../UserContext";
 
