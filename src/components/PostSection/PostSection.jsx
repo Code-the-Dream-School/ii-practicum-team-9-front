@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './PostSection.css';
-import EditPostModal from '../EditPosts/EditPostModal';
-import { API_URL } from '../../endpoints';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./PostSection.css";
+import EditPostModal from "../EditPosts/EditPostModal";
+import { API_URL } from "../../endpoints";
+import { useIsAdmin } from "../UserContext";
 
-const PostSection = ({ title, description, image, owner, currentUserId, _id, onUpdate, createdAt }) => {
+const PostSection = ({
+  title,
+  description,
+  image,
+  owner,
+  currentUserId,
+  _id,
+}) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const { isAdmin } = useIsAdmin();
 
-  const isOwner = owner && owner._id && owner._id.toString() === currentUserId.toString();
+  const isOwner =
+    owner && owner._id && owner._id.toString() === currentUserId.toString();
 
   const handleEdit = () => {
     setIsEditModalOpen(true);
@@ -38,9 +48,9 @@ const PostSection = ({ title, description, image, owner, currentUserId, _id, onU
         <h3>{title}</h3>
         <div className="post-image-container">
           <img
-            src={image || "/default-image.jpg"} 
-            alt={title} 
-            className="post-image" 
+            src={image || "/default-image.jpg"}
+            alt={title}
+            className="post-image"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "/default-image.jpg";
@@ -48,17 +58,26 @@ const PostSection = ({ title, description, image, owner, currentUserId, _id, onU
           />
         </div>
         <p className="post-description">{description}</p>
-        {isOwner ? (
+        {isOwner || isAdmin ? (
           <div className="owner-buttons">
-            <button className="edit-btn" onClick={handleEdit}>Edit</button>
-            <button className="delete-btn" onClick={() => setIsDeleteModalOpen(true)}>Delete</button>
+            <button className="edit-btn" onClick={handleEdit}>
+              Edit
+            </button>
+            <button
+              className="delete-btn"
+              onClick={() => setIsDeleteModalOpen(true)}
+            >
+              Delete
+            </button>
           </div>
         ) : (
           <button className="barter-btn">Barter</button>
         )}
       </div>
 
-      {successMessage && <div className="success-message">{successMessage}</div>}
+      {successMessage && (
+        <div className="success-message">{successMessage}</div>
+      )}
 
       {isEditModalOpen && (
         <EditPostModal
