@@ -5,6 +5,8 @@ import callApi from "../util/api";
 import styles from './Login.module.css';
 import backgroundBarter from '../assets/backgroundbarter.jpeg';
 import styled from 'styled-components';
+import { useUserPhoto } from '../components/UserContext';
+import { FcBiotech } from "react-icons/fc";
 
 export default function Login({ setIsAuthenticated }) {
     const navigate = useNavigate();
@@ -12,6 +14,8 @@ export default function Login({ setIsAuthenticated }) {
     const [password, setPassword] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState("");
+    const { setUserPhoto } = useUserPhoto();
+
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -21,26 +25,55 @@ export default function Login({ setIsAuthenticated }) {
             const response = await callApi(`${API_URL}/auth/login`, "POST", {
                 data: { email, password }
             });
+           // debugger;
+            if (!response) {
+                throw new Error("No response from API.");
+              }
             let {data:result,status} = response;
             if (status !== 200) {
+                
                 throw new Error(response.data.msg || 'Login failed. Please try again.');
             }            
             const {name,id,token} = result?.data;
+           
 
             sessionStorage.setItem("token", token);        
             sessionStorage.setItem("userId", id);
             sessionStorage.setItem("userName", name);
+            updateUserPhoto(token)
             if (token){
                 navigate("/");
             }
 
         } catch (error) {
-            setError(error.message);
+            console.log(error)
+            const errMsg = error.response?.msg || error.message || "An error occurred.";
+            setError(errMsg);
             console.error("Login Error:", error);
         } finally {
-            setIsSubmitting(false);
+            setIsSubmitting(false); // Reset submitting state
         }
     };
+
+    const updateUserPhoto = async (token)=>{
+        try{
+            const response = await callApi(`${API_URL}/api/users/profile`, "GET", {
+                headers:{    Authorization: token}
+                  }) ;
+
+               
+
+            let profilephoto =response?.data.data.profilePhoto ;    
+               
+            setUserPhoto(profilephoto)
+        }
+        catch(error){
+            setError(error.message);
+            console.error("Login Error:", error);
+        } 
+        
+    }
+
 
     return (
         <div className={styles.loginPage}>

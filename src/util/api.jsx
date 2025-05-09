@@ -14,8 +14,15 @@ const callApi = async (url,method = "GET",options) =>{
       })
     return response;
   } catch(error){
-    console.log(error);
-    return error.response;
+
+
+    
+    // console.log(error);
+    // return error.response;
+    return {
+      status: error.response?.status || 500,
+      data: error.response?.data || { msg: error.message || 'Something went wrong' },
+    };
   }
 }
 

@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import './Header.css';
 import profile_noImage from '../../assets/profile_noImage.png';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+
+import { useUserPhoto } from '../UserContext';
+
 
 const Header = ({ onSearch }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const { userPhoto } = useUserPhoto();
 
   const toggleDropdown = () => {
     setDropdownVisible((prev) => !prev);
@@ -49,7 +52,7 @@ const Header = ({ onSearch }) => {
         />
         <div className="profile">
           <img
-            src={profile_noImage}
+            src={userPhoto}
             alt="Profile"
             className="profile-pic"
             onClick={toggleDropdown}

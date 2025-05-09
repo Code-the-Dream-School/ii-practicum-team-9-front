@@ -2,9 +2,11 @@ import { ToastContainer } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
 import React, { useState } from "react";
 
+
+
 import NavBar from "./components/NavBar/NavBar";
 import AddItemModal from "./components/AdditemModal/AddItemModal";
-import {Home,Barter,Explore,Chat ,Profile ,EditProfile} from "./pages";
+import {Home,Barter,Explore,Profile ,EditProfile} from "./pages";
 
 import "./App.css";
 import "./index.css";
@@ -20,6 +22,7 @@ const App = () => {
   return (
     <>
       <ToastContainer />
+      
       <div className="app-container">
         <NavBar openModal={openModal} />
         <div className="main-content">
@@ -27,13 +30,13 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/barter" element={<Barter />} />
-            <Route path="/chat" element={<Chat />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/editprofile" element={<EditProfile />} />
           </Routes>
         </div>
         {isModalOpen && <AddItemModal closeModal={closeModal} />}
       </div>
+     
     </>
   );
 };

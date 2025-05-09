@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../endpoints";
 import profile_noImage from "../assets/profile_noImage.png";
 import { FaEdit } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
-import { US_STATES, ALL_INTERESTS } from "../data.js";
+import { ToastContainer,toast } from "react-toastify";
+import {US_STATES , ALL_INTERESTS} from "../data.js"
+import { useUserPhoto } from '../components/UserContext';
 import './EditProfile.css';
 
-const usStates = US_STATES;
+const usStates = US_STATES ;
 const allInterests = ALL_INTERESTS;
 
 export default function EditProfile() {
@@ -17,6 +18,7 @@ export default function EditProfile() {
 
   const [avatarPreview, setAvatarPreview] = useState(profile_noImage);
   const [selectedFile, setSelectedFile] = useState(null);
+  const { setUserPhoto } = useUserPhoto();
 
   const [profileData, setProfileData] = useState({
     user: { name: "", email: "" },
@@ -59,7 +61,8 @@ export default function EditProfile() {
     if (!selectedFile) return;
     const objectUrl = URL.createObjectURL(selectedFile);
     setAvatarPreview(objectUrl);
-    UpdateProfilePhoto(selectedFile);
+    UpdateProfilePhoto(selectedFile);  
+   
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
@@ -75,16 +78,15 @@ export default function EditProfile() {
       body: formData,
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Failed to update profile photo");
+        if (!res.ok) throw new Error("Failed to update profile");
+       
         return res.json();
       })
       .then((data) => {
-        const newProfilePhoto = data.profilePhotoUrl;
-        setProfileData((prev) => ({
-          ...prev,
-          profilePhoto: newProfilePhoto,
-        }));
-        toast.success("Profile Photo Updated Successfully!");
+        
+        setUserPhoto(data.data.profilePhoto)
+
+        toast.success("Profile Photo Updated Successfully!")
       })
       .catch((err) => {
         toast.error("Failed to update profile photo");
