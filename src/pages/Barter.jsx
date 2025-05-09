@@ -6,7 +6,6 @@ const { Sider, Content } = Layout;
 const { Title } = Typography;
 import socket from "../util/socket";
 
-
 const Barter = ({ item }) => {
     const userId = sessionStorage.getItem("userId");
     const userName = sessionStorage.getItem("userName");
@@ -42,7 +41,6 @@ const Barter = ({ item }) => {
         if (selectedChatUser?._id) {
             setCurrentConversation((prev) => [...prev, newMessage]);
         }
-
         setInput(""); // clean input
     };
 
@@ -76,12 +74,7 @@ const Barter = ({ item }) => {
         }
     };
 
-    useEffect(() => {
-        debugger
-        //const userId = sessionStorage.getItem("userId");
-        //const userName = sessionStorage.getItem("userName");
-        //setUserName(userName);
-        //setUserId(userId);
+    useEffect(() => {        
         setSelectedChatUser(item?.owner);
         register(userId);
 
@@ -89,12 +82,10 @@ const Barter = ({ item }) => {
     }, []);
 
     useEffect(() => {
-        debugger
         scrollToBottom();
     }, [currentConversation]);
 
     useEffect(() => {
-        debugger
         socket.on("private-message", (data) => {
             setMessages((prev) => [...prev, data]);            
             if (
