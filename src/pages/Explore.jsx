@@ -24,7 +24,8 @@ const ExplorePage = () => {
         const response = await axios.get(`${API_URL}/api/items/explore`, {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${sessionStorage.getItem('token') || ''}`,
+            Authorization: `Bearer ${sessionStorage.getItem('token') || ''}`
+           
           },
         });
 
@@ -186,8 +187,8 @@ const ExplorePage = () => {
                     <div key={item._id} className={styles.itemContainer}>
                       <div className={styles.userInfo}>
                         <img 
-                          src={item.userPhoto || '/default-avatar.png'}  
-                          alt={item.userName || 'User'} 
+                          src={item.userPhoto ? item.userPhoto : '/default-avatar.png'} 
+
                           className={styles.userAvatar}
                         />
                         <span className={styles.userName}>{item.userName}</span>

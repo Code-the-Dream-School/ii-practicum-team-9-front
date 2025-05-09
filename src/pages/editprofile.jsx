@@ -6,8 +6,9 @@ import { FaEdit } from "react-icons/fa";
 import { ToastContainer,toast } from "react-toastify";
 import {US_STATES , ALL_INTERESTS} from "../data.js"
 import { useUserPhoto } from '../components/UserContext';
-const usStates = US_STATES ;
+import './EditProfile.css';
 
+const usStates = US_STATES ;
 const allInterests = ALL_INTERESTS;
 
 export default function EditProfile() {
@@ -60,7 +61,8 @@ export default function EditProfile() {
     if (!selectedFile) return;
     const objectUrl = URL.createObjectURL(selectedFile);
     setAvatarPreview(objectUrl);
-    UpdateProfilePhoto(selectedFile);
+    UpdateProfilePhoto(selectedFile);  
+   
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 

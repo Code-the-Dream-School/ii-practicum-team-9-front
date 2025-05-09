@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useUserPhoto } from '../UserContext';
 
+
 const Header = ({ onSearch }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');

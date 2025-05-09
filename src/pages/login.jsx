@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { useNavigate, Link } from 'react-router-dom';
 import { API_URL } from "../endpoints";
 import callApi from "../util/api";
+import styles from './Login.module.css';
+import backgroundBarter from '../assets/backgroundbarter.jpeg';
+import styled from 'styled-components';
 import { useUserPhoto } from '../components/UserContext';
-import { FcBiotech } from "react-icons/fc";
 
 export default function Login({ setIsAuthenticated }) {
     const navigate = useNavigate();
@@ -49,7 +50,7 @@ export default function Login({ setIsAuthenticated }) {
             setError(errMsg);
             console.error("Login Error:", error);
         } finally {
-            setIsSubmitting(false);
+            setIsSubmitting(false); // Reset submitting state
         }
     };
 
