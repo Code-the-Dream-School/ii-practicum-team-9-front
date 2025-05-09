@@ -3,13 +3,14 @@ import axios from "axios";
 import Header from "../components/Header/Header";
 import PostSection from "../components/PostSection/PostSection";
 import { API_URL } from "../endpoints";
+import { useIsAdmin } from "../components/UserContext";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [admin, setAdmin] = useState(false);
   const currentUserId = sessionStorage.getItem("userId");
+  const { isAdmin } = useIsAdmin();
 
   const handleUpdatePost = (updatedPost) => {
     setPosts((prevPosts) =>
@@ -29,28 +30,9 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const isAdmin = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/profile/profile`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-          },
-        });
-        if (response && response.data.data.role === "admin") {
-          setAdmin(true);
-        }
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-      }
-    };
-    isAdmin();
-  }, []);
-
-  useEffect(() => {
     const fetchPosts = async () => {
       try {
-        if (admin) {
+        if (isAdmin) {
           const response = await axios.get(`${API_URL}/api/items/admin/items`, {
             headers: {
               "Content-Type": "application/json",
@@ -86,7 +68,7 @@ const Home = () => {
       }
     };
     fetchPosts();
-  }, [admin]);
+  }, [isAdmin]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -95,7 +77,7 @@ const Home = () => {
   return (
     <div>
       <Header onSearch={handleSearch} />
-      {admin ? <h1>All User Posts</h1> : <h1>My Posts</h1>}
+      {isAdmin ? <h1>All User Posts</h1> : <h1>My Posts</h1>}
       <div className="post-grid">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => (

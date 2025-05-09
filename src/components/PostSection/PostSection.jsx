@@ -3,6 +3,7 @@ import axios from "axios";
 import "./PostSection.css";
 import EditPostModal from "../EditPosts/EditPostModal";
 import { API_URL } from "../../endpoints";
+import { useIsAdmin } from "../UserContext";
 
 const PostSection = ({
   title,
@@ -16,26 +17,7 @@ const PostSection = ({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
-  const [admin, setAdmin] = useState(false);
-
-  useEffect(() => {
-    const isAdmin = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/profile/profile`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("token") || ""}`,
-          },
-        });
-        if (response && response.data.data.role === "admin") {
-          setAdmin(true);
-        }
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-      }
-    };
-    isAdmin();
-  }, []);
+  const { isAdmin } = useIsAdmin();
 
   const isOwner =
     owner && owner._id && owner._id.toString() === currentUserId.toString();
@@ -71,7 +53,7 @@ const PostSection = ({
       <div className="post-card">
         <img src={image} alt="Post" className="post-image" />
         <p>{description}</p>
-        {isOwner || admin ? (
+        {isOwner || isAdmin ? (
           <div className="owner-buttons">
             <button className="edit-btn" onClick={handleEdit}>
               Edit
