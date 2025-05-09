@@ -90,7 +90,7 @@ const ExplorePage = () => {
   const handleExchangeClick = (item) => {    
     console.log("Initiate exchange for:", item.title);
     setSelectedItem(item);
-    setShowModal(true);<I></I>
+    setShowModal(true);
     //navigate('/barter', { state: { item } });
   };
 
