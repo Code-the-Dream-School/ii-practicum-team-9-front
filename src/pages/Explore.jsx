@@ -19,8 +19,7 @@ const ExplorePage = () => {
 
   useEffect(() => {
     const fetchItems = async () => {
-      try {
-        debugger
+      try {        
         const response = await axios.get(`${API_URL}/api/items/explore`, {
           headers: {
             'Content-Type': 'application/json',
@@ -89,10 +88,8 @@ const ExplorePage = () => {
   };
 
   const handleExchangeClick = (item) => {    
-    console.log("Initiate exchange for:", item.title);
     setSelectedItem(item);
     setShowModal(true);
-    //navigate('/barter', { state: { item } });
   };
 
   const handleLikeClick = async (item) => {
