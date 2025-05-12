@@ -6,11 +6,11 @@ const { Sider, Content } = Layout;
 const { Title } = Typography;
 import socket from "../util/socket";
 
-
 const Barter = ({ item }) => {
+    const userId = sessionStorage.getItem("userId");
+    const userName = sessionStorage.getItem("userName");
+
     const messageEndRef = useRef(null);
-    const [userId, setUserId] = useState("");
-    const [userName, setUserName] = useState("");
     const [conversations, setConversations] = useState([]);
     const [messages, setMessages] = useState([]);
     const [currentConversation, setCurrentConversation] = useState([]);
@@ -41,11 +41,10 @@ const Barter = ({ item }) => {
         if (selectedChatUser?._id) {
             setCurrentConversation((prev) => [...prev, newMessage]);
         }
-
         setInput(""); // clean input
     };
 
-    const register = () => {        
+    const register = (userId) => {        
         if (userId.trim()) {
             socket.emit("register", userId);
         }
@@ -75,13 +74,9 @@ const Barter = ({ item }) => {
         }
     };
 
-    useEffect(() => {
-        const userId = sessionStorage.getItem("userId");
-        const userName = sessionStorage.getItem("userName");
-        setUserName(userName);
-        setUserId(userId);
+    useEffect(() => {        
         setSelectedChatUser(item?.owner);
-        register();
+        register(userId);
 
         fetchData(userId);
     }, []);

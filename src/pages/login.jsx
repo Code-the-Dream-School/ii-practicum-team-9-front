@@ -6,7 +6,6 @@ import callApi from "../util/api";
 import styles from "./Login.module.css";
 import backgroundBarter from "../assets/backgroundbarter.jpeg";
 import { useUserPhoto, useIsAdmin } from "../components/UserContext";
-import { FcBiotech } from "react-icons/fc";
 
 export default function Login({ setIsAuthenticated }) {
   const navigate = useNavigate();
