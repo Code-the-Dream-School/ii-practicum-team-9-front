@@ -168,7 +168,8 @@ const ExplorePage = () => {
         borderRadius: '16px',
         width: '100%',
         maxWidth: '1000px',
-        border: '1px solid #fff554'
+        border: '1px solid #fff554',
+        margin: '0 auto'
       }}>
         <h1 style={{ textAlign: 'center' }}>Explore the Community</h1>
         <p style={{ textAlign: 'center' }}>Barter with your neighbors and like your favorite posts</p>
