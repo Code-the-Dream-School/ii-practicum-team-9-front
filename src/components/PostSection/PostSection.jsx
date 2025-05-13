@@ -12,6 +12,7 @@ const PostSection = ({
   owner,
   currentUserId,
   _id,
+  onUpdate
 }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -34,7 +35,9 @@ const PostSection = ({
       };
 
       await axios.delete(`${API_URL}/api/items/delete-item/${id}`, config);
-      onUpdate({ _id: id, deleted: true });
+      if (onUpdate) {
+        onUpdate({ _id: id, deleted: true });
+      }
       setIsDeleteModalOpen(false);
       setSuccessMessage("Post deleted successfully!");
     } catch (error) {

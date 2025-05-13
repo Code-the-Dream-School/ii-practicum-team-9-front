@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { API_URL } from "../endpoints";
 import { useNavigate } from "react-router-dom";
 import profile_noImage from "../assets/profile_noImage.png";
+import { useUserPhoto } from "../components/UserContext";
 import './Profile.css';
 
 export default function Profile() {
@@ -16,6 +17,7 @@ export default function Profile() {
 
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
+  const { userPhoto } = useUserPhoto();
 
   useEffect(() => {
     fetch(`${API_URL}/api/users/profile`, {
@@ -33,7 +35,7 @@ export default function Profile() {
         setProfileData(data.data);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [token, userPhoto]);
 
   const formatRole = (role) => {
     if (!role) return "Not set";
@@ -46,7 +48,7 @@ export default function Profile() {
         <div className="profile-header">
           <div className="profile-photo">
             <img
-              src={profileData.profilePhoto || profile_noImage}
+              src={userPhoto || profileData.profilePhoto || profile_noImage}
               alt="Profile"
             />
           </div>

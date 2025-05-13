@@ -9,7 +9,7 @@ const NavBar = ({ openModal }) => {
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/explore">Explore</Link></li>
-        <li><Link to="/barter">Barter</Link></li>
+        <li><Link to="/barter">Inbox</Link></li>
         
       </ul>
       <button onClick={openModal} className="add-item-btn">Add Item</button>

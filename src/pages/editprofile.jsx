@@ -79,14 +79,15 @@ export default function EditProfile() {
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to update profile");
-       
         return res.json();
       })
       .then((data) => {
-        
-        setUserPhoto(data.data.profilePhoto)
-
-        toast.success("Profile Photo Updated Successfully!")
+        setUserPhoto(data.data.profilePhoto);
+        setProfileData(prev => ({
+          ...prev,
+          profilePhoto: data.data.profilePhoto
+        }));
+        toast.success("Profile Photo Updated Successfully!");
       })
       .catch((err) => {
         toast.error("Failed to update profile photo");
