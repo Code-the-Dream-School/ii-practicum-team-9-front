@@ -25,6 +25,9 @@ const Header = ({ onSearch }) => {
     sessionStorage.removeItem("token");
     setIsAdmin(false);
     sessionStorage.removeItem("userRole");
+    sessionStorage.removeItem("userPhoto");
+    sessionStorage.removeItem("userName");
+    sessionStorage.removeItem("userId");
     navigate("/login");
   };
 

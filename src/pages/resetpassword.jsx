@@ -66,7 +66,7 @@ export default function resetpassword() {
       <ToastContainer newestOnTop={true} style={{ zIndex: 9999 }} />
       <form>
         <div className="input-group">
-          <label htmlFor="password">Enter your passowrd</label>
+          <label htmlFor="password">Enter your password</label>
           <input
             name="password"
             type="password"
