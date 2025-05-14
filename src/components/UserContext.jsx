@@ -3,7 +3,15 @@ import { createContext, useContext, useState } from "react";
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [userPhoto, setUserPhoto] = useState(null);
+  const [userPhoto, setUserPhoto] = useState(() => {
+    const storedPhoto = sessionStorage.getItem("userPhoto");
+    if (storedPhoto) {
+      return storedPhoto;
+    } else {
+      return null;
+    }
+  });
+
   const [isAdmin, setIsAdmin] = useState(() => {
     const storedData = sessionStorage.getItem("userRole");
     if (storedData === "admin") {

@@ -8,7 +8,7 @@ import {US_STATES , ALL_INTERESTS} from "../data.js"
 import { useUserPhoto } from '../components/UserContext';
 import './EditProfile.css';
 
-const usStates = US_STATES ;
+const usStates = US_STATES;
 const allInterests = ALL_INTERESTS;
 
 export default function EditProfile() {
@@ -61,8 +61,8 @@ export default function EditProfile() {
     if (!selectedFile) return;
     const objectUrl = URL.createObjectURL(selectedFile);
     setAvatarPreview(objectUrl);
-    UpdateProfilePhoto(selectedFile);  
-   
+    UpdateProfilePhoto(selectedFile);
+
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
@@ -83,9 +83,10 @@ export default function EditProfile() {
       })
       .then((data) => {
         setUserPhoto(data.data.profilePhoto);
-        setProfileData(prev => ({
+        sessionStorage.setItem("userPhoto", data.data.profilePhoto);
+        setProfileData((prev) => ({
           ...prev,
-          profilePhoto: data.data.profilePhoto
+          profilePhoto: data.data.profilePhoto,
         }));
         toast.success("Profile Photo Updated Successfully!");
       })

@@ -64,7 +64,7 @@ export default function Login({ setIsAuthenticated }) {
         setIsAdmin(true);
       }
       sessionStorage.setItem("userRole", userRole);
-
+      sessionStorage.setItem("userPhoto", profilephoto);
       setUserPhoto(profilephoto);
     } catch (error) {
       setError(error.message);

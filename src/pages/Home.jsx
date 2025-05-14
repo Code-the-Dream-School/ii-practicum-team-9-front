@@ -25,7 +25,7 @@ const Home = () => {
   const handleSearch = (searchQuery) => {
     const filtered = posts.filter(
       (post) =>
-        post.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.description.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredPosts(filtered);
